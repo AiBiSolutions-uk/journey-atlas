@@ -1021,6 +1021,356 @@ span.fv { display: inline-block; width: auto; min-width: 30px; padding: 2px 7px;
 .gridsel-b:hover { color: var(--ink); }
 .gridsel-b[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
 .gridsel-b:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+
+/* ==================================================================
+   The light table. One product, twelve plates on one sheet.
+
+   the plate   a screenshot in a sunk mount, hairline frame, square
+               corners, an evidence bar on the top edge and a plate
+               number. The mount is constant, so a 819x154 banner and a
+               430x644 panel both read as deliberate.
+   the loupe   fit / 1:1 / 2:1 with drag to pan, in the lightbox and on
+               the bench work surface. This is the answer to "hard to see".
+   the record  the stage text. Provenance folds behind a toggle, so it
+               stops adding height to every row.
+   ================================================================== */
+
+/* ---------- shell behaviour per layout ---------- */
+
+html[data-view="journey"] .main { padding-bottom: 120px; }
+html[data-view="journey"] .cat-blurb { display: none; }
+
+
+
+
+.x-lay { height: 100%; }
+.x-lay[hidden] { display: none; }
+
+/* ---------- the plate ---------- */
+
+.x-plate {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+}
+.x-ev { height: 3px; flex: none; }
+.x-mount {
+  position: relative;
+  background: var(--sunk);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.x-mount img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+.x-plate--grid .x-mount { aspect-ratio: 16 / 9; }
+.x-num {
+  position: absolute;
+  left: 0; bottom: 0;
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px;
+  line-height: 1;
+  padding: 4px 6px;
+  color: var(--accent-ink);
+  background: var(--accent);
+}
+.x-mount--none {
+  border: 1px dashed var(--rule-strong);
+  border-bottom-style: dashed;
+  background: repeating-linear-gradient(135deg, transparent 0 7px, var(--sunk) 7px 14px);
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  padding: 12px;
+}
+.x-none-l { font-size: 11.5px; color: var(--ink-3); }
+.x-none-p {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px;
+  color: var(--ink-2);
+  word-break: break-all;
+}
+
+/* ---------- layout 1, the light table ---------- */
+
+.x-lt { max-width: 1500px; }
+.x-head { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 4px 16px; }
+.x-title {
+  font-family: Newsreader, Georgia, serif;
+  font-size: 31px; font-weight: 600; letter-spacing: -.015em;
+  margin: 0; line-height: 1.1;
+}
+.x-vendor { font-size: 13.5px; color: var(--ink-2); }
+.x-tick {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px; color: var(--ink-3); margin-left: auto; white-space: nowrap;
+}
+.x-summary { font-size: 15px; line-height: 1.55; color: var(--ink); max-width: 74ch; margin: 10px 0 0; }
+.x-metarow { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; align-items: center; }
+.x-rule { border: 0; border-top: 1px solid var(--rule); margin: 18px 0 0; }
+
+.x-lead {
+  display: flex; align-items: baseline; gap: 10px 14px; flex-wrap: wrap;
+  margin: 16px 0 0; padding-bottom: 14px;
+}
+.x-lead-t { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.35; margin: 0; }
+
+.x-sheet-bar {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 10px; margin-top: 4px;
+}
+.x-h2 { font-family: Newsreader, Georgia, serif; font-size: 19px; font-weight: 600; margin: 0; }
+.x-hint { font-size: 12.5px; color: var(--ink-3); margin: 0; }
+
+.x-sheet {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+  align-items: start;
+}
+.x-cell { display: block; min-width: 0; }
+/* The picture and the record are two controls, thus the keyboard reaches both. */
+.x-mount--btn {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--sunk);
+  cursor: zoom-in;
+  width: 100%;
+}
+.x-mount--btn:focus-visible { outline: 2px solid var(--focus); outline-offset: -3px; }
+.x-cap { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; }
+.x-cap:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+/* A gap in our capture reads as a gap. An absent stage reads as a flat wall. */
+.x-mount--todo {
+  background:
+    repeating-linear-gradient(135deg, transparent 0 9px, var(--rule) 9px 10px),
+    var(--surface-2);
+}
+.x-mount--absent { background: var(--sunk); }
+.x-cell .x-plate { transition: border-color .12s; }
+.x-cell:hover .x-plate { border-color: var(--rule-strong); }
+.x-cell[aria-current="true"] .x-plate { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.x-cap { padding: 8px 9px 10px; display: grid; gap: 3px; font: inherit; text-align: left; }
+.x-cap-top { display: flex; align-items: baseline; gap: 8px; }
+.x-cap-n {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px; color: var(--ink-3);
+}
+.x-cap-name { font-family: Newsreader, Georgia, serif; font-size: 15.5px; font-weight: 600; line-height: 1.2; }
+.x-cap-claim { font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
+.x-cap-foot { display: flex; align-items: center; gap: 7px; margin-top: 3px; }
+
+.x-drawer {
+  grid-column: 1 / -1;
+  border: 1px solid var(--accent);
+  border-top-width: 3px;
+  background: var(--surface);
+  padding: 16px 18px 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px 28px;
+  align-items: start;
+}
+.x-drawer-hd { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.x-drawer-hd h3 { font-family: Newsreader, Georgia, serif; font-size: 21px; font-weight: 600; margin: 0; }
+.x-close { font: inherit; font-size: 12px; margin-left: auto; padding: 3px 10px; cursor: pointer;
+  background: transparent; color: var(--ink-2); border: 1px solid var(--rule); border-radius: 3px; }
+.x-close:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- layout 2, the bench ---------- */
+
+.x-bench { display: grid; grid-template-columns: 250px minmax(0, 1fr); height: 100%; }
+.x-index {
+  border-right: 1px solid var(--rule);
+  background: var(--surface-2);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.x-index-hd { padding: 12px 13px 10px; border-bottom: 1px solid var(--rule); }
+.x-index-hd .x-title { font-size: 20px; }
+.x-index-hd .x-vendor { font-size: 12px; }
+.x-index-list { overflow-y: auto; padding: 6px 0 60px; min-height: 0; flex: 1 1 auto; }
+.x-ig {
+  font-size: 11px; color: var(--ink-3); padding: 12px 13px 4px;
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.x-row {
+  all: unset; box-sizing: border-box; display: grid;
+  grid-template-columns: 22px 3px minmax(0, 1fr) auto;
+  align-items: center; gap: 8px;
+  width: 100%; padding: 7px 12px 7px 10px; cursor: pointer;
+  border-left: 3px solid transparent;
+}
+.x-row:hover { background: var(--surface); }
+.x-row:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.x-row[aria-current="true"] { background: var(--surface); border-left-color: var(--accent); }
+.x-row[aria-current="true"] .x-row-n, .x-row[aria-current="true"] .x-row-nm { color: var(--ink); }
+.x-row-n {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px; color: var(--ink-3);
+}
+.x-row-ev { width: 3px; height: 18px; }
+.x-row-nm { font-size: 13.5px; line-height: 1.25; color: var(--ink-2); }
+.x-row[aria-current="true"] .x-row-nm { font-weight: 700; }
+.x-row-f {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px; color: var(--ink-3); letter-spacing: .04em;
+}
+.x-row-f.on { color: var(--accent); }
+
+.x-surface { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.x-sbar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 9px 16px; border-bottom: 1px solid var(--rule); background: var(--surface); flex: none;
+}
+.x-sbar h2 { font-family: Newsreader, Georgia, serif; font-size: 19px; font-weight: 600; margin: 0; }
+.x-sbar-n {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px; color: var(--ink-3);
+}
+.x-tools { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.x-btn {
+  font: inherit; font-size: 12px; padding: 3px 9px; cursor: pointer;
+  background: transparent; color: var(--ink-2);
+  border: 1px solid var(--rule); border-radius: 3px; white-space: nowrap;
+}
+.x-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.x-btn:disabled { opacity: .35; cursor: default; }
+.x-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+.x-work { flex: 1 1 auto; min-height: 0; background: var(--sunk); position: relative; }
+.x-view {
+  position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain;
+  display: flex; align-items: center; justify-content: center; padding: 14px;
+}
+.x-view.grab { cursor: grab; }
+.x-view.grabbing { cursor: grabbing; }
+.x-view img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+.x-view.zoomed { align-items: flex-start; justify-content: flex-start; }
+.x-view.zoomed img { max-width: none; max-height: none; margin: auto; }
+.x-view--none { flex-direction: column; gap: 6px; text-align: center; }
+
+.x-record {
+  flex: none; max-height: 38%; overflow-y: auto; overscroll-behavior: contain;
+  border-top: 1px solid var(--rule); background: var(--surface);
+  padding: 13px 16px 50px;
+}
+
+/* ---------- the record, shared by all three ---------- */
+
+.x-gloss { margin: 0 0 6px; font-size: 12.5px; color: var(--ink-3); }
+.x-text { margin: 0 0 10px; font-size: 14.5px; line-height: 1.55; color: var(--ink); max-width: 74ch; }
+.x-quote {
+  margin: 0 0 10px; padding-left: 12px; border-left: 2px solid var(--rule-strong);
+  font-family: Newsreader, Georgia, serif; font-size: 15px; line-height: 1.45; color: var(--ink-2);
+  max-width: 66ch;
+}
+.x-caption { margin: 0 0 8px; font-size: 13px; line-height: 1.5; color: var(--ink-2); max-width: 74ch; }
+.x-prov { font-size: 12px; color: var(--ink-3); }
+.x-prov > summary { cursor: pointer; color: var(--ink-2); }
+.x-prov > summary:hover { color: var(--accent); }
+.x-prov-body { padding: 6px 0 0 14px; display: grid; gap: 4px; max-width: 74ch; }
+.x-srcs { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 8px; }
+
+.x-feats { margin-top: 22px; }
+.x-empty { font-size: 13px; color: var(--ink-2); max-width: 74ch; margin: 6px 0 0; }
+.x-fgrid { display: grid; gap: 3px 10px; margin-top: 8px; }
+.x-frow { display: grid; grid-template-columns: 38px 190px minmax(0, 1fr); gap: 10px; align-items: baseline; font-size: 13px; }
+
+/* ---------- layout 3, the projector ---------- */
+
+.x-proj { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.x-spine {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+  border-bottom: 1px solid var(--rule); background: var(--surface); flex: none;
+}
+.x-seg {
+  all: unset; box-sizing: border-box; cursor: pointer;
+  padding: 7px 8px 8px; border-right: 1px solid var(--rule); min-width: 0;
+  display: grid; gap: 4px; align-content: start;
+}
+.x-seg:last-child { border-right: 0; }
+.x-seg:hover { background: var(--surface-2); }
+.x-seg:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.x-seg-b { height: 3px; }
+.x-seg-n {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; color: var(--ink-3);
+}
+.x-seg-nm { font-size: 12px; line-height: 1.2; color: var(--ink-2); }
+.x-seg-cam { font-size: 10px; color: var(--ink-3); }
+.x-seg[aria-current="true"] { background: var(--accent-soft); }
+.x-seg[aria-current="true"] .x-seg-nm { color: var(--ink); font-weight: 700; }
+.x-seg[aria-current="true"] .x-seg-n { color: var(--accent); }
+
+.x-proj-body { flex: 1 1 auto; min-height: 0; display: flex; }
+.x-proj-stage { flex: 1 1 auto; min-width: 0; position: relative; background: var(--sunk); }
+.x-panel {
+  flex: none; width: 350px; border-left: 1px solid var(--rule); background: var(--surface);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.x-panel-hd { padding: 12px 15px 10px; border-bottom: 1px solid var(--rule); display: grid; gap: 5px; }
+.x-panel-hd h2 { font-family: Newsreader, Georgia, serif; font-size: 20px; font-weight: 600; margin: 0; line-height: 1.15; }
+.x-panel-body { overflow-y: auto; overscroll-behavior: contain; padding: 12px 15px 60px; min-height: 0; }
+.x-panel.shut { width: 46px; }
+.x-panel.shut .x-panel-hd, .x-panel.shut .x-panel-body { display: none; }
+.x-tab {
+  all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 6px; text-align: center;
+  font-size: 11px; color: var(--ink-2); border-bottom: 1px solid var(--rule);
+}
+.x-tab:hover { color: var(--accent); }
+.x-tab:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.x-panel.shut .x-tab { writing-mode: vertical-rl; border-bottom: 0; padding: 14px 6px; }
+
+.x-proj-foot {
+  flex: none; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 7px 16px 7px; border-top: 1px solid var(--rule); background: var(--surface);
+}
+.x-pick { font: inherit; font-size: 13px; padding: 3px 6px; background: var(--paper);
+  color: var(--ink); border: 1px solid var(--rule); border-radius: 3px; max-width: 280px; }
+.x-keys {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; color: var(--ink-3); margin-left: auto;
+}
+
+/* ---------- the loupe: zoom added to the existing lightbox ---------- */
+
+.lb-stage { overflow: auto; overscroll-behavior: contain; }
+.lb-stage.zoomed { align-items: flex-start; justify-content: flex-start; }
+.lb-stage.zoomed img { max-width: none; max-height: none; margin: auto; }
+.lb-stage.grab { cursor: grab; }
+.lb-stage.grabbing { cursor: grabbing; }
+.lb-zoom { display: flex; gap: 5px; margin-left: 14px; }
+
+/* ---------- the prototype switcher. Not part of the design under review. ---------- */
+
+
+@media (prefers-reduced-motion: reduce) {
+  .x-cell .x-plate { transition: none; }
+}
+@media (max-width: 1000px) {
+  .x-bench { grid-template-columns: 1fr; }
+  .x-panel { width: 260px; }
+  .x-drawer { grid-template-columns: minmax(0, 1fr); }
+}
+
+.x-tools-z { display: flex; gap: 5px; }
+.x-plate--big .x-mount { max-height: 56vh; min-height: 180px; }
+.x-plate--big .x-mount img { max-height: 56vh; }
+.x-drawer .x-cell { cursor: zoom-in; }
+.lb-eyebrow { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--ink-2); }
+.lb-eyebrow, .lb-count { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+
 </style>
 </head>
 <body>
@@ -1050,11 +1400,7 @@ span.fv { display: inline-block; width: auto; min-width: 30px; padding: 2px 7px;
 
   <main class="main">
     <section class="view" id="view-journey" role="tabpanel" aria-labelledby="tab-journey">
-      <div class="phead" id="phead"></div>
-      <div id="spine-host"></div>
-      <div id="pfeat-host"></div>
-      <div id="thumbs-host"></div>
-      <div class="stages" id="stages"></div>
+      <div class="x-lay" id="lay1"></div>
     </section>
 
     <section class="view" id="view-stage" role="tabpanel" aria-labelledby="tab-stage" hidden>
@@ -5679,118 +6025,8 @@ function buildSpine(p) {
   host.appendChild(wrap);
 }
 
-function buildJourney() {
-  var p = byId[state.product];
-  if (!p) return;
-  var head = document.getElementById("phead");
-  head.innerHTML = "";
-  var c = catOf(p);
-
-  head.appendChild(el("h1", null, p.name));
-  var sub = [];
-  if (p.vendor) sub.push(p.vendor);
-  if (c) sub.push(c.label);
-  head.appendChild(el("div", "vendor", sub.join(", ")));
-  head.appendChild(el("p", "summary", p.summary));
-
-  var meta = el("div", "meta-row");
-  meta.appendChild(el("span", "pill mono", p.id));
-  if (p.dsa) meta.appendChild(el("span", "pill solid mono", "DSA-funded"));
-  if (p.url) meta.appendChild(link(p.url, p.url.replace(/^https?:\/\//, "").replace(/\/$/, ""), "pill"));
-  var cap = el("span", "capture-status");
-  cap.id = "capture-status";
-  cap.textContent = "0 of " + STAGES.length + " frames captured";
-  meta.appendChild(cap);
-  head.appendChild(meta);
-
-  var price = buildPriceStrip(p);
-  if (price) head.appendChild(price);
-
-  var notes = el("div", "notes");
-  var any = false;
-  var dn = DSA_NOTES[p.id];
-  if (dn) {
-    var d1 = disclosure("How a student gets it through DSA");
-    d1.querySelector("summary").appendChild(chip(dn.e));
-    d1._body.appendChild(el("p", null, dn.t));
-    notes.appendChild(d1);
-    any = true;
-  }
-  if (c) {
-    var d2 = disclosure("Why this product is in the atlas");
-    d2._body.appendChild(el("p", null, c.blurb));
-    d2._body.appendChild(el("p", null, "Tracks: " + tracksOf(p).map(function (t) { return TRACK_LABEL[t]; }).join("; ") + "."));
-    notes.appendChild(d2);
-    any = true;
-  }
-  if (any) head.appendChild(notes);
-
-  captureCounts[p.id] = 0;
-  buildSpine(p);
-  buildProductFeatures(p);
-  buildThumbs(p);
-
-  var wrap = document.getElementById("stages");
-  wrap.innerHTML = "";
-  STAGES.forEach(function (st, i) {
-    var gs = groupStarts(st.id);
-    if (gs) {
-      var gh = el("div", "stage-group");
-      gh.appendChild(el("h2", "sg-label", gs.label));
-      gh.appendChild(el("p", "sg-blurb", gs.blurb));
-      wrap.appendChild(gh);
-    }
-    var cell = cellOf(p, st.id);
-    var card = el("details", "stage");
-    card.id = "stage-" + st.id;
-    if (state.stage === st.id) card.open = true;
-
-    var sm = el("summary");
-    sm.appendChild(el("span", "stage-num mono", String(i + 1).padStart(2, "0")));
-    sm.appendChild(el("h3", "stage-name", st.name));
-    sm.appendChild(el("p", "stage-claim", claimOf(cell)));
-    var right = el("div", "summary-right");
-    right.appendChild(chip(cell.e));
-    if (PRIORITY.indexOf(st.id) !== -1) right.appendChild(el("span", "prio", "capture priority"));
-    sm.appendChild(right);
-    card.appendChild(sm);
-
-    var detail = el("div", "stage-detail");
-    var body = el("div");
-    body.appendChild(el("p", "stage-gloss", st.gloss));
-    body.appendChild(el("p", "stage-text", cell.t));
-    if (cell.quote) {
-      var bq = document.createElement("blockquote");
-      bq.textContent = "“" + cell.quote + "”";
-      body.appendChild(bq);
-    }
-    if (cell.src && cell.src.length) {
-      var sd = el("div", "srcs");
-      cell.src.forEach(function (x) { sd.appendChild(link(x.url, x.label, "src")); });
-      body.appendChild(sd);
-    }
-    detail.appendChild(body);
-    detail.appendChild(buildFrame(p.id, st.id));
-    card.appendChild(detail);
-
-    card.addEventListener("toggle", function () {
-      if (card.open && state.stage !== st.id) {
-        state.stage = st.id;
-        writeHash();
-        buildSpine(p);
-      }
-    });
-    wrap.appendChild(card);
-  });
-
-  if (state.stage) {
-    var target = document.getElementById("stage-" + state.stage);
-    if (target) {
-      target.classList.add("flash");
-      requestAnimationFrame(function () { target.scrollIntoView({ block: "start", behavior: "auto" }); });
-    }
-  }
-}
+/* The journey view is the light table. Its builder is at the end of this file. */
+function buildJourney() {}
 
 function buildFrame(pid, sid) {
   var box = el("figure", "frame");
@@ -5805,7 +6041,7 @@ function buildFrame(pid, sid) {
     box.textContent = "";
     /* Two honest states, never one. A missing picture is either a gap in our
        capture, or a stage we could not find in the product at all. */
-    var prod = byId(pid);
+    var prod = byId[pid];
     var cell = prod && prod.stages ? prod.stages[sid] : null;
     var none = cell && cell.e === "not-found";
     box.classList.add(none ? "empty-none" : "empty-todo");
@@ -5888,6 +6124,11 @@ function openLightbox(pid, idx) {
   LB.lastFocus = document.activeElement;
   var box = document.getElementById("lightbox");
   box.hidden = false;
+  box.setAttribute("aria-modal", "true");
+  /* Keep the keyboard inside the dialog. Tab must not reach the page behind. */
+  Array.prototype.forEach.call(document.body.children, function (n) {
+    if (n !== box) { n.inert = true; n.setAttribute("aria-hidden", "true"); }
+  });
   document.body.classList.add("lb-open");
   renderLightbox();
   document.getElementById("lb-close").focus();
@@ -5895,7 +6136,12 @@ function openLightbox(pid, idx) {
 
 function closeLightbox() {
   LB.open = false;
-  document.getElementById("lightbox").hidden = true;
+  var box = document.getElementById("lightbox");
+  box.hidden = true;
+  box.removeAttribute("aria-modal");
+  Array.prototype.forEach.call(document.body.children, function (n) {
+    if (n !== box) { n.inert = false; n.removeAttribute("aria-hidden"); }
+  });
   document.body.classList.remove("lb-open");
   if (LB.lastFocus && LB.lastFocus.focus) LB.lastFocus.focus();
 }
@@ -6365,6 +6611,344 @@ document.getElementById("grid-stages").addEventListener("click", function () {
 document.getElementById("grid-features").addEventListener("click", function () {
   state.grid = "features"; go({ view: "matrix" });
 });
+
+/* ==================================================================
+   THE LIGHT TABLE — the journey view. One product, twelve plates.
+
+   the plate    a screenshot in a fixed sunk mount. Nothing is ever
+                scaled past the size it was captured at.
+   the loupe    Fit, 1:1 and 2:1 with drag to pan, inside the lightbox.
+   the record   the stage text. Provenance folds behind one toggle.
+   ================================================================== */
+
+
+function pad2(n) { return String(n).padStart(2, "0"); }
+function stageNum(sid) { return STAGES.indexOf(stageById[sid]) + 1; }
+function hasFrame(pid, sid) { return framesOf(pid).indexOf(sid) !== -1; }
+function orderedFrames(pid) {
+  return framesOf(pid).slice().sort(function (a, b) { return stageNum(a) - stageNum(b); });
+}
+function curStage(p) {
+  if (state.stage && stageById[state.stage]) return state.stage;
+  var f = orderedFrames(p.id);
+  return f.length ? f[0] : "orient";
+}
+function metaOf(pid, sid) { return (FRAME_CAPTIONS[pid] || {})[sid] || null; }
+
+/* ---------- the loupe: fit, 1:1, 2:1, and drag to pan ---------- */
+
+var PAN = null;
+document.addEventListener("mousemove", function (ev) {
+  if (!PAN) return;
+  PAN.v.scrollLeft = PAN.sl - (ev.clientX - PAN.x);
+  PAN.v.scrollTop = PAN.st - (ev.clientY - PAN.y);
+});
+document.addEventListener("mouseup", function () {
+  if (!PAN) return;
+  PAN.v.classList.remove("grabbing");
+  PAN = null;
+});
+
+function zoomControls(view, img) {
+  var wrap = el("div", "x-tools-z");
+  var defs = [
+    ["fit", "Fit", "Fit the whole frame in the box"],
+    [1, "1:1", "Show the frame at its captured size"],
+    [2, "2:1", "Show the frame at twice its captured size"]
+  ];
+  var btns = [];
+  function set(z) {
+    if (z !== "fit") {
+      view.classList.add("zoomed", "grab");
+      img.style.width = Math.round((img.naturalWidth || 1280) * z) + "px";
+      img.style.height = "auto";
+    } else {
+      view.classList.remove("zoomed", "grab");
+      img.style.width = "";
+      img.style.height = "";
+    }
+    btns.forEach(function (b) { b.setAttribute("aria-pressed", b._z === z ? "true" : "false"); });
+  }
+  defs.forEach(function (d) {
+    var b = el("button", "x-btn", d[1]);
+    b.type = "button";
+    b._z = d[0];
+    b.title = d[2];
+    b.addEventListener("click", function () { set(d[0]); });
+    wrap.appendChild(b);
+    btns.push(b);
+  });
+  view._setZoom = set;
+  set("fit");
+  view.addEventListener("mousedown", function (ev) {
+    if (!view.classList.contains("zoomed")) return;
+    PAN = { v: view, x: ev.clientX, y: ev.clientY, sl: view.scrollLeft, st: view.scrollTop };
+    view.classList.add("grabbing");
+    ev.preventDefault();
+  });
+  return wrap;
+}
+
+/* ---------- shared parts ---------- */
+
+function plate(pid, sid, cls, onZoom) {
+  var fig = el("figure", "x-plate" + (cls ? " " + cls : ""));
+  var cell = cellOf(byId[pid], sid);
+  fig.appendChild(el("div", "x-ev seg-" + cell.e));
+  var mount;
+  if (hasFrame(pid, sid)) {
+    /* The image is its own control, thus the keyboard can reach the loupe. */
+    mount = el(onZoom ? "button" : "div", "x-mount" + (onZoom ? " x-mount--btn" : ""));
+    if (onZoom) {
+      mount.type = "button";
+      mount.title = "Open this screen full size, with zoom and pan";
+      mount.setAttribute("aria-label",
+        "Open " + byId[pid].name + ", " + stageById[sid].name + " full size");
+      mount.addEventListener("click", onZoom);
+    }
+    var img = document.createElement("img");
+    img.loading = "lazy";
+    img.alt = byId[pid].name + ", " + stageById[sid].name;
+    img.src = frameSrc(pid, sid);
+    mount.appendChild(img);
+    mount.appendChild(el("span", "x-num", pad2(stageNum(sid))));
+  } else {
+    /* Two honest states. A gap in our capture is not an absent stage. */
+    var none = cell.e === "not-found";
+    mount = el("div", "x-mount x-mount--none " + (none ? "x-mount--absent" : "x-mount--todo"));
+    mount.appendChild(el("div", "x-none-l", none ? "Nothing to show" : "No picture yet"));
+    mount.appendChild(el("div", "x-none-p", none
+      ? "We did not find this stage in the product."
+      : "The stage is documented, but we hold no screenshot."));
+  }
+  fig.appendChild(mount);
+  return fig;
+}
+
+function recordBits(host, p, sid) {
+  var st = stageById[sid];
+  var cell = cellOf(p, sid);
+  var meta = metaOf(p.id, sid);
+  host.appendChild(el("p", "x-gloss", st.gloss));
+  host.appendChild(el("p", "x-text", cell.t));
+  if (cell.quote) host.appendChild(el("p", "x-quote", "“" + cell.quote + "”"));
+  if (meta && meta.c) host.appendChild(el("p", "x-caption", meta.c));
+  if (cell.src && cell.src.length) {
+    var sd = el("div", "x-srcs");
+    cell.src.forEach(function (x) { sd.appendChild(link(x.url, x.label, "src")); });
+    host.appendChild(sd);
+  }
+  if (meta && (meta.src || meta.note || meta.crop)) {
+    var d = el("details", "x-prov");
+    d.appendChild(el("summary", null, "Where this screenshot came from"));
+    var b = el("div", "x-prov-body");
+    if (meta.src) {
+      var r = el("div");
+      r.appendChild(link(meta.src, meta.ts ? "Source, seen " + meta.ts : "Source", "fc-src"));
+      b.appendChild(r);
+    }
+    if (meta.crop) b.appendChild(el("div", null, "This frame is masked to remove personal data."));
+    if (meta.note) b.appendChild(el("div", null, meta.note));
+    d.appendChild(b);
+    host.appendChild(d);
+  }
+}
+
+function loupeButton(p, sid) {
+  var b = el("button", "x-btn", "Open the loupe");
+  b.type = "button";
+  b.title = "Open this frame full size, with zoom and pan";
+  b.disabled = !hasFrame(p.id, sid);
+  b.addEventListener("click", function () {
+    openLightbox(p.id, framesOf(p.id).indexOf(sid));
+  });
+  return b;
+}
+
+function featureBlock(p) {
+  var box = el("div", "x-feats");
+  box.appendChild(el("h2", "x-h2", "What it does"));
+  var known = FEATURES.filter(function (f) { return featOf(p.id, f.id).v !== "unclear"; });
+  if (!known.length) {
+    box.appendChild(el("p", "x-empty",
+      "The feature grid holds no entries for any product yet. Until a researcher fills it, read the stage records for what this product makes."));
+    return box;
+  }
+  var grid = el("div", "x-fgrid");
+  FEATURE_GROUPS.forEach(function (g) {
+    var rows = FEATURES.filter(function (f) { return f.g === g && featOf(p.id, f.id).v !== "unclear"; });
+    if (!rows.length) return;
+    grid.appendChild(el("p", "x-ig", g));
+    rows.forEach(function (f) {
+      var d = featOf(p.id, f.id);
+      var r = el("div", "x-frow");
+      r.appendChild(el("span", "fv fv-" + d.v, FV_LABEL[d.v]));
+      r.appendChild(el("span", null, f.name));
+      r.appendChild(el("span", "x-cap-claim", d.n || ""));
+      grid.appendChild(r);
+    });
+  });
+  box.appendChild(grid);
+  return box;
+}
+
+function frameCount(p) {
+  return orderedFrames(p.id).length + " of " + STAGES.length + " stages have a frame";
+}
+
+function selectStage(p, sid, toggle) {
+  var next = (toggle && state.stage === sid) ? null : sid;
+  go({ view: "journey", product: p.id, stage: next });
+}
+
+/* ================= layout 1: the light table ================= */
+
+function layLightTable(host, p) {
+  host.innerHTML = "";
+  var sheetWrap = el("div", "x-lt");
+
+  var head = el("div", "x-head");
+  head.appendChild(el("h1", "x-title", p.name));
+  var c = catOf(p);
+  var sub = [];
+  if (p.vendor) sub.push(p.vendor);
+  if (c) sub.push(c.label);
+  head.appendChild(el("span", "x-vendor", sub.join(", ")));
+  head.appendChild(el("span", "x-tick", frameCount(p)));
+  sheetWrap.appendChild(head);
+  sheetWrap.appendChild(el("p", "x-summary", p.summary));
+
+  var meta = el("div", "x-metarow");
+  meta.appendChild(el("span", "pill mono", p.id));
+  if (p.dsa) meta.appendChild(el("span", "pill solid mono", "DSA-funded"));
+  if (p.url) meta.appendChild(link(p.url, p.url.replace(/^https?:\/\//, "").replace(/\/$/, ""), "pill"));
+  sheetWrap.appendChild(meta);
+
+  var price = buildPriceStrip(p);
+  if (price) { sheetWrap.appendChild(el("hr", "x-rule")); sheetWrap.appendChild(price); }
+
+  var bar = el("div", "x-sheet-bar");
+  bar.appendChild(el("h2", "x-h2", "Twelve stages, one plate each"));
+  bar.appendChild(el("p", "x-hint", "Select a plate to open its record. Select the plate image to open the loupe."));
+  sheetWrap.appendChild(bar);
+
+  var sheet = el("div", "x-sheet");
+  var cells = [];
+  STAGES.forEach(function (st, i) {
+    var cell = cellOf(p, st.id);
+    var b = el("div", "x-cell");
+    if (state.stage === st.id) b.setAttribute("aria-current", "true");
+    var fig = plate(p.id, st.id, "x-plate--grid", hasFrame(p.id, st.id) ? function () {
+      if (state.stage !== st.id) selectStage(p, st.id, false);
+      openLightbox(p.id, framesOf(p.id).indexOf(st.id));
+    } : null);
+    var cap = el("button", "x-cap");
+    cap.type = "button";
+    cap.setAttribute("aria-label",
+      "Stage " + (i + 1) + ", " + st.name + ", " + EV_LABEL[cell.e] + ". Open the record.");
+    cap.addEventListener("click", function () { selectStage(p, st.id, true); });
+    var top = el("div", "x-cap-top");
+    top.appendChild(el("span", "x-cap-n", pad2(i + 1)));
+    top.appendChild(el("span", "x-cap-name", st.name));
+    cap.appendChild(top);
+    cap.appendChild(el("div", "x-cap-claim", claimOf(cell)));
+    var foot = el("div", "x-cap-foot");
+    foot.appendChild(chip(cell.e));
+    if (PRIORITY.indexOf(st.id) !== -1) foot.appendChild(el("span", "prio", "capture priority"));
+    cap.appendChild(foot);
+    fig.appendChild(cap);
+    b.appendChild(fig);
+    sheet.appendChild(b);
+    cells.push(b);
+  });
+  sheetWrap.appendChild(sheet);
+  sheetWrap.appendChild(featureBlock(p));
+  host.appendChild(sheetWrap);
+
+  if (state.stage && stageById[state.stage]) {
+    var i = STAGES.indexOf(stageById[state.stage]);
+    var cols = getComputedStyle(sheet).gridTemplateColumns.trim().split(/\s+/).length || 1;
+    var endIdx = Math.min(cells.length, (Math.floor(i / cols) + 1) * cols) - 1;
+    sheet.insertBefore(lightTableDrawer(p, state.stage), cells[endIdx].nextSibling);
+    var target = cells[i];
+    requestAnimationFrame(function () { target.scrollIntoView({ block: "nearest" }); });
+  }
+}
+
+function lightTableDrawer(p, sid) {
+  var st = stageById[sid];
+  var cell = cellOf(p, sid);
+  var box = el("div", "x-drawer");
+
+  var hd = el("div", "x-drawer-hd");
+  hd.appendChild(el("span", "x-cap-n", pad2(stageNum(sid))));
+  hd.appendChild(el("h3", null, st.name));
+  hd.appendChild(chip(cell.e));
+  var x = el("button", "x-close", "Close");
+  x.type = "button";
+  x.addEventListener("click", function () { selectStage(p, sid, true); });
+  hd.appendChild(x);
+  box.appendChild(hd);
+
+  var leftCol = el("div");
+  var fig = plate(p.id, sid, "x-plate--big");
+  if (hasFrame(p.id, sid)) {
+    var open = el("button", "x-cell");
+    open.type = "button";
+    open.setAttribute("aria-label", "Open " + st.name + " in the loupe");
+    open.appendChild(fig);
+    open.addEventListener("click", function () { openLightbox(p.id, framesOf(p.id).indexOf(sid)); });
+    leftCol.appendChild(open);
+    var tools = el("div", "x-metarow");
+    tools.appendChild(loupeButton(p, sid));
+    leftCol.appendChild(tools);
+  } else {
+    leftCol.appendChild(fig);
+  }
+  box.appendChild(leftCol);
+
+  var rec = el("div");
+  recordBits(rec, p, sid);
+  box.appendChild(rec);
+  return box;
+}
+
+
+/* ---------- wiring ---------- */
+
+buildJourney = function () {
+  var p = byId[state.product];
+  if (!p) return;
+  layLightTable(document.getElementById("lay1"), p);
+};
+
+var _render = render;
+render = function () {
+  document.documentElement.setAttribute("data-view", state.view);
+  _render();
+};
+
+/* the loupe, added to the existing lightbox */
+var lbStage = document.querySelector(".lb-stage");
+var lbImg = document.getElementById("lb-img");
+var lbZoom = zoomControls(lbStage, lbImg);
+lbZoom.className = "lb-zoom";
+document.querySelector(".lb-bar").insertBefore(lbZoom, document.getElementById("lb-count"));
+
+var _renderLightbox = renderLightbox;
+renderLightbox = function () {
+  _renderLightbox();
+  var sid = LB.list[LB.i];
+  var st = stageById[sid];
+  var pr = byId[LB.pid];
+  document.getElementById("lb-eyebrow").textContent =
+    pad2(stageNum(sid)) + "  " + st.name + " \u2014 " + pr.name;
+  document.querySelector(".lb-hint").textContent =
+    "Left and right arrow keys move between screens. Escape closes. Zoom in, then drag the frame to move it.";
+  if (lbStage._setZoom) lbStage._setZoom("fit");
+};
+
+render();
 </script>
 
 <details class="legend-foot" id="legend-foot">

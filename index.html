@@ -300,6 +300,30 @@ button { font: inherit; color: inherit; }
 }
 .rail-btn[aria-current="true"] .dsa { border-color: var(--accent); color: var(--accent-strong); }
 .rail-count { font-size: 11.5px; color: var(--text-3); margin: 0 0 10px 8px; }
+.dsa-toggle {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12px; color: var(--text-2);
+  margin: -4px 0 10px 2px; cursor: pointer; user-select: none;
+}
+.dsa-toggle input { accent-color: var(--accent); margin: 0; }
+.dsa-toggle:hover { color: var(--text); }
+.dsa-note {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  background: var(--surface-2);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.dsa-note .dsa-note-h {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-3); display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+}
+.dsa-note p { margin: 0; color: var(--text-2); }
 
 .main { padding: 24px 30px 90px; min-width: 0; max-width: 1180px; }
 .view[hidden] { display: none; }
@@ -605,6 +629,7 @@ h2.view-title {
       <label class="mono" for="filter" style="display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:5px;">Filter products</label>
       <input class="filter" id="filter" type="search" placeholder="name, id or track" autocomplete="off">
     </div>
+    <label class="dsa-toggle" for="dsa-only"><input type="checkbox" id="dsa-only"> Only DSA-funded software</label>
     <p class="rail-count" id="rail-count"></p>
     <div id="rail"></div>
   </nav>
@@ -662,6 +687,17 @@ var STAGES = [
 var PRIORITY = ["orient", "select", "generate", "feedback", "return"];
 
 var EV_LABEL = { "observed": "observed", "documented": "documented", "vendor-claim": "vendor claim", "not-found": "not found" };
+
+/* Which products a UK student can currently get through Disabled Students' Allowance,
+   how each one reaches them, and how strong the evidence for that route is. */
+var DSA_NOTES = {
+  "studycog": { e: "observed", t: "Three UK assistive-technology suppliers stock it \u2014 iansyst, Assistive IT and iDiversity \u2014 as a five-year whole-course licence at \u00a3336.67 to \u00a3366.67 ex VAT. The vendor tells assessors to file it under Reading & Research as an \u201cAccessible Research Platform\u201d. Neither is a DfE category, and the nearest real one is the category the March 2026 consultation proposes to restrict." },
+  "genio-notes": { e: "observed", t: "The equipment supplier issues a licence key and the student redeems it. Genio publishes a DSA-specific help page, and states that only the student can manage the account." },
+  "jamworks": { e: "documented", t: "Publishes a DSA assessor toolkit offering demos and training. Account pre-configuration by an assessor was not found." },
+  "caption-ed": { e: "documented", t: "CareScribe sells Caption.Ed through DSA equipment suppliers. No assessor or trainer pre-configuration is documented." },
+  "lernabl": { e: "not-found", t: "UNCONFIRMED. The DSA route was supplied by our own team, not by a vendor page. The assessors page describes no DSA distribution directly, and no supplier listing was located. Confirm before any decision rests on it." },
+  "everway-writing-helper": { e: "observed", t: "Everway's own DSA page describes the distribution route explicitly. The student imports research PDFs; no trainer pre-configuration of the account is documented." }
+};
 var EV_CODE  = { "observed": "OBS", "documented": "DOC", "vendor-claim": "VEN", "not-found": "—" };
 var EV_ORDER = ["observed", "documented", "vendor-claim", "not-found"];
 
@@ -1388,7 +1424,8 @@ var state = {
   stage: null,
   cmpStage: "orient",
   group: true,
-  filter: ""
+  filter: "",
+  dsaOnly: false
 };
 var suppressHash = false;
 var byId = {};
@@ -1422,6 +1459,7 @@ function buildRail() {
     var items = PRODUCTS.filter(function (p) {
       if (tracksOf(p).indexOf(track) === -1) return false;
       if (tracksOf(p)[0] !== track) return false;
+      if (state.dsaOnly && !p.dsa) return false;
       if (!q) return true;
       return (p.name + " " + p.id + " " + (p.vendor || "") + " " + tracksOf(p).join(" ") + (p.dsa ? " dsa" : "")).toLowerCase().indexOf(q) !== -1;
     });
@@ -1450,7 +1488,9 @@ function buildRail() {
 
   if (!shown) rail.appendChild(el("p", "empty-msg", "No product matches that filter."));
   document.getElementById("rail-count").textContent =
-    shown + " of " + PRODUCTS.length + " products · " + PRODUCTS.filter(function (p) { return p.dsa; }).length + " UK DSA-distributed";
+    (state.dsaOnly
+      ? shown + " DSA-funded products"
+      : shown + " of " + PRODUCTS.length + " products \u00b7 " + PRODUCTS.filter(function (p) { return p.dsa; }).length + " funded through UK DSA");
 }
 
 function railButtons() {
@@ -1471,6 +1511,10 @@ document.getElementById("rail").addEventListener("keydown", function (ev) {
   go({ view: "journey", product: btns[next].dataset.pid, stage: null });
 });
 
+document.getElementById("dsa-only").addEventListener("change", function (ev) {
+  state.dsaOnly = ev.target.checked;
+  buildRail();
+});
 document.getElementById("filter").addEventListener("input", function (ev) {
   state.filter = ev.target.value;
   buildRail();
@@ -1492,7 +1536,7 @@ function buildJourney() {
   var meta = el("div", "meta-row");
   var idPill = el("span", "pill mono", p.id);
   meta.appendChild(idPill);
-  if (p.dsa) meta.appendChild(el("span", "pill solid mono", "UK DSA"));
+  if (p.dsa) meta.appendChild(el("span", "pill solid mono", "DSA-FUNDED"));
   if (p.url) {
     var a = document.createElement("a");
     a.className = "pill";
@@ -1507,6 +1551,17 @@ function buildJourney() {
   cap.textContent = "0 of " + STAGES.length + " frames captured";
   meta.appendChild(cap);
   head.appendChild(meta);
+
+  var dn = DSA_NOTES[p.id];
+  if (dn) {
+    var box = el("div", "dsa-note");
+    var h = el("div", "dsa-note-h");
+    h.appendChild(document.createTextNode("Funded through UK DSA"));
+    h.appendChild(chip(dn.e));
+    box.appendChild(h);
+    box.appendChild(el("p", null, dn.t));
+    head.appendChild(box);
+  }
 
   captureCounts[p.id] = 0;
 

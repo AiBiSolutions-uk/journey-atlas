@@ -1183,8 +1183,846 @@ var FEATURE_GROUPS = [];
 FEATURES.forEach(function (f) { if (FEATURE_GROUPS.indexOf(f.g) === -1) FEATURE_GROUPS.push(f.g); });
 
 /* product id -> feature id -> { v, e, n, s }  (filled by research) */
-var FEATURE_GRID = {};
-
+var FEATURE_GRID = {
+ "aspire-student-portal": {
+  "citation": {
+   "e": "documented",
+   "n": "The portal includes Harvard, Oxford and Vancouver style reference generators.",
+   "s": "https://www.dyslexic.com/product/aspire-student-portal-course-subscription/",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "The portal serves prepared support content. The student brings in no file.",
+   "s": "https://www.dyslexic.com/product/aspire-student-portal-course-subscription/",
+   "v": "no"
+  }
+ },
+ "blackboard-ally": {
+  "a11y": {
+   "e": "observed",
+   "n": "Formats include ePub, electronic braille, BeeLine Reader and Immersive Reader for text customisation.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "yes"
+  },
+  "audio": {
+   "e": "observed",
+   "n": "Ally offers an Audio MP3 version of the course file with adjustable playback speed.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "yes"
+  },
+  "feedback": {
+   "e": "documented",
+   "n": "The student answers nothing in Ally, so Ally gives no feedback.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "flashcards": {
+   "e": "documented",
+   "n": "The format list is complete and holds no flashcards. Ally creates no learning activity.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "mindmap": {
+   "e": "documented",
+   "n": "The format list is complete and holds no visual map or outline.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "mock": {
+   "e": "documented",
+   "n": "The format list is complete and holds no practice exam.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "planner": {
+   "e": "documented",
+   "n": "Ally plans no sessions and keeps no timetable.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "quiz": {
+   "e": "documented",
+   "n": "The format list is complete and holds no practice questions.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "srs": {
+   "e": "documented",
+   "n": "Ally keeps no student progress state and schedules nothing.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "summary": {
+   "e": "documented",
+   "n": "Ally generates only alternative formats of the same file and creates no learning activity.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "tts": {
+   "e": "documented",
+   "n": "The Audio MP3 and Immersive Reader formats read the course file aloud.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "documented",
+   "n": "Ally offers a format menu only. No chat or question answering exists.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "Ally converts course files the instructor put in the LMS. The student adds no file.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  },
+  "writes": {
+   "e": "documented",
+   "n": "Ally produces alternative formats of an existing file and writes no prose.",
+   "s": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "v": "no"
+  }
+ },
+ "caption-ed": {
+  "a11y": {
+   "e": "documented",
+   "n": "The student switches between light, dark and sepia mode and adjusts transcript settings.",
+   "s": "https://caption-ed.com/for-students/",
+   "v": "yes"
+  },
+  "captions": {
+   "e": "documented",
+   "n": "The product gives instant live captions during a session.",
+   "s": "https://caption-ed.com/for-students/",
+   "v": "yes"
+  },
+  "record": {
+   "e": "documented",
+   "n": "The product records the audio and video of a live session.",
+   "s": "https://caption-ed.com/for-students/",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "observed",
+   "n": "AI Summaries turn a recording transcript into a concise, chaptered summary.",
+   "s": "https://caption-ed.com/for-students/",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "The student uploads slides and images after a session ends.",
+   "s": "https://caption-ed.com/for-students/",
+   "v": "yes"
+  }
+ },
+ "chatgpt-study-mode": {
+  "flashcards": {
+   "e": "documented",
+   "n": "The study mode FAQ names flashcard-style review as an output.",
+   "s": "https://help.openai.com/en/articles/11780217-chatgpt-study-mode-faq",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "observed",
+   "n": "The product asks a multiple-choice question and marks the chosen answer in the chat.",
+   "s": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "observed",
+   "n": "The student asks questions about an attached problem and the product answers with guided steps.",
+   "s": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "observed",
+   "n": "The student attaches a photo of a homework problem to the study conversation.",
+   "s": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "v": "yes"
+  }
+ },
+ "copilot-in-word": {
+  "summary": {
+   "e": "documented",
+   "n": "Copilot creates a summary of the open Word document.",
+   "s": "https://support.microsoft.com/en-us/copilot-word",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "documented",
+   "n": "The student chats with Copilot about the open Word document and asks questions about it.",
+   "s": "https://support.microsoft.com/en-us/copilot-word",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "The student types / in the prompt to reference up to 20 of their own files as sources for the draft.",
+   "s": "https://support.microsoft.com/en-us/copilot-word",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "documented",
+   "n": "Copilot drafts prose into the document from a prompt, with Keep it, Regenerate and Discard controls.",
+   "s": "https://support.microsoft.com/en-us/copilot-word",
+   "v": "yes"
+  }
+ },
+ "copilot-study-learn": {
+  "feedback": {
+   "e": "documented",
+   "n": "Writing support coaches the student through the writing process.",
+   "s": "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+   "v": "yes"
+  },
+  "flashcards": {
+   "e": "documented",
+   "n": "The agent makes interactive question and answer cards from the student materials.",
+   "s": "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "documented",
+   "n": "The agent makes scored self-assessment quizzes with per-answer explanations.",
+   "s": "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "documented",
+   "n": "The vendor states citations let the student trace any piece of information back to the original materials.",
+   "s": "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "documented",
+   "n": "Scaffolded conversations lead with questions about the student uploads and build understanding step by step.",
+   "s": "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "The agent takes DOCX, PPTX, PDF, URLs, web pages and Copilot Pages as student material.",
+   "s": "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "documented",
+   "n": "The vendor states the agent coaches through the writing process without writing for the student.",
+   "s": "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+   "v": "no"
+  }
+ },
+ "gemini-classroom": {
+  "audio": {
+   "e": "documented",
+   "n": "Audio Overviews give a spoken version of the class material.",
+   "s": "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+   "v": "yes"
+  },
+  "flashcards": {
+   "e": "documented",
+   "n": "A starter tile makes flashcards from class material.",
+   "s": "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+   "v": "yes"
+  },
+  "mindmap": {
+   "e": "documented",
+   "n": "Students get interactive visual diagrams built from class materials.",
+   "s": "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "documented",
+   "n": "A quiz me tile builds multiple-choice questions from the class material.",
+   "s": "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "documented",
+   "n": "A starter tile creates a study guide, and Gemini turns class notes into a structured summary.",
+   "s": "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "documented",
+   "n": "Gemini Notebook citation behaviour applies to class notebooks, so answers point back to the source.",
+   "s": "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "documented",
+   "n": "A help me learn tile gives context-aware help on the assigned class material.",
+   "s": "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "observed",
+   "n": "Asked to help start a paper, Gemini drafts no text and instead lists angles and asks the student to choose.",
+   "s": "https://www.youtube.com/watch?v=4ErM2corKFQ",
+   "v": "no"
+  }
+ },
+ "genio-notes": {
+  "a11y": {
+   "e": "documented",
+   "n": "The vendor states Genio has no built-in options to change the font or font size.",
+   "s": "https://help.genio.co/article/24-accessibility-and-glean",
+   "v": "no"
+  },
+  "captions": {
+   "e": "documented",
+   "n": "Live Captions give a live transcript of spoken content while the student records a class.",
+   "s": "https://genio.co/notes",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "documented",
+   "n": "Quiz Me makes five, 10 or 20 multiple-choice questions from the event transcript.",
+   "s": "https://genio.co/notes/quiz-me",
+   "v": "yes"
+  },
+  "record": {
+   "e": "documented",
+   "n": "The vendor describes recording classes live, with audio and video capture.",
+   "s": "https://genio.co/notes",
+   "v": "yes"
+  },
+  "srs": {
+   "e": "documented",
+   "n": "The vendor states quiz results last only for the study session and a new quiz must be generated on return.",
+   "s": "https://genio.co/notes/quiz-me",
+   "v": "no"
+  },
+  "summary": {
+   "e": "documented",
+   "n": "AI Outline organises class content into structured summaries that link to specific moments.",
+   "s": "https://genio.co/notes",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "documented",
+   "n": "AI Outline summaries link to specific moments in the recording.",
+   "s": "https://genio.co/notes",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "observed",
+   "n": "A three-dot menu on an event offers Import Audio and Import Slides.",
+   "s": "https://genio.co/notes",
+   "v": "yes"
+  }
+ },
+ "helperbird": {
+  "a11y": {
+   "e": "documented",
+   "n": "The student sets font, dyslexia font, colour overlay, contrast, line spacing, alignment and magnification.",
+   "s": "https://www.helperbird.com/features/",
+   "v": "yes"
+  },
+  "feedback": {
+   "e": "documented",
+   "n": "A spelling and grammar checker corrects the text the student typed.",
+   "s": "https://www.helperbird.com/features/",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "documented",
+   "n": "Summarize Pages turns a long article into a bullet-point summary with one click.",
+   "s": "https://www.helperbird.com/features/",
+   "v": "yes"
+  },
+  "tts": {
+   "e": "documented",
+   "n": "Text to Speech reads any text on the web aloud, and works with websites, PDFs and documents.",
+   "s": "https://www.helperbird.com/features/",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "observed",
+   "n": "Helperbird predicts single words as the student types and writes no sentences or essays.",
+   "s": "https://www.helperbird.com/features/word-prediction/",
+   "v": "no"
+  }
+ },
+ "jamworks": {
+  "a11y": {
+   "e": "documented",
+   "n": "Students turn on a dyslexic friendly font, contrast controls, Focus Reading and image hiding.",
+   "s": "https://www.jamworks.com/accessibility",
+   "v": "yes"
+  },
+  "captions": {
+   "e": "documented",
+   "n": "Live Captions turn speech to text during the class.",
+   "s": "https://www.jamworks.com/features",
+   "v": "yes"
+  },
+  "flashcards": {
+   "e": "documented",
+   "n": "AI Flashcards test understanding and link back to lecture highlights.",
+   "s": "https://www.jamworks.com/features",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "observed",
+   "n": "Quiz Me asks the student true or false and multiple-choice questions about the recording.",
+   "s": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "v": "yes"
+  },
+  "record": {
+   "e": "observed",
+   "n": "A widget starts a live recording of the session from the signed-in account.",
+   "s": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "documented",
+   "n": "AI Summaries and Key Points turn a lecture into structured notes.",
+   "s": "https://www.jamworks.com/features",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "documented",
+   "n": "Flashcards link back to the lecture highlights they came from.",
+   "s": "https://www.jamworks.com/features",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "documented",
+   "n": "JamAI answers questions using the student lecture transcripts as its source of truth.",
+   "s": "https://www.jamworks.com/features",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "observed",
+   "n": "An Upload New Recording modal takes a media file with a title.",
+   "s": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "v": "yes"
+  }
+ },
+ "jenni-ai": {
+  "citation": {
+   "e": "observed",
+   "n": "One-click inline citations in many styles, with filters for year, impact factor and citation count.",
+   "s": "https://jenni.ai/",
+   "v": "yes"
+  },
+  "feedback": {
+   "e": "observed",
+   "n": "Academic proofreading gives inline feedback and flags unverified or speculative claims in the draft.",
+   "s": "https://jenni.ai/",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "documented",
+   "n": "Jenni summarises papers and generates essay outlines.",
+   "s": "https://jenni.ai/",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "observed",
+   "n": "Jenni links each AI-suggested sentence to the precise location in the source PDF.",
+   "s": "https://jenni.ai/",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "documented",
+   "n": "AI Chat answers questions across the document collection the student imported.",
+   "s": "https://jenni.ai/",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "observed",
+   "n": "The student drags in PDFs or imports a library from Zotero or Mendeley.",
+   "s": "https://jenni.ai/",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "observed",
+   "n": "From one prompt line, Jenni drafts a full essay with headings that the student can submit.",
+   "s": "https://jenni.ai/ai-essay-writer",
+   "v": "yes"
+  }
+ },
+ "knowt": {
+  "audio": {
+   "e": "vendor-claim",
+   "n": "The vendor states Kai makes a podcast on anything the student uploads.",
+   "s": "https://knowt.com/",
+   "v": "yes"
+  },
+  "feedback": {
+   "e": "vendor-claim",
+   "n": "The Free-Response Room grades student-written answers automatically.",
+   "s": "https://knowt.com/",
+   "v": "yes"
+  },
+  "flashcards": {
+   "e": "documented",
+   "n": "The AI makes flashcard sets from an uploaded PDF in seconds.",
+   "s": "https://knowt.com/ai-pdf-summarizer",
+   "v": "yes"
+  },
+  "mock": {
+   "e": "vendor-claim",
+   "n": "The exam prep hub gives unlimited practice and mock exams.",
+   "s": "https://knowt.com/",
+   "v": "yes"
+  },
+  "planner": {
+   "e": "vendor-claim",
+   "n": "The exam prep hub creates a personalized schedule for the student.",
+   "s": "https://knowt.com/",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "documented",
+   "n": "The product makes practice quizzes from an uploaded PDF.",
+   "s": "https://knowt.com/ai-pdf-summarizer",
+   "v": "yes"
+  },
+  "record": {
+   "e": "documented",
+   "n": "A Live Lecture Note Taker records the class and returns notes and flashcards.",
+   "s": "https://knowt.com/ai-pdf-summarizer",
+   "v": "yes"
+  },
+  "srs": {
+   "e": "documented",
+   "n": "Flashcards made from a PDF can be studied with learn mode or spaced repetition.",
+   "s": "https://knowt.com/ai-pdf-summarizer",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "documented",
+   "n": "The PDF Summarizer turns an upload into notes and study guides.",
+   "s": "https://knowt.com/ai-pdf-summarizer",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "observed",
+   "n": "A Chat Tutor and a Call with Kai voice tutor answer questions about the uploaded material.",
+   "s": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "The student uploads PDFs, images, video, PowerPoint and YouTube links.",
+   "s": "https://knowt.com/ai-pdf-summarizer",
+   "v": "yes"
+  }
+ },
+ "lernabl": {
+  "a11y": {
+   "e": "observed",
+   "n": "An Accessibility page sets seven colour themes and five fonts, including Open Dyslexic.",
+   "s": "https://www.youtube.com/watch?v=yNhOxK-2GVc",
+   "v": "yes"
+  },
+  "flashcards": {
+   "e": "documented",
+   "n": "The vendor names Flashcards as one of the study methods.",
+   "s": "https://lernabl.com/assessors-1",
+   "v": "yes"
+  },
+  "mock": {
+   "e": "documented",
+   "n": "The plan gives exclusive access to the Mock Exam tool, which runs to a timer.",
+   "s": "https://lernabl.com/",
+   "v": "yes"
+  },
+  "planner": {
+   "e": "documented",
+   "n": "The plan includes a Personalised Study Planner.",
+   "s": "https://lernabl.com/",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "observed",
+   "n": "Fill in the Blanks and Matching methods test the student on the topic cards.",
+   "s": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "v": "yes"
+  },
+  "record": {
+   "e": "observed",
+   "n": "The product takes no audio capture. Material arrives only by typing, dictating, pasting or scan-pen.",
+   "s": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "v": "no"
+  },
+  "summary": {
+   "e": "observed",
+   "n": "A Cornell Notes study method structures the student topic material.",
+   "s": "https://lernabl.com/assessors-1",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "observed",
+   "n": "Generated content comes from the exam title and topic name alone, so no activity points at a source passage.",
+   "s": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "v": "no"
+  },
+  "tts": {
+   "e": "observed",
+   "n": "An Accessibility page holds a text-to-speech voice picker.",
+   "s": "https://www.youtube.com/watch?v=yNhOxK-2GVc",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "observed",
+   "n": "No file upload step exists. The student types Topic Cards by hand, and the vendor confirms document import is absent.",
+   "s": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "v": "no"
+  }
+ },
+ "magicschool-iep": {
+  "upload": {
+   "e": "observed",
+   "n": "The teacher types grade level, disability category and a written description by hand. No file upload exists.",
+   "s": "https://www.youtube.com/watch?v=7sM7rxKo_Cw",
+   "v": "no"
+  }
+ },
+ "mindview": {
+  "citation": {
+   "e": "documented",
+   "n": "MindView adds citations and a bibliography in a chosen academic format such as APA or MLA.",
+   "s": "https://www.matchware.com/mind-mapping-software",
+   "v": "yes"
+  },
+  "mindmap": {
+   "e": "documented",
+   "n": "MindView builds mind maps with top-down, left-right, timeline, Gantt, Kanban and outline views.",
+   "s": "https://www.matchware.com/mind-mapping-software",
+   "v": "yes"
+  },
+  "planner": {
+   "e": "documented",
+   "n": "Gantt chart, timeline and task management views plan and track work with real-time tracking.",
+   "s": "https://www.matchware.com/mind-mapping-software",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "MindView imports documents such as Microsoft Word, PowerPoint, Project and Excel.",
+   "s": "https://www.matchware.com/mind-mapping-software",
+   "v": "yes"
+  }
+ },
+ "notebooklm": {
+  "audio": {
+   "e": "documented",
+   "n": "Audio Overview makes a spoken, podcast-style version of the sources.",
+   "s": "https://support.google.com/notebooklm/answer/16164461?hl=en-GB",
+   "v": "yes"
+  },
+  "flashcards": {
+   "e": "documented",
+   "n": "The help page describes Generate Flashcards in Gemini Notebook from notebook sources.",
+   "s": "https://support.google.com/notebooklm/answer/16958963?hl=en-GB",
+   "v": "yes"
+  },
+  "mindmap": {
+   "e": "documented",
+   "n": "Mind Maps turn notebook sources into a clickable visual map.",
+   "s": "https://support.google.com/notebooklm/answer/16212283?hl=en-GB",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "documented",
+   "n": "The help page describes Generate Quizzes from notebook sources, with difficulty and quantity settings.",
+   "s": "https://support.google.com/notebooklm/answer/16958963?hl=en-GB",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "observed",
+   "n": "The chat pane shows a summary of the imported material, and the Studio grid builds reports and study guides.",
+   "s": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "observed",
+   "n": "Numbered citation markers in a chat answer open the source pane at the cited line.",
+   "s": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "documented",
+   "n": "The student chats with the notebook and gets answers grounded in the uploaded sources.",
+   "s": "https://support.google.com/notebooklm/answer/16164461?hl=en-GB",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "The student uploads PDFs, websites, YouTube videos, audio files, Google Docs and Google Slides as sources.",
+   "s": "https://support.google.com/notebooklm/answer/16164461?hl=en-GB",
+   "v": "yes"
+  }
+ },
+ "podsie": {
+  "quiz": {
+   "e": "documented",
+   "n": "Teachers generate questions with AI or write their own, and students answer them as assignments.",
+   "s": "https://podsie.org/",
+   "v": "yes"
+  },
+  "srs": {
+   "e": "documented",
+   "n": "Completed questions enter a personal review deck that spaced retrieval practice schedules.",
+   "s": "https://podsie.org/",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "documented",
+   "n": "Only the teacher builds questions, from a topic, a document or the standards library. The student joins with a code.",
+   "s": "https://podsie.org/",
+   "v": "no"
+  }
+ },
+ "studycog": {
+  "a11y": {
+   "e": "observed",
+   "n": "One panel sets font family, font size, line spacing, colour scheme, Bionic Reading and a reading ruler.",
+   "s": "https://studycog.co.uk/api/tour-image/accessibility.webp",
+   "v": "yes"
+  },
+  "audio": {
+   "e": "observed",
+   "n": "Create Podcast in the AI Tools menu makes a two-speaker audio version of the document.",
+   "s": "https://studycog.co.uk/api/tour-image/ai-tools.webp",
+   "v": "yes"
+  },
+  "citation": {
+   "e": "observed",
+   "n": "The product manages references and exports them to Zotero, Mendeley and EndNote.",
+   "s": "https://studycog.co.uk/api/tour-image/requirements.webp",
+   "v": "yes"
+  },
+  "feedback": {
+   "e": "observed",
+   "n": "Writing Coach rates a draft, lists strengths and areas to improve, and phrases each suggestion as a question.",
+   "s": "https://studycog.co.uk/api/tour-image/writing.webp",
+   "v": "yes"
+  },
+  "flashcards": {
+   "e": "observed",
+   "n": "The AI Tools menu lists six formats and holds no flashcard option.",
+   "s": "https://studycog.co.uk/api/tour-image/ai-tools.webp",
+   "v": "no"
+  },
+  "planner": {
+   "e": "observed",
+   "n": "A five-stage assignment pipeline includes a Plan step, and Add Task turns feedback into tracked actions.",
+   "s": "https://studycog.co.uk/api/tour-image/requirements.webp",
+   "v": "yes"
+  },
+  "quiz": {
+   "e": "observed",
+   "n": "Test Understanding in the AI Tools menu builds a comprehension quiz from the open document.",
+   "s": "https://studycog.co.uk/api/tour-image/ai-tools.webp",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "observed",
+   "n": "The AI Tools menu offers Summarise, and the summary carries inline section and page tags.",
+   "s": "https://studycog.co.uk/api/tour-image/ai-tools.webp",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "observed",
+   "n": "A quiz question shows a Source from document panel with the exact sentence and a See in text button.",
+   "s": "https://www.youtube.com/watch?v=zML-QdH_0To",
+   "v": "yes"
+  },
+  "tts": {
+   "e": "observed",
+   "n": "The accessibility panel sets a text-to-speech voice and speed, and the reader highlights each word as it reads.",
+   "s": "https://studycog.co.uk/api/tour-image/accessibility.webp",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "observed",
+   "n": "Document chat lets the student ask questions about the uploaded document.",
+   "s": "https://studycog.co.uk/api/tour-image/ai-tools.webp",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "observed",
+   "n": "The student uploads PDF, Word, RTF, ODT, TXT and MD files, plus images with OCR, into a personal library.",
+   "s": "https://www.youtube.com/watch?v=n6vv44eGLTM",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "documented",
+   "n": "The vendor FAQ states the AI is designed not to write content for the student.",
+   "s": "https://studycog.co.uk/",
+   "v": "no"
+  }
+ },
+ "thesify": {
+  "citation": {
+   "e": "documented",
+   "n": "The student highlights text and Thesify searches over 200 million references to add a citation.",
+   "s": "https://www.thesify.ai/",
+   "v": "yes"
+  },
+  "feedback": {
+   "e": "observed",
+   "n": "Section by Section Feedback rates each part of the draft against academic rubrics.",
+   "s": "https://www.thesify.ai/",
+   "v": "yes"
+  },
+  "summary": {
+   "e": "observed",
+   "n": "A Digest panel shows Summary, Keywords, Main claims and Conclusion for the uploaded paper.",
+   "s": "https://www.thesify.ai/",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "observed",
+   "n": "An AI chat answers questions about the paper the student uploaded.",
+   "s": "https://www.thesify.ai/",
+   "v": "yes"
+  },
+  "upload": {
+   "e": "observed",
+   "n": "The student drags in a PDF or Word draft of up to 100 pages.",
+   "s": "https://www.thesify.ai/",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "observed",
+   "n": "The vendor states Thesify assists writing and never writes on the student behalf.",
+   "s": "https://www.thesify.ai/",
+   "v": "no"
+  }
+ },
+ "turnitin-clarity": {
+  "feedback": {
+   "e": "observed",
+   "n": "The teacher turns on help types for the student draft: planning, examples, revisions and proofreading.",
+   "s": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "v": "yes"
+  },
+  "trace": {
+   "e": "observed",
+   "n": "Clicking a flagged pasted passage shows the exact source link and replays that part of the writing session.",
+   "s": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "v": "yes"
+  },
+  "tutor": {
+   "e": "observed",
+   "n": "The student asks the AI chat about their own draft and the chat answers with planning questions.",
+   "s": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "v": "yes"
+  },
+  "writes": {
+   "e": "observed",
+   "n": "Asked to write the introduction, the AI chat refuses and tells the student the introduction is their own job.",
+   "s": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "v": "no"
+  }
+ }
+};
 function featOf(pid, fid) {
   var row = FEATURE_GRID[pid] || {};
   return row[fid] || { v: "unclear", e: "not-found", n: "", s: "" };

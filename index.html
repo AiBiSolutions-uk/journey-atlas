@@ -491,6 +491,9 @@ a.pill:hover { border-color: var(--accent); color: var(--accent); }
 .ev-documented { color: var(--ev-documented-fg); background: var(--ev-documented-bg); border-color: var(--ev-documented-bd); }
 .ev-vendor-claim { color: var(--ev-vendor-claim-fg); background: var(--ev-vendor-claim-bg); border-color: var(--ev-vendor-claim-bd); }
 .ev-not-found { color: var(--ev-not-found-fg); background: var(--ev-not-found-bg); border-color: var(--ev-not-found-bd); }
+/* We looked and found nothing. That is a weaker statement than "none found",
+   thus it does not carry the red of an absent record. */
+.chip.ev-looked { color: var(--ink-2); background: var(--surface-2); border-color: var(--rule-strong); }
 .seg-observed { background: var(--ev-observed-fg); }
 .seg-documented { background: var(--ev-documented-fg); }
 .seg-vendor-claim { background: var(--ev-vendor-claim-fg); }
@@ -1402,7 +1405,7 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 .s-lay { height: 100%; }
 .s-lay[hidden] { display: none; }
 
-/* ---------- the stage spine: twelve stages, always visible ---------- */
+/* ---------- the stage spine: every stage, always visible ---------- */
 
 .s-spine {
   position: sticky;
@@ -1876,8 +1879,7 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 var STAGES = [
   { id: "entry",      name: "Onboarding",              gloss: "Who sets up the account, and who controls it." },
   { id: "ingest",     name: "Ingestion",         gloss: "Which files it accepts, and what happens when one fails." },
-  { id: "orient",     name: "Orientation",     gloss: "What the student sees when their file finishes processing." },
-  { id: "select",     name: "Task selection",        gloss: "Does the student choose, or does the product." },
+  { id: "select",     name: "Task selection",        gloss: "What the learner sees once the material is in, and who picks the next activity." },
   { id: "generate",   name: "Generation",               gloss: "Which activity formats come out." },
   { id: "feedback",   name: "Feedback", gloss: "What the student gets back." },
   { id: "switch",     name: "Regeneration",            gloss: "How the student makes it again, changes the format, or throws it away." },
@@ -1888,13 +1890,13 @@ var STAGES = [
   { id: "authorship", name: "Authorship",        gloss: "Where the product draws the line on the submitted text." }
 ];
 
-/* The twelve stages read as four groups. A group is a question the student asks
+/* The stages read as four groups. A group is a question the student asks
    in order: can I get my material in, what do I get, how do I study it, does it fit me. */
 var STAGE_GROUPS = [
   { id: "setup",  label: "Onboarding and ingestion", blurb: "Who opens the account, and what the product accepts.",
     stages: ["entry", "ingest"] },
-  { id: "make",   label: "Orientation and generation",        blurb: "What appears when the upload finishes, who chooses the activity, and which formats come out.",
-    stages: ["orient", "select", "generate"] },
+  { id: "make",   label: "Selection and generation",        blurb: "What appears when the upload finishes, who chooses the activity, and which formats come out.",
+    stages: ["select", "generate"] },
   { id: "study",  label: "Study loop", blurb: "The loop the student repeats: answer a question, get it wrong, make the activity again, check the source, and return the next day.",
     stages: ["feedback", "switch", "trace", "return"] },
   { id: "fit",    label: "Accessibility and integrity",           blurb: "What a disabled student can change, what the product adapts to, and where it stops.",
@@ -4138,6 +4140,70 @@ var byId = {};
 PRODUCTS.forEach(function (p) { byId[p.id] = p; });
 var stageById = {};
 STAGES.forEach(function (s) { stageById[s.id] = s; });
+/* --- Orientation merged into Task selection, 2026-09-09 -------------------
+   A blind audit found seven products whose Orientation and Task selection
+   cells described the same screen. The split gave the reader two names for
+   one answer. The ids are frozen, thus "orient" is now an alias and every
+   old link resolves. Both original sentences are kept in the record below,
+   each with the grade it was given. */
+var STAGE_ALIAS = { orient: "select" };
+stageById.orient = stageById.select;
+
+var MERGED_SELECT = {
+"studycog": "A six-tile dashboard. The reading side is a menu with nothing sequenced. The essay side is a fixed five-stage sequence.",
+"notebooklm": "A catalogue of formats. The student chooses from it, and nothing is recommended.",
+"gemini-classroom": "Starter tiles, a hybrid of catalogue and prompt. The student picks a tile. The product recommends nothing from the content.",
+"chatgpt-study-mode": "There is no overview screen. The system starts Socratic questioning, and the student asks for formats in natural language.",
+"copilot-study-learn": "A menu of activity types. No separate post-upload screen is documented.",
+"genio-notes": "No separate orientation screen is documented. The student presses Study Tools, then Quiz Me.",
+"jamworks": "A session hub holding the recording, captions, notes, clips, summary and quiz. Named modes re-express the same content. We did not find who starts a mode.",
+"caption-ed": "A library of recordings. Selection is largely automatic, because summaries and quizzes come from the session.",
+"lernabl": "A numbered three-step home screen: exam, focus areas, then study method. Catalogue by default, recommendation on request, reversible in one click.",
+"knowt": "Materials appear within seconds as study guides, flashcards and quizzes. The student chooses the output type. Nothing recommends what to do next.",
+"remnote": "Flashcards, practice quizzes and a summary appear together after processing. The student chooses.",
+"quizlet": "A study guide is the post-upload artefact. The student then chooses a study mode.",
+"studyfetch": "A generated notes document, which is an output and not an account. The student picks from the tool catalogue.",
+"khanmigo": "There is no post-upload screen, because there is no upload. The product tutors over its own curriculum, with teacher-assigned activities.",
+"century-tech": "The teacher dashboard has seven tabs. A system-generated pathway and manual teacher assignment set what the student does.",
+"everway-writing-helper": "Seven named stages carry the orientation. The sequence chooses, thus this is a pipeline and not a menu.",
+"studiosity": "An annotated document with the feedback summary at the top right. There is nothing to select.",
+"cadmus": "Educator-configured scaffolded assessment. What the student is offered, and in what order, is not published.",
+"grammarly-authorship": "Passive by design. Nothing is selected.",
+"packback-writing-lab": "A feedback summary covering word count, flow, grammar and research quality. Nothing is selected.",
+"turnitin-clarity": "A one-stop composition screen with the instructions and rubric present. An educator toggle, not a student choice, controls the assistant.",
+"thesify": "Reviewer and Coauthor tools. The student picks one of the two.",
+"jenni-ai": "A source library. The student controls which sources inform each section.",
+"copilot-in-word": "A Start a draft prompt. The student prompts.",
+"blackboard-ally": "Twelve alternative formats: a catalogue of formats, nothing about the material. The student picks a format.",
+"helperbird": "No orientation screen exists, because there is no ingestion. The student picks reading and display tools from the overlay.",
+"aspire-student-portal": "A filtered content portal. The student browses the filtered content.",
+"mindview": "No orientation screen and no activity selection were established for the student-facing product.",
+"podsie": "The student arrives at a personal review deck rather than a catalogue. The system schedules the deck.",
+"magicschool-iep": "There is no student-facing surface, thus no orientation screen and no activity selection exist."
+};
+
+var EV_RANK = { "not-found": 0, "vendor-claim": 1, "documented": 2, "observed": 3 };
+PRODUCTS.forEach(function (p) {
+  var o = p.stages.orient, sel = p.stages.select;
+  if (!o && !sel) return;
+  var parts = [];
+  if (o && (o.t || o.c)) {
+    parts.push("What the learner sees (" + EV_LABEL[o.e] + "): " + (o.t || o.c));
+  }
+  if (sel && (sel.t || sel.c)) {
+    parts.push("Who picks the next activity (" + EV_LABEL[sel.e] + "): " + (sel.t || sel.c));
+  }
+  p.stages.select = {
+    e: !o ? sel.e : !sel ? o.e : (EV_RANK[o.e] >= EV_RANK[sel.e] ? o.e : sel.e),
+    c: MERGED_SELECT[p.id] ||
+       ((o && o.c ? o.c + " " : "") + (sel && sel.c ? sel.c : "")).replace(/^\s+|\s+$/g, ""),
+    t: parts.join(" "),
+    src: ((o && o.src) || []).concat((sel && sel.src) || [])
+  };
+  delete p.stages.orient;
+});
+/* ------------------------------------------------------------------------ */
+
 /* What each screenshot shows. One entry per captured frame, written by the
    capture agents. `crop` marks a frame masked to remove personal data. */
 var FRAME_CAPTIONS = {
@@ -6235,9 +6301,19 @@ function el(tag, cls, text) {
   if (text != null) n.textContent = text;
   return n;
 }
-function chip(e) { return el("span", "chip ev-" + e, EV_LABEL[e]); }
+function chip(e, pid, sid) {
+  /* "none found" beside a picture reads as a contradiction, thus a cell that
+     holds a frame says the true thing instead: we looked at this screen. */
+  var seen = e === "not-found" && pid && sid && hasFrame(pid, sid);
+  var c = el("span", "chip ev-" + e + (seen ? " ev-looked" : ""),
+             seen ? "not on this screen" : EV_LABEL[e]);
+  c.title = seen
+    ? "We looked at this screen and found no such control. The picture is the screen we looked at."
+    : "This tag grades the sentence above it, not the picture.";
+  return c;
+}
 function tracksOf(p) { return p.tracks || [p.track]; }
-function frameSrc(pid, sid) { return "frames/" + pid + "/" + sid + ".png"; }
+function frameSrc(pid, sid) { return "frames/" + pid + "/" + (frameKey(pid, sid) || sid) + ".png"; }
 function cellOf(p, sid) {
   return p.stages[sid] || {
     e: "not-found",
@@ -6670,7 +6746,7 @@ function cmpRow(p, c, st, withChip) {
   a.textContent = p.name;
   who.appendChild(a);
   who.appendChild(el("span", "tr", tracksOf(p).join(" + ") + (p.dsa ? ", DSA" : "")));
-  if (withChip) who.appendChild(chip(c.e));
+  if (withChip) who.appendChild(chip(c.e, p.id, st.id));
   row.appendChild(who);
 
   var bd = el("div");
@@ -6943,13 +7019,15 @@ function readHash() {
   if (parts[0] === "features") { state.view = "matrix"; state.grid = "features"; return; }
   if (parts[0] === "stage") {
     state.view = "stage";
-    if (parts[1] && stageById[parts[1]]) state.cmpStage = parts[1];
+    var csid = STAGE_ALIAS[parts[1]] || parts[1];
+    if (csid && stageById[csid]) state.cmpStage = csid;
     return;
   }
   if (byId[parts[0]]) {
     state.view = "journey";
     state.product = parts[0];
-    state.stage = (parts[1] && stageById[parts[1]]) ? parts[1] : null;
+    var psid = STAGE_ALIAS[parts[1]] || parts[1];
+    state.stage = (psid && stageById[psid]) ? psid : null;
   }
 }
 
@@ -7026,7 +7104,15 @@ document.getElementById("grid-features").addEventListener("click", function () {
 
 function pad2(n) { return String(n).padStart(2, "0"); }
 function stageNum(sid) { return STAGES.indexOf(stageById[sid]) + 1; }
-function hasFrame(pid, sid) { return framesOf(pid).indexOf(sid) !== -1; }
+function frameKey(pid, sid) {
+  var got = framesOf(pid);
+  if (got.indexOf(sid) !== -1) return sid;
+  /* Orientation merged into Task selection. A cell with only the older
+     capture still shows it, rather than reading as a gap in our work. */
+  if (sid === "select" && got.indexOf("orient") !== -1) return "orient";
+  return null;
+}
+function hasFrame(pid, sid) { return frameKey(pid, sid) !== null; }
 function orderedFrames(pid) {
   return framesOf(pid).slice().sort(function (a, b) { return stageNum(a) - stageNum(b); });
 }
@@ -7235,7 +7321,7 @@ function layLightTable(host, p) {
   if (price) { sheetWrap.appendChild(el("hr", "x-rule")); sheetWrap.appendChild(price); }
 
   var bar = el("div", "x-sheet-bar");
-  bar.appendChild(el("h2", "x-h2", "Twelve stages, one plate each"));
+  bar.appendChild(el("h2", "x-h2", "Eleven stages, one plate each"));
   bar.appendChild(el("p", "x-hint", "Select a plate to open its record. Select the plate image to open the loupe."));
   sheetWrap.appendChild(bar);
 
@@ -7260,7 +7346,7 @@ function layLightTable(host, p) {
     cap.appendChild(top);
     cap.appendChild(el("div", "x-cap-claim", claimOf(cell)));
     var foot = el("div", "x-cap-foot");
-    foot.appendChild(chip(cell.e));
+    foot.appendChild(chip(cell.e, p.id, st.id));
     if (PRIORITY.indexOf(st.id) !== -1) foot.appendChild(el("span", "prio", "capture priority"));
     cap.appendChild(foot);
     fig.appendChild(cap);
@@ -7290,7 +7376,7 @@ function lightTableDrawer(p, sid) {
   var hd = el("div", "x-drawer-hd");
   hd.appendChild(el("span", "x-cap-n", pad2(stageNum(sid))));
   hd.appendChild(el("h3", null, st.name));
-  hd.appendChild(chip(cell.e));
+  hd.appendChild(chip(cell.e, p.id, sid));
   var x = el("button", "x-close", "Close");
   x.type = "button";
   x.addEventListener("click", function () { selectStage(p, sid, true); });
@@ -7580,7 +7666,7 @@ function stageReader(sid) {
   a.textContent = pr.name;
   nm.appendChild(a);
   hd.appendChild(nm);
-  hd.appendChild(chip(cellOf(pr, sid).e));
+  hd.appendChild(chip(cellOf(pr, sid).e, pid, sid));
   if (pr.dsa) hd.appendChild(el("span", "s-flag on", "DSA"));
   var tools = el("div", "s-tools");
   hd.appendChild(tools);
@@ -7713,7 +7799,7 @@ function wallCard(p, sid, band) {
   cap.appendChild(top);
   cap.appendChild(el("div", "s-cap-claim", claimOf(cell)));
   var foot = el("div", "s-cap-foot");
-  foot.appendChild(chip(cell.e));
+  foot.appendChild(chip(cell.e, p.id, sid));
   if (p.dsa) foot.appendChild(el("span", "s-flag on", "DSA"));
   cap.appendChild(foot);
   var d = el("details", "s-prov");
@@ -7811,7 +7897,7 @@ render();
   <summary>How to read this page</summary>
   <div class="legend-foot-body">
     <div class="legend">
-      <p class="legend-lead">Each tag grades the sentence it sits under, not the picture. A screenshot can sit beside &ldquo;none found&rdquo;, because the picture shows the screen where the missing control would be.</p>
+      <p class="legend-lead">Each tag grades the sentence it sits under, not the picture. Where we hold a screenshot and found no such control, the tag reads &ldquo;not on this screen&rdquo;. &ldquo;None found&rdquo; means we hold no picture and found nothing in public sources. Neither tag is proof that the product lacks the feature.</p>
       <div class="legend-item"><span class="chip ev-observed">seen in use</span><span>We saw it in the running product, a screenshot, a public API or the shipped JavaScript.</span></div>
       <div class="legend-item"><span class="chip ev-documented">in vendor docs</span><span>The vendor states it in their own help centre, policy or guide.</span></div>
       <div class="legend-item"><span class="chip ev-vendor-claim">vendor says</span><span>A marketing assertion with no independent support.</span></div>

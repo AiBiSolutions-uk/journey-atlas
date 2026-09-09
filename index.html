@@ -1,19 +1,1804 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Journey Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
-:root{--bg:#f2f4f1;--ink:#1a2019;--dim:#5d6b5e;--line:#d3dbd2;--accent:#2f6f5e}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12160f;--ink:#e4e8e0;--dim:#94a396;--line:#2a332a;--accent:#6cc0a6}}
-body{background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,sans-serif;margin:0;padding:12vh 6vw;max-width:46rem}
-h1{font-size:2rem;margin:0 0 .5rem}p{color:var(--dim)}a{color:var(--accent)}
-ul{padding-left:1.1rem}li{margin:.4rem 0}
-</style></head><body>
-<h1>Journey Atlas</h1>
-<p>This page is being built. It will show each competitor learning app stage by stage, with the evidence and a screenshot for each stage.</p>
-<ul>
-<li>Pick an app, walk its journey.</li>
-<li>Pick one stage, compare every app.</li>
-<li>Full matrix of apps by stage.</li>
-</ul>
-<p>Research map: <a href="https://github.com/AiBiSolutions-uk/bubblewrap/issues/15">bubblewrap #15</a> (private).</p>
-</body></html>
+:root {
+  color-scheme: light;
+  --bg: #F3F6F7;
+  --surface: #FFFFFF;
+  --surface-2: #E9EEF0;
+  --surface-3: #DFE6E9;
+  --border: #D5DDE1;
+  --border-strong: #B2BEC4;
+  --text: #12202A;
+  --text-2: #46585F;
+  --text-3: #6C7D85;
+  --accent: #0E6F78;
+  --accent-strong: #094F56;
+  --accent-bg: #DBEDEF;
+  --focus: #0E6F78;
+  --shadow: 0 1px 2px rgba(18, 32, 42, .06), 0 6px 18px rgba(18, 32, 42, .05);
+
+  --ev-observed-fg: #2F6B22;
+  --ev-observed-bg: #E4F0DA;
+  --ev-observed-bd: #B4D6A0;
+  --ev-documented-fg: #2A55A8;
+  --ev-documented-bg: #DEE7F8;
+  --ev-documented-bd: #AEC1EA;
+  --ev-vendor-claim-fg: #8A5A0B;
+  --ev-vendor-claim-bg: #F7EBD2;
+  --ev-vendor-claim-bd: #E3C78F;
+  --ev-not-found-fg: #A32639;
+  --ev-not-found-bg: #FADEE2;
+  --ev-not-found-bd: #EFB2BC;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0F1519;
+    --surface: #161E23;
+    --surface-2: #1E282E;
+    --surface-3: #26333A;
+    --border: #2B373E;
+    --border-strong: #405058;
+    --text: #E5EBEE;
+    --text-2: #A8B7BE;
+    --text-3: #7E8F98;
+    --accent: #4FC2CC;
+    --accent-strong: #85DBE2;
+    --accent-bg: #113238;
+    --focus: #4FC2CC;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 18px rgba(0, 0, 0, .3);
+
+    --ev-observed-fg: #9DD47C;
+    --ev-observed-bg: #1D2E16;
+    --ev-observed-bd: #37522A;
+    --ev-documented-fg: #9AB8F1;
+    --ev-documented-bg: #16213A;
+    --ev-documented-bd: #2C3E63;
+    --ev-vendor-claim-fg: #E2B767;
+    --ev-vendor-claim-bg: #2E2412;
+    --ev-vendor-claim-bd: #4E3D1B;
+    --ev-not-found-fg: #F19CAA;
+    --ev-not-found-bg: #33161C;
+    --ev-not-found-bd: #58262F;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0F1519;
+  --surface: #161E23;
+  --surface-2: #1E282E;
+  --surface-3: #26333A;
+  --border: #2B373E;
+  --border-strong: #405058;
+  --text: #E5EBEE;
+  --text-2: #A8B7BE;
+  --text-3: #7E8F98;
+  --accent: #4FC2CC;
+  --accent-strong: #85DBE2;
+  --accent-bg: #113238;
+  --focus: #4FC2CC;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 18px rgba(0, 0, 0, .3);
+
+  --ev-observed-fg: #9DD47C;
+  --ev-observed-bg: #1D2E16;
+  --ev-observed-bd: #37522A;
+  --ev-documented-fg: #9AB8F1;
+  --ev-documented-bg: #16213A;
+  --ev-documented-bd: #2C3E63;
+  --ev-vendor-claim-fg: #E2B767;
+  --ev-vendor-claim-bg: #2E2412;
+  --ev-vendor-claim-bd: #4E3D1B;
+  --ev-not-found-fg: #F19CAA;
+  --ev-not-found-bg: #33161C;
+  --ev-not-found-bd: #58262F;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+a { color: var(--accent-strong); text-underline-offset: 2px; }
+a:hover { color: var(--accent); }
+button { font: inherit; color: inherit; }
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* ---------- masthead ---------- */
+.masthead {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.masthead-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 20px;
+  padding: 14px 22px 12px;
+}
+.wordmark {
+  font-family: Fraunces, "Iowan Old Style", Georgia, serif;
+  font-weight: 700;
+  font-size: 25px;
+  letter-spacing: -.015em;
+  margin: 0;
+  line-height: 1.1;
+}
+.wordmark span { color: var(--accent); }
+.masthead-sub {
+  color: var(--text-3);
+  font-size: 12.5px;
+  max-width: 46ch;
+  line-height: 1.4;
+}
+.masthead-tools { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+.tabs { display: flex; gap: 2px; background: var(--surface-2); padding: 3px; border-radius: 7px; }
+.tab {
+  border: 0;
+  background: transparent;
+  padding: 6px 13px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.icon-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 7px;
+  padding: 6px 11px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--text-2);
+}
+.icon-btn:hover { border-color: var(--border-strong); color: var(--text); }
+
+/* ---------- evidence legend ---------- */
+.legend {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 10px 22px 12px;
+  display: grid;
+  gap: 8px 26px;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+}
+.legend-item { display: flex; gap: 9px; align-items: flex-start; font-size: 12.5px; color: var(--text-2); line-height: 1.4; }
+.legend-item b { color: var(--text); font-weight: 600; }
+.caveat {
+  grid-column: 1 / -1;
+  border-left: 2px solid var(--accent);
+  padding: 2px 0 2px 12px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.45;
+  max-width: 105ch;
+}
+
+/* ---------- evidence chips ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+.chip.sw { width: 26px; height: 18px; padding: 0; justify-content: center; }
+.chip.sw::before { display: none; }
+.ev-observed { color: var(--ev-observed-fg); background: var(--ev-observed-bg); border-color: var(--ev-observed-bd); }
+.ev-documented { color: var(--ev-documented-fg); background: var(--ev-documented-bg); border-color: var(--ev-documented-bd); }
+.ev-vendor-claim { color: var(--ev-vendor-claim-fg); background: var(--ev-vendor-claim-bg); border-color: var(--ev-vendor-claim-bd); }
+.ev-not-found { color: var(--ev-not-found-fg); background: var(--ev-not-found-bg); border-color: var(--ev-not-found-bd); }
+
+/* ---------- shell ---------- */
+.shell {
+  display: grid;
+  grid-template-columns: 272px minmax(0, 1fr);
+  align-items: start;
+}
+.rail {
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  max-height: 100dvh;
+  overflow-y: auto;
+  padding: 14px 12px 40px;
+}
+.filter-wrap { position: relative; margin-bottom: 12px; }
+.filter {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.filter::placeholder { color: var(--text-3); }
+.rail-group { margin-bottom: 16px; }
+.rail-group > h2 {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0 0 6px 8px;
+  font-weight: 600;
+}
+.rail-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.rail-btn {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  padding: 6px 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 1.3;
+  color: var(--text-2);
+}
+.rail-btn:hover { background: var(--surface-2); color: var(--text); }
+.rail-btn[aria-current="true"] {
+  background: var(--accent-bg);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.rail-name { flex: 1; min-width: 0; }
+.dsa {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-3);
+  flex: none;
+}
+.rail-btn[aria-current="true"] .dsa { border-color: var(--accent); color: var(--accent-strong); }
+.rail-count { font-size: 11.5px; color: var(--text-3); margin: 0 0 10px 8px; }
+
+.main { padding: 24px 30px 90px; min-width: 0; max-width: 1180px; }
+.view[hidden] { display: none; }
+
+/* ---------- product header ---------- */
+.phead { margin-bottom: 26px; }
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 6px;
+}
+.phead h1 {
+  font-family: Fraunces, "Iowan Old Style", Georgia, serif;
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.08;
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+.phead .vendor { color: var(--text-3); font-size: 13.5px; }
+.phead .summary { max-width: 68ch; color: var(--text-2); margin: 12px 0 0; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-top: 14px; }
+.pill {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 3px 11px;
+  color: var(--text-2);
+}
+.pill.solid { background: var(--accent-bg); border-color: var(--accent); color: var(--accent-strong); }
+.capture-status { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--text-3); }
+
+/* ---------- stage cards ---------- */
+.stages { display: flex; flex-direction: column; gap: 14px; }
+.stage {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 8px 24px;
+  scroll-margin-top: 92px;
+}
+.stage.flash { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+.stage-head { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; }
+.stage-num {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.stage-name {
+  font-family: Fraunces, "Iowan Old Style", Georgia, serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin: 0;
+}
+.stage-gloss { color: var(--text-3); font-size: 12.5px; flex: 1 1 100%; margin: -2px 0 2px; }
+.prio {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.stage-body p { margin: 0 0 10px; max-width: 62ch; }
+.stage-body p:last-child { margin-bottom: 0; }
+blockquote {
+  margin: 0 0 10px;
+  padding: 8px 0 8px 13px;
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-2);
+  font-family: Fraunces, Georgia, serif;
+  font-size: 14.5px;
+  line-height: 1.45;
+  max-width: 60ch;
+}
+.srcs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.src {
+  font-size: 11.5px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 2px 8px;
+  text-decoration: none;
+  color: var(--text-2);
+  background: var(--surface-2);
+}
+.src:hover { border-color: var(--accent); color: var(--accent-strong); }
+.src::after { content: " \2197"; font-size: 9px; vertical-align: super; }
+
+/* ---------- frame ---------- */
+.frame {
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.frame.empty {
+  border: 1px dashed var(--border-strong);
+  background: repeating-linear-gradient(135deg, transparent 0 9px, var(--surface-2) 9px 10px);
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  text-align: center;
+}
+.frame.empty .fl {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.frame.empty .fp {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--text-2);
+  word-break: break-all;
+  line-height: 1.35;
+}
+
+/* ---------- stage compare ---------- */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+.controls label { font-size: 12.5px; color: var(--text-2); }
+select {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+.cmp-group { margin-bottom: 26px; }
+.cmp-group > h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--border);
+}
+.cmp-group .cnt { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--text-3); font-weight: 400; }
+.cmp-list { display: flex; flex-direction: column; gap: 9px; }
+.cmp-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 12px 15px;
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 6px 20px;
+}
+.cmp-row .who { display: flex; flex-direction: column; gap: 5px; align-items: flex-start; }
+.cmp-row .who a { font-weight: 600; font-size: 14px; text-decoration: none; color: var(--text); }
+.cmp-row .who a:hover { color: var(--accent); text-decoration: underline; }
+.cmp-row .who .tr { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--text-3); }
+.cmp-row p { margin: 0; color: var(--text-2); max-width: 78ch; }
+
+/* ---------- matrix ---------- */
+.matrix-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); }
+table.matrix { border-collapse: separate; border-spacing: 0; font-size: 12px; width: max-content; min-width: 100%; }
+table.matrix th, table.matrix td { padding: 0; }
+table.matrix thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  font-weight: 600;
+  padding: 9px 6px;
+  text-align: center;
+  z-index: 2;
+}
+table.matrix thead th:first-child { left: 0; z-index: 3; text-align: left; padding-left: 14px; }
+table.matrix tbody th {
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  text-align: left;
+  font-weight: 500;
+  font-size: 12.5px;
+  padding: 6px 14px 6px 14px;
+  white-space: nowrap;
+  z-index: 1;
+}
+table.matrix tbody td { border-bottom: 1px solid var(--border); text-align: center; }
+table.matrix tbody tr:hover th, table.matrix tbody tr:hover td { background: var(--surface-2); }
+.cell-btn {
+  width: 100%;
+  min-width: 62px;
+  border: 0;
+  background: transparent;
+  padding: 5px 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.mx {
+  display: block;
+  width: 46px;
+  height: 20px;
+  line-height: 18px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.matrix-note { font-size: 12.5px; color: var(--text-3); margin-top: 12px; max-width: 80ch; }
+
+.section-intro { max-width: 72ch; color: var(--text-2); margin: 0 0 18px; }
+.section-intro strong { color: var(--text); }
+h2.view-title {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  margin: 0 0 8px;
+}
+.empty-msg { color: var(--text-3); font-size: 13px; padding: 10px 8px; }
+
+@media (max-width: 1000px) {
+  .stage { grid-template-columns: minmax(0, 1fr); }
+  .frame { max-width: 460px; }
+  .cmp-row { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--border); }
+  .main { padding: 20px 16px 70px; }
+  .legend { padding: 10px 16px 12px; }
+  .masthead-inner { padding: 12px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <h1 class="wordmark">Journey<span>&#8202;/&#8202;</span>Atlas</h1>
+    <div class="masthead-sub">Comparator journeys from course materials to practice, stage by stage, with the evidence class for every cell. Research date 9 September 2026.</div>
+    <div class="masthead-tools">
+      <div class="tabs" role="tablist" aria-label="Views">
+        <button class="tab" role="tab" id="tab-journey" aria-selected="true" aria-controls="view-journey">Journey</button>
+        <button class="tab" role="tab" id="tab-stage" aria-selected="false" aria-controls="view-stage">Stage compare</button>
+        <button class="tab" role="tab" id="tab-matrix" aria-selected="false" aria-controls="view-matrix">Matrix</button>
+      </div>
+      <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme">Theme</button>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span class="chip ev-observed">observed</span><span>Seen in the running product, a screenshot, a public API or the shipped JavaScript.</span></div>
+    <div class="legend-item"><span class="chip ev-documented">documented</span><span>Stated in the vendor&rsquo;s own help centre, policy or guide.</span></div>
+    <div class="legend-item"><span class="chip ev-vendor-claim">vendor claim</span><span>A marketing assertion with no independent support.</span></div>
+    <div class="legend-item"><span class="chip ev-not-found">not found</span><span>Could not be established from public sources. A gap in our knowledge, not proof of absence.</span></div>
+    <p class="caveat">StudyCog was missed by the first 50-product survey because studycog.co.uk is a client-rendered SPA that serves crawlers a short placeholder instead of the page (<a href="https://github.com/AiBiSolutions-uk/bubblewrap/issues/25">issue&nbsp;25</a>). Read every <b>not found</b> below as &ldquo;not found in public documentation&rdquo;, never as &ldquo;the product does not do this&rdquo;.</p>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Products">
+    <div class="filter-wrap">
+      <label class="mono" for="filter" style="display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:5px;">Filter products</label>
+      <input class="filter" id="filter" type="search" placeholder="name, id or track" autocomplete="off">
+    </div>
+    <p class="rail-count" id="rail-count"></p>
+    <div id="rail"></div>
+  </nav>
+
+  <main class="main">
+    <section class="view" id="view-journey" role="tabpanel" aria-labelledby="tab-journey">
+      <div class="phead" id="phead"></div>
+      <div class="stages" id="stages"></div>
+    </section>
+
+    <section class="view" id="view-stage" role="tabpanel" aria-labelledby="tab-stage" hidden>
+      <h2 class="view-title">Stage compare</h2>
+      <p class="section-intro">One stage, every product, in one column. <strong>Orient</strong> is the stage to look at first: it is the screen immediately after upload finishes, and almost every product is either a format catalogue or a blank.</p>
+      <div class="controls">
+        <label for="stage-select">Stage</label>
+        <select id="stage-select"></select>
+        <label><input type="checkbox" id="group-toggle" checked> Group by evidence class</label>
+      </div>
+      <div id="cmp"></div>
+    </section>
+
+    <section class="view" id="view-matrix" role="tabpanel" aria-labelledby="tab-matrix" hidden>
+      <h2 class="view-title">Matrix</h2>
+      <p class="section-intro">Every product against every stage. Click a cell to open that product at that stage in the Journey view.</p>
+      <div class="matrix-scroll" id="matrix"></div>
+      <p class="matrix-note">Cell codes: <span class="mono">OBS</span> observed &middot; <span class="mono">DOC</span> documented &middot; <span class="mono">VEN</span> vendor claim &middot; <span class="mono">&mdash;</span> not found.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Journey Atlas — data and view logic.
+   Sources: docs/research/existing-learning-journeys.md (branch
+   research/existing-learning-journeys), existing-learning-journeys-video.md,
+   studycog.md, combination-learning-evidence.md, and issues 15/22/24/25.
+   Every cell below is traceable to one of those reports.
+------------------------------------------------------------------ */
+
+var STAGES = [
+  { id: "entry",      name: "Entry",             gloss: "How a student gets an account, and who configures it." },
+  { id: "ingest",     name: "Ingest",            gloss: "What sources it accepts, and what happens when ingestion fails." },
+  { id: "orient",     name: "Orient",            gloss: "The screen immediately after upload finishes. The market gap this research identified." },
+  { id: "select",     name: "Select",            gloss: "Who chooses the next activity, the student or the system." },
+  { id: "generate",   name: "Generate",          gloss: "What activity formats it produces." },
+  { id: "feedback",   name: "Feedback",          gloss: "What happens when the student answers." },
+  { id: "switch",     name: "Switch",            gloss: "How the student changes approach, regenerates or rejects a bad activity." },
+  { id: "trace",      name: "Trace",             gloss: "Whether a generated activity links back to the exact place in the source." },
+  { id: "return",     name: "Return",            gloss: "What a second session looks like." },
+  { id: "access",     name: "Access",            gloss: "Accessibility controls and any conformance claim, with auditor and date where known." },
+  { id: "signal",     name: "Signal",            gloss: "What drives adaptation: stated preference, observed performance, teacher assignment, diagnosis, or none." },
+  { id: "authorship", name: "Authorship",        gloss: "The essay-track boundary on who writes the submitted text." }
+];
+
+var PRIORITY = ["orient", "select", "generate", "feedback", "return"];
+
+var EV_LABEL = { "observed": "observed", "documented": "documented", "vendor-claim": "vendor claim", "not-found": "not found" };
+var EV_CODE  = { "observed": "OBS", "documented": "DOC", "vendor-claim": "VEN", "not-found": "—" };
+var EV_ORDER = ["observed", "documented", "vendor-claim", "not-found"];
+
+var TRACK_LABEL = { revision: "Source-to-revision journeys", essay: "Essay-support journeys", boundary: "Boundary cases that look comparable and are not" };
+
+/* shorthand source builders for links used repeatedly */
+function s(label, url) { return { label: label, url: url }; }
+
+var PRODUCTS = [
+
+/* ============================ REVISION TRACK ============================ */
+{
+  id: "studycog",
+  name: "StudyCog",
+  vendor: "ThinkCog Ltd",
+  url: "https://studycog.co.uk/",
+  tracks: ["revision", "essay"],
+  dsa: true,
+  summary: "A UK DSA-distributed accessible research platform that ingests the student's own PDFs and Word files and produces read-aloud, reformatted reading, summaries, themes, a podcast, a quiz and a five-stage assignment pipeline over one library. It is the closest single comparator located to date, and it corrects three conclusions of the 50-product survey.",
+  stages: {
+    entry: { e: "documented", t: "A 16-character licence code from the supplier, or an emailed activation link. There is no needs intake, no support-needs questionnaire and no configuration wizard; the only per-licence pre-configuration found is an admin flag that seeds demo content.", quote: "You do not need to change any settings to start using StudyCog. The defaults work well for most students.", src: [s("StudyCog", "https://studycog.co.uk/")] },
+    ingest: { e: "observed", t: "PDF, DOC, DOCX, RTF, ODT, TXT and MD to 100MB; screenshots and handwritten notes as PNG, JPG, HEIC and WebP to 20MB with OCR. Processing runs in a named Processing Centre at the bottom of the screen rather than a blocking spinner, and failure states are named in words with a route out of each. Video also shows a card reading “1 image • 0 words” that never updates, indistinguishable from genuinely blank content.", quote: "The document appears to be empty or couldn't be processed." },
+    orient: { e: "observed", t: "A six-tile dashboard: My Library, Assignments, My Tasks, My Notes, Find Research, Reading Speed. Nothing on it refers to the content of anything the student uploaded. Opening a processed document shows a fixed three-line “Before you read” caveat, not a per-document report of what that file actually yielded." },
+    select: { e: "observed", t: "The split is the most consequential finding in the report. The reading side is a menu: the AI Tools dropdown holds Summarise, Simplify Language, Explore Themes, Back to Original, Test Understanding and Create Podcast, and nothing is recommended or sequenced. The essay side is a real five-stage sequence with a “Step 3 of 5” counter and a Continue button." },
+    generate: { e: "observed", t: "Read-aloud with word-by-word highlighting, Easy-to-Read reflow, summary, Explore Themes, simplified language, a two-speaker podcast with transcript and MP3, a comprehension quiz, document chat, requirement extraction, structured outline, criteria-referenced feedback, Proofread & Polish, references with Zotero/Mendeley/EndNote export, a comparison matrix and RSVP reading. Flashcards are absent from the student surface." },
+    feedback: { e: "observed", t: "The Writing Coach returns, per section, a RAG status badge, a verdict, collapsible Strengths and Areas to Improve, and each area carries a “Would strengthen mark” tag with the suggestion phrased as a question rather than a rewrite. An Add Task control turns a piece of feedback into a tracked next action. Quiz results carry Performance by Topic and Practise Weak Topics." },
+    switch: { e: "observed", t: "Switching representation is cheap and reversible: Original and Easy-to-Read is a persistent toggle, Back to Original sits inside the AI Tools menu, and a split view exists. Switching between approaches to the same source is a menu re-pick; nothing carries state from a summary into a quiz, or from a weak quiz topic into a re-read." },
+    trace: { e: "observed", t: "This is where StudyCog contradicts the survey's market-wide finding. Summary sentences carry inline anchors giving page number and section name; Explore Themes carries “Where did this come from?”; the quiz carries “See in document”; the reader popover carries “See in Original (p.1)”. Seven distinct copy strings ship for ways the anchor can fail, which is not something a decorative citation feature needs.", quote: "That wording appears more than once. Try selecting a longer or more unique phrase." },
+    return: { e: "observed", t: "Better provided for than anything in the survey. Assignments resume with a step counter, a progress percentage and Continue; the library has Recently Viewed; quiz history and feedback history persist; accessibility settings carry across devices. On trial expiry the student is told their documents, notes and annotations are safe." },
+    access: { e: "observed", t: "A single Accessibility panel on Shift+S covering text-to-speech provider and voice, speed, font size, line spacing, seven font families including OpenDyslexic, seven colour schemes, Reduce Motion, Bionic Reading and a Reading Ruler; plus Skip Citations While Reading, Speak Maths and Tables, RSVP, and fully remappable keyboard shortcuts. The conformance claim is weak: a self-declared “100%” WCAG figure with no named auditor, no date, and one of the four WCAG principles missing from the scorecard." },
+    signal: { e: "observed", t: "Three signals, none of them a support profile: student-set presentation preferences, the uploaded brief and marking criteria which shape the outline and the feedback criteria, and observed within-format quiz performance driving Practise Weak Topics. Diagnosis, condition and needs assessment change nothing. The assessor-facing Recommendation Builder runs the opposite direction, generating justification prose for the assessor's report." },
+    authorship: { e: "documented", t: "Stated at least six times across product pages and the FAQ, in language as crisp as Thesify's or Microsoft's.", quote: "No. StudyCog's AI is specifically designed NOT to write content for you... The actual writing — the ideas, arguments, and words — must come from you." }
+  }
+},
+{
+  id: "notebooklm",
+  name: "NotebookLM / Gemini Notebook",
+  vendor: "Google",
+  url: "https://notebooklm.google.com/",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "The free benchmark for source-grounded generation from a student's own uploads, in many formats. Any paid product in this market has to justify itself against what NotebookLM already gives away.",
+  stages: {
+    entry: { e: "documented", t: "A personal or work/school Google account. Workspace admins toggle the whole product on or off for a tenant; per-learner configuration was not found.", src: [s("Workspace admin control", "https://support.google.com/a/answer/15239506?hl=en")] },
+    ingest: { e: "observed", t: "Docs, Slides up to 100, Sheets, Word, PPT, PDF, ePub, TXT, MD, CSV, images, audio, YouTube URLs with captions and web URLs, at 500,000 words or 200MB per source. Failure is handled by named conditions rather than a status display: no captions, no speech, low audio quality, paywalled page, revoked Drive access. Whether an image-only scanned PDF is OCR'd, flagged or silently degraded is not documented.", src: [s("Source limits", "https://support.google.com/notebooklm/answer/16215270?hl=en-GB")] },
+    orient: { e: "observed", t: "A catalogue. The Studio panel is a tile grid of generable formats and no system-chosen first action is documented. Video shows two things the help pages do not: a notebook-level abstract in the chat pane immediately after import, and a per-source AI summary on each document, plus one-click auto-tagging into named collections whose checkboxes scope which sources a generated artefact draws on.", src: [s("NotebookLM overview", "https://support.google.com/notebooklm/answer/16164461?hl=en-GB")] },
+    select: { e: "documented", t: "The student chooses from the catalogue. Reports offer an “AI suggested” type, but no content-based recommendation of which activity to do was found.", src: [s("Workspace update", "https://workspaceupdates.googleblog.com/2025/09/flashcards-quizzes-reports-notebook-lm-google-education.html")] },
+    generate: { e: "observed", t: "Study guides, briefings, audio overviews, mind maps, flashcards, quizzes, infographics and slide decks, plus Video Overview and Data Table in the current Studio grid. Generation is asynchronous and non-blocking: two jobs run at once while the student keeps reading.", src: [s("NotebookLM overview", "https://support.google.com/notebooklm/answer/16164461?hl=en-GB")] },
+    feedback: { e: "observed", t: "Self-marked “Got it!” and “Missed it!”, an Explain button, and an end-of-session result offering review, retake or “Only cards you missed”. Quiz answers can be explained on request. Adaptive difficulty was not found; difficulty is a setting, not something the system adapts.", src: [s("Flashcards and quizzes", "https://support.google.com/notebooklm/answer/16958963?hl=en-GB")] },
+    switch: { e: "observed", t: "Difficulty easy, medium or hard, a custom prompt, quantity, retake, “Only cards you missed”, and deleting a mind map to regenerate it. No reject or report affordance for a bad activity was found.", src: [s("Mind maps", "https://support.google.com/notebooklm/answer/16212283?hl=en-GB")] },
+    trace: { e: "observed", t: "Chat answers carry numbered citation markers, and clicking one opens the Source guide pane at the cited line with it highlighted in situ. Mind-map nodes open a scoped chat query rather than jumping to a passage, and click-through to a PDF page or a video timestamp is not documented.", quote: "NotebookLM can be inaccurate; please double check its responses" },
+    return: { e: "observed", t: "Progress persists within a notebook. There is no cross-notebook dashboard and no spaced repetition.", quote: "Gemini Notebook will remember your progress, and you can pick up where you left off if you leave and return" },
+    access: { e: "documented", t: "A third-party-audited VPAT exists, but its per-criterion ratings could not be extracted during this research, so the actual conformance position is unknown.", src: [s("NotebookLM ACR", "https://services.google.com/fh/files/misc/google_notebooklm_vpat.pdf")] },
+    signal: { e: "not-found", t: "No adaptation signal was located. There is no prior-knowledge check, no preference intake and no learning-styles claim. Everything that changes behaviour is explicit configuration: which sources you tick, the focus areas you type, response length, and a Default / Learning guide / Custom chat style." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located in the reports, because the product does not position itself against essay writing." }
+  }
+},
+{
+  id: "gemini-classroom",
+  name: "Gemini in Classroom",
+  vendor: "Google",
+  url: "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "The clearest example of an educator preparing content and tools for a named cohort, with entry through a small tile set rather than a full catalogue. It prepares content, not support settings, and the adaptation signal is the assigned class rather than the learner.",
+  stages: {
+    entry: { e: "observed", t: "An administrator enables Gemini in Classroom and a teacher assigns. Students use Gems and Gemini Notebooks assigned to them by teachers.", src: [s("Classroom help", "https://support.google.com/edu/classroom/answer/15410566?hl=en-GB")] },
+    ingest: { e: "documented", t: "Class materials are synchronised into per-class notebooks. No separate student-facing upload path is documented for this surface, and ingestion failure handling was not found." },
+    orient: { e: "observed", t: "Starter tiles, a hybrid of catalogue and prompt. This is the middle position between a single recommendation and a full format catalogue.", quote: "help me learn, quiz me, make flashcards or create a study guide" },
+    select: { e: "observed", t: "The student picks a tile, with the class and assignment supplying context for “context-aware help and tailored practice”. Nothing content-based is recommended." },
+    generate: { e: "observed", t: "Audio and Video Overviews, flashcards, interactive visual diagrams, quizzes and study guides." },
+    feedback: { e: "not-found", t: "What happens after a student answers a Classroom-surfaced quiz question is not documented on the reachable first-party pages." },
+    switch: { e: "not-found", t: "No control for regenerating, rejecting or reporting a poor activity is documented for this surface." },
+    trace: { e: "documented", t: "Notebook citation behaviour applies, so traceability is inherited from NotebookLM at the same undocumented granularity." },
+    return: { e: "observed", t: "Per-class notebooks stay synchronised as courses progress, so returning finds current material. Student-level progress persistence for generated activities is not documented." },
+    access: { e: "documented", t: "Admin controls exist per organisation. No Classroom-specific accessibility conformance report for the Gemini surface was located." },
+    signal: { e: "observed", t: "Teacher assignment, plus the selected class and assignment as context. Nothing derives from the individual learner." },
+    authorship: { e: "not-found", t: "No authorship boundary statement was located for this surface." }
+  }
+},
+{
+  id: "chatgpt-study-mode",
+  name: "ChatGPT Study Mode",
+  vendor: "OpenAI",
+  url: "https://help.openai.com/en/articles/11780217-chatgpt-study-mode-faq",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "A conversational study surface with no screens to speak of, turned on per conversation or by Edu workspace configuration. It is the case where the whole journey collapses into a chat thread, and the structured independent testing found it reframes rather than diagnoses.",
+  stages: {
+    entry: { e: "documented", t: "Turned on per conversation through the slash menu, and applied by admin configuration in some Edu workspaces. The help centre refused unauthenticated fetches during this research.", src: [s("Study mode FAQ", "https://help.openai.com/en/articles/11780217-chatgpt-study-mode-faq")] },
+    ingest: { e: "not-found", t: "Class notes, a syllabus or a photo can be attached, but the accepted file types, size limits and failure behaviour for this surface could not be established." },
+    orient: { e: "documented", t: "There is no overview screen at all. The journey is conversational from the first message, so nothing exists to orient the student to what was uploaded." },
+    select: { e: "documented", t: "The system initiates Socratic questioning; formats are requested in natural language rather than picked from a menu." },
+    generate: { e: "documented", t: "Guided explanations, quizzes and flashcard-style review." },
+    feedback: { e: "documented", t: "Feedback and hints, with personalisation only if the separate Memory setting is on. Independent structured testing across three subjects found the tutor reframes a stuck student's question instead of diagnosing the gap, and gets slower as it does." },
+    switch: { e: "not-found", t: "Redirection happens conversationally. No discrete control for rejecting or regenerating an activity was found." },
+    trace: { e: "not-found", t: "No source citation behaviour is documented for files a student attaches to a study conversation." },
+    return: { e: "not-found", t: "Continuity depends on general chat history and Memory. No study-specific resume was found." },
+    access: { e: "documented", t: "The OpenAI Trust Portal lists a VPAT. Whether it is freely downloadable was not resolved." },
+    signal: { e: "documented", t: "Memory, which is accumulated stated preference, and only when a separate account setting is enabled. No learning-styles claim." },
+    authorship: { e: "not-found", t: "No authorship boundary statement specific to Study Mode was located." }
+  }
+},
+{
+  id: "copilot-study-learn",
+  name: "Microsoft Copilot Study and Learn",
+  vendor: "Microsoft",
+  url: "https://support.microsoft.com/en-us/education/copilot/study-learn-agent",
+  tracks: ["revision", "essay"],
+  dsa: false,
+  summary: "The only product located that carries both a revision activity set and writing coaching over the same uploads, which makes it the nearest existing instance of our combination. It arrives pre-installed for Education-licensed tenants, and it stops short of per-student preparation.",
+  stages: {
+    entry: { e: "observed", t: "Pre-installed for Education-licensed users. Admins set the education tenant identifier and student age group, and only users flagged as 13 or older with the required consent get access.", quote: "The agent is preinstalled and accessible in the Microsoft Copilot app for Education users - no manual deployment or installation steps are needed", src: [s("Role-based onboarding", "https://support.microsoft.com/en-us/education/role-based-onboarding-study-learn-agent")] },
+    ingest: { e: "observed", t: "DOCX, PPTX, PDF, URLs, web pages and Copilot Pages. The only ingestion signal is a blanket caution, with no per-file status.", quote: "Very large files or collections of files may result in reduced activity quality", src: [s("Study and Learn agent", "https://support.microsoft.com/en-us/education/copilot/study-learn-agent")] },
+    orient: { e: "not-found", t: "No post-upload screen is documented. What the student sees once a file finishes processing could not be established from the reachable first-party pages." },
+    select: { e: "documented", t: "A menu of activity types. No content-based recommendation of which activity to do next was found." },
+    generate: { e: "documented", t: "Scaffolded conversations, flashcards with hints, quizzes, matching, fill-in-the-blank, cited web images, and writing coaching." },
+    feedback: { e: "documented", t: "Explanations that reinforce correct answers and explain why incorrect answers are wrong. Adaptive difficulty was not present on the fetched product page." },
+    switch: { e: "not-found", t: "No control for regenerating, rejecting or reporting a poor activity is documented." },
+    trace: { e: "observed", t: "Citations exist but the granularity is not stated, so whether a student can open the exact slide or page behind a question is unknown.", quote: "Citations are included so you can trace any piece of information back to your original materials" },
+    return: { e: "not-found", t: "No resume behaviour or progress persistence is documented for the agent." },
+    access: { e: "not-found", t: "Microsoft publishes accessibility conformance reports centrally, but none named for this agent was located." },
+    signal: { e: "documented", t: "Observed answers within a session. Educator pre-configuration of an individual's activities was not found; the documentation states the opposite.", quote: "The Study and Learn Agent is a private experience for each student" },
+    authorship: { e: "documented", t: "A mainstream product carrying our essay-support boundary as a one-line feature.", quote: "Writing support: Coaching through the writing process without writing for you" }
+  }
+},
+{
+  id: "genio-notes",
+  name: "Genio Notes",
+  vendor: "Genio, formerly Glean",
+  url: "https://genio.co/notes",
+  tracks: ["revision"],
+  dsa: true,
+  summary: "The DSA benchmark for capture-to-recall, with the strongest verified accessibility position in the assistive cluster. It deliberately does not remember what the student practised, and it states plainly that no third party may manage the account.",
+  stages: {
+    entry: { e: "observed", t: "The equipment supplier sends a licence key and the student redeems it. The supplier has no access to account data or usage. Institutional admins can toggle Outline and Quiz Me per user, which is the only per-user administrative control found anywhere in the DSA cluster.", quote: "Only you can manage your account, and we will only help with account details when you contact us from that email address", src: [s("DSA help", "https://help.genio.co/article/146-disabled-student-allowance-dsa-uk-students-only"), s("Feature matrix", "https://genio.co/resources/product-and-feature-guides/which-genio-notes-features-do-i-have-access-to")] },
+    ingest: { e: "documented", t: "Live or recorded audio, slides, images with OCR, PDFs and video in beta. Failed-ingestion handling was not found: nothing documents what the student sees when a source does not process.", src: [s("Genio Notes", "https://genio.co/notes")] },
+    orient: { e: "not-found", t: "No post-upload or post-capture orientation screen is documented. What the student sees once a recording finishes processing could not be established." },
+    select: { e: "observed", t: "The student presses Study Tools, then Quiz Me. Nothing is proposed and nothing is sequenced." },
+    generate: { e: "documented", t: "Transcript, AI Outline and a multiple-choice Quiz Me at five, 10 or 20 questions. No flashcards, mind maps or infographics were found." },
+    feedback: { e: "observed", t: "A results summary highlighting strong and weak areas after a quiz attempt. Nothing routes the student from a weak area back into the material." },
+    switch: { e: "observed", t: "Retake the quiz or generate a new set of questions, and choose whether to include slides or PDFs before generating. The format is fixed to multiple choice." },
+    trace: { e: "documented", t: "Notes and summaries link to moments in the recording. Slide or page granularity was not found." },
+    return: { e: "observed", t: "The return journey is explicitly severed, which makes Genio the clearest counter-example to durable practice state in the DSA segment.", quote: "We don't store your AI data, so your results will only be available during the study session. If you leave the app, you will have to generate a new quiz", src: [s("Quiz Me", "https://genio.co/notes/quiz-me")] },
+    access: { e: "observed", t: "Full WCAG 2.1 and 2.2 Level AA compliance verified by third-party auditor Level Access as of April 2026, with 400% zoom and reflow and JAWS, VoiceOver and TalkBack testing. Candid gaps: no text-to-speech, no dedicated high-contrast mode, and no built-in font or font-size control.", src: [s("Accessibility and Glean", "https://help.genio.co/article/24-accessibility-and-glean")] },
+    signal: { e: "documented", t: "Framed around access barriers, naming working memory, processing and motor barriers. No learning-styles claim, and nothing observed feeds performance back into what is offered." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+{
+  id: "jamworks",
+  name: "Jamworks",
+  vendor: "Jamworks",
+  url: "https://www.jamworks.com/features",
+  tracks: ["revision"],
+  dsa: true,
+  summary: "Lecture capture that bundles recording, captions, notes, highlights, summary and quiz into one session hub. Its AI Assistant menu is a representation menu rather than a study-technique menu, which is a meaningfully different framing to test.",
+  stages: {
+    entry: { e: "documented", t: "The assessor toolkit offers demos and training. Account pre-configuration by an assessor or trainer was not found.", src: [s("DSA toolkit", "https://www.jamworks.com/dsa-toolkit")] },
+    ingest: { e: "observed", t: "Record lectures live or upload media, and upload slideshows during class with notes attached to individual slides. Video shows an explicit processing wait before the artefacts appear, which is honest but blocking." },
+    orient: { e: "documented", t: "A session hub bundling the recording, captions, notes, highlight clips, summary and quiz. It orients the student to the session, not to the content across sessions." },
+    select: { e: "observed", t: "Named modes: Quiz Me, Creative Story, Definitions, JamQuiz, plus simplify, analogy, emoji and memory aids. Who initiates was not found; the menu is a set of ways to re-express the same content rather than a set of study techniques.", src: [s("Jamworks features", "https://www.jamworks.com/features")] },
+    generate: { e: "documented", t: "Summaries, key points, flashcards, quizzes, audio chapters and an AI tutor." },
+    feedback: { e: "not-found", t: "What happens when a student answers is not documented. Video shows Quiz Me running as conversation with a bare “that is correct” and no explanation." },
+    switch: { e: "not-found", t: "No control for rejecting or regenerating a poor activity is documented." },
+    trace: { e: "observed", t: "Flashcards link back to lecture highlights. Whether that resolves to an exact timestamp or slide is not stated." },
+    return: { e: "not-found", t: "No resume behaviour or progress persistence is documented." },
+    access: { e: "documented", t: "Claims full WCAG 2.2 AA with a weekly internal automated audit. The statement was last reviewed 1 June 2026. No third-party auditor is named." },
+    signal: { e: "documented", t: "Not documented. No learning-styles claim was found." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+{
+  id: "caption-ed",
+  name: "Caption.Ed",
+  vendor: "CareScribe",
+  url: "https://caption-ed.com/for-students/",
+  tracks: ["revision"],
+  dsa: true,
+  summary: "Session capture with captions and chaptered summaries, where revision activities are produced largely automatically rather than chosen. Its accessibility statement is unusually candid in what it does not claim.",
+  stages: {
+    entry: { e: "not-found", t: "No trainer or assessor pre-configuration of a student account is documented." },
+    ingest: { e: "observed", t: "Record the audio or video of a session and take notes alongside it, then upload slides after the session ends. Failed-ingestion handling was not found.", src: [s("For students", "https://caption-ed.com/for-students/")] },
+    orient: { e: "documented", t: "A library of recordings. There is no orientation to the content of any single recording beyond its chaptered summary." },
+    select: { e: "documented", t: "Largely automatic. Summaries and revision quizzes are produced from the session rather than picked by the student." },
+    generate: { e: "observed", t: "Chaptered summaries and AI revision quizzes." },
+    feedback: { e: "not-found", t: "What happens when the student answers a revision quiz question is not documented." },
+    switch: { e: "not-found", t: "No regenerate, reject or report control is documented." },
+    trace: { e: "observed", t: "Notes and marked transcript sections stay with the recording, so the student can return to the moment. Whether a generated quiz question links back to a timestamp is not documented." },
+    return: { e: "observed", t: "A recording can be revisited at any time in the library. Progress tracking across sessions was not found.", quote: "revisit a Caption.Ed recording at any time in your library" },
+    access: { e: "documented", t: "The statement uses WCAG 2.2 as guiding principles without claiming a conformance level, and was last updated 14 June 2024. Light, dark and sepia themes, playback speed and a custom dictionary are provided.", src: [s("Accessibility statement", "https://caption-ed.com/accessibilitystatement/")] },
+    signal: { e: "not-found", t: "No adaptation signal is documented." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+{
+  id: "lernabl",
+  name: "Lernabl",
+  vendor: "Lernabl",
+  url: "https://lernabl.com/",
+  tracks: ["revision"],
+  dsa: true,
+  summary: "The closest DSA-funded product to our positioning by market, and the furthest by mechanism: it recommends study methods from stated focus areas but, as documented and as demonstrated on video, it ingests no course materials. It is the benchmark for a reversible recommendation and the counter-example for source grounding.",
+  stages: {
+    entry: { e: "observed", t: "Individual subscription at £9.99 a month; institutional plans include five admin accounts. On first login a modal asks for a licence key, and the profile then holds only the registered email and the expiry date. There is no learner profile, no support-needs setup and no diagnosis capture in the onboarding path shown on video.", src: [s("Lernabl", "https://lernabl.com/"), s("Assessors", "https://lernabl.com/assessors-1")] },
+    ingest: { e: "observed", t: "No file upload exists. The student authors Topic Cards by hand with a topic name, paired key terms and definitions, study notes, images, web links and a five-star rating; material arrives by typing, dictating, pasting or scan-pen. Asked on camera about slides and transcripts, the presenter concedes that document import does not exist yet. The one ingestion-quality signal is a word-count nudge when an entry is very brief, which the presenter overrides.", src: [s("Support", "https://lernabl.com/support")] },
+    orient: { e: "observed", t: "A numbered three-step home screen: choose your exam, optionally choose focus areas, choose your study method. There is no topic or source orientation anywhere on it: no overview of what the student has put in, no coverage and no gaps. The entry is exam, then focus, then method." },
+    select: { e: "observed", t: "Catalogue by default, recommendation on request, reversible in one click. With focus set to All the method carousel shows the full catalogue of ten; select Comprehension and it collapses to three. The recommendation is not explained at the point of choice — the tiles just change, and the explanation lives on a separate Focus Areas page.", quote: "choose the focus areas that matter most to you, such as memory, attention or understanding, and then recommends study methods based on your preferences" },
+    generate: { e: "observed", t: "Cornell notes, flashcards, matching, fill-in-the-blanks, concentration exercises, Create A Meme, Funnel and mock exams. Fill In The Blanks carries a Select the Word Mode toggle, which is an explicit easy-or-hard control, plus Change Hidden Words and Reveal Hidden Words." },
+    feedback: { e: "observed", t: "Reveal marks each answer with a green tick or a red cross and highlights the passage inline. There is no explanation of why an answer is wrong and nothing routes the student back to the source note. The sharpest friction finding in the corpus is a mock exam ending on “You need to revise more.” with no next step." },
+    switch: { e: "observed", t: "Deliberately designed for within a method: change the topic card or the exam from two dropdowns without leaving the activity, or re-roll the same activity. Changing method requires going Home and re-entering at step one.", quote: "we want the students to engage with the study material for as long as possible, and that way we're not having to move in and out of things" },
+    trace: { e: "observed", t: "Not possible for generated content, and this is the sharpest finding on Lernabl. Auto-generation is prompted by two short strings, the exam title and the topic name, not by the student's own notes. Generated definitions then sit in the same fields as the student's own material with no visible distinction once saved." },
+    return: { e: "observed", t: "There is no resume. What exists is Saved Sessions, an explicit save-on-completion archive grouped by method, from which ticked cards export to a Word revision pool. The video also shows test rubbish and undated entries in that same birds-eye view.", quote: "Your Saved Sessions are a central hub where all the content you've studied using different methods of Lernabl comes together" },
+    access: { e: "documented", t: "Font and theme preferences, dark mode and text-to-speech, reached from an Accessibility menu item rather than onboarding. No conformance level, auditor or date was located." },
+    signal: { e: "observed", t: "Stated preference only, never observed performance. Optional focus areas filter the method carousel; study preferences capture session length and time of day; mock-exam parameters set difficulty. The assessor guidance maps methods to disability-related impacts, which is a vendor rationale rather than evidence, and the vendor's multi-sensory framing sits close to learning-styles reasoning." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+{
+  id: "knowt",
+  name: "Knowt",
+  vendor: "Knowt",
+  url: "https://knowt.com/",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "A consumer generator with the most legible ingestion flow in the whole corpus: a three-step wizard that scopes the source before generating. It is also the clearest demonstration of a voice tutor failing quietly.",
+  stages: {
+    entry: { e: "documented", t: "Consumer sign-up. Class sections control which files students see and district admins toggle sharing and enrolment, but this is entitlement provisioning, not support settings.", src: [s("Classes", "https://help.knowt.com/en/articles/10722276"), s("District controls", "https://help.knowt.com/en/articles/10297996")] },
+    ingest: { e: "observed", t: "Lecture videos, PDFs, notes, slides, lecture audio, PPTs and YouTube videos. The three-step wizard is the most legible ingestion flow observed: Upload File with a progress bar, Select Output, then Enter Settings, which includes a page-range control so a 300-page PDF can be scoped to one chapter.", src: [s("Knowt", "https://knowt.com/")] },
+    orient: { e: "observed", t: "Materials appear within seconds as study guides, flashcards and quizzes. That is an output, not an orientation: nothing tells the student what the file contained or what it did not cover." },
+    select: { e: "observed", t: "The student chooses the output type inside the wizard, and generated cards are shown for review before Save. Nothing recommends what to do next.", src: [s("PDF summariser", "https://knowt.com/ai-pdf-summarizer")] },
+    generate: { e: "observed", t: "Notes, flashcards, quizzes, practice tests, free-response, games, a podcast generator with a persona and grade-level choice, and a Call Kai voice tutor." },
+    feedback: { e: "observed", t: "Unlimited practice tests and rounds. The video records the voice tutor accepting a wrong answer and ingesting off-task speech, which is a failure mode worth capturing." },
+    switch: { e: "documented", t: "Regenerate and re-take. No reject or report control for a wrong generated item is documented." },
+    trace: { e: "not-found", t: "No source citation inside generated outputs was found, so a student cannot check a card against the page it came from." },
+    return: { e: "observed", t: "A spaced repetition mode exists for flashcard sets." },
+    access: { e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located." },
+    signal: { e: "not-found", t: "No adaptation signal is documented beyond the settings the student picks in the wizard." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+{
+  id: "remnote",
+  name: "RemNote",
+  vendor: "RemNote",
+  url: "https://www.remnote.com/",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "Notes and PDFs turned into spaced-repetition flashcards, with sequencing that exists only inside one format. It is one of the two products the survey used to show that within-format scheduling is solved and cross-format orchestration is not.",
+  stages: {
+    entry: { e: "documented", t: "Consumer sign-up. No educator or trainer configuration path is documented." },
+    ingest: { e: "observed", t: "PDFs, documents and PowerPoint, with an Uploading and Annotating Content section in the help centre. Failed-ingestion handling was not found.", src: [s("RemNote", "https://www.remnote.com/"), s("Help centre", "https://help.remnote.com/en/")] },
+    orient: { e: "observed", t: "Auto-generated flashcards, practice quizzes and a summary are presented together after processing. That is the closest thing in the consumer segment to a post-upload screen, and it is still a set of outputs rather than an orientation to the material." },
+    select: { e: "observed", t: "The student chooses. AI generates from notes, PDFs or lecture transcripts on request." },
+    generate: { e: "observed", t: "Flashcards in several forms — question and answer, cloze, image occlusion, lists and clusters — plus practice quizzes and summaries." },
+    feedback: { e: "documented", t: "Spaced-repetition grading, which drives the scheduler rather than explaining the answer." },
+    switch: { e: "documented", t: "Generated cards can be edited by hand. No reject or report control is documented." },
+    trace: { e: "not-found", t: "No link from a card back to the PDF location it came from was found." },
+    return: { e: "observed", t: "The strongest return story in the consumer segment, and the clearest case of sequencing confined to one format.", quote: "Set your exam date and we'll tell you exactly what to study each day" },
+    access: { e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located." },
+    signal: { e: "observed", t: "Observed review performance through the spaced-repetition scheduler, plus a stated exam date. It never crosses into another format." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+{
+  id: "quizlet",
+  name: "Quizlet",
+  vendor: "Quizlet",
+  url: "https://quizlet.com/",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "The mass-market study-set product, and the one that states our trainer-prepared route is impossible in its own model. Its Learn mode is the other example of sequencing that lives inside a single format.",
+  stages: {
+    entry: { e: "documented", t: "Consumer sign-up, and the clearest documented refusal of third-party account control found anywhere. Teachers may only invite students to a Class or set an Assignment. The help centre refused unauthenticated fetches during this research.", quote: "each Quizlet account is for individual use only and cannot be created or managed by teachers or schools", src: [s("Classes", "https://help.quizlet.com/hc/en-us/articles/360031259591")] },
+    ingest: { e: "documented", t: "Up to two PDF, DOCX or PPTX files of 25MB each, plus pasted text and Google Drive. Failed-ingestion handling was not found." },
+    orient: { e: "documented", t: "A study guide is the post-upload artefact. Nothing was found that reports what the upload yielded or what it missed." },
+    select: { e: "documented", t: "The student chooses a study mode. Nothing recommends which mode to use." },
+    generate: { e: "documented", t: "Study guides, flashcards, practice tests and Learn mode." },
+    feedback: { e: "documented", t: "Learn and Test modes give correctness feedback and drive the next item within the mode." },
+    switch: { e: "documented", t: "Mode switching. No reject or report control for a generated item is documented." },
+    trace: { e: "not-found", t: "No citation back to the uploaded source is documented for generated sets." },
+    return: { e: "documented", t: "Progress persists within a set." },
+    access: { e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located in reachable sources." },
+    signal: { e: "documented", t: "Observed performance within Learn, confined to that one format." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+{
+  id: "studyfetch",
+  name: "StudyFetch",
+  vendor: "StudyFetch",
+  url: "https://www.studyfetch.com/",
+  tracks: ["revision", "essay"],
+  dsa: false,
+  summary: "The fullest upload-to-activity loop caught on video, with a context-sensitive help panel that is the best single pattern in the corpus. Its Essay Grader is also the clearest shipping example of the wrong side of the authorship boundary.",
+  stages: {
+    entry: { e: "observed", t: "A left navigation that is a tool catalogue rather than a topic orientation: Home, Chat, Flashcards, Live Lecture, Tests, QuizFetch, Tutor Me, Essay Grading, Explainers. The first-party site refused unauthenticated fetches, so everything here comes from a vendor-run demo video." },
+    ingest: { e: "observed", t: "Add Material offers Upload Documents, Record Live Lecture, YouTube Video, paste-in materials, handwritten notes and Essay Grader. The upload modal accepts PDF, DOC, DOCX, PPT, PPTX, TXT, PNG, JPEG, MP3 and MP4. Failure behaviour was not shown." },
+    orient: { e: "observed", t: "A generated notes document with headings and bulleted content, chosen as summarised or in-depth at generation time. Like every other product in the corpus, the post-upload screen is an output, not an account of what the file contained." },
+    select: { e: "observed", t: "The student picks from the tool catalogue. A per-item prior-knowledge signal exists and is unusual: the student can state their level of expertise for each individual item uploaded." },
+    generate: { e: "observed", t: "Notes, flashcards, tests, quizzes, explainers, a conversational tutor and essay grading." },
+    feedback: { e: "observed", t: "A wrong answer is marked and the assistant delivers a substantive inline explanation with a running score dial. The explanation carries no citation back to the uploaded source." },
+    switch: { e: "observed", t: "A right-hand assistant panel is present on every screen and is context-sensitive to the current activity, offering different openers on a flashcard, a quiz question and a notes document. That is the best mid-activity escape hatch observed anywhere." },
+    trace: { e: "not-found", t: "No link from a generated item back to the source location was observed or documented." },
+    return: { e: "not-found", t: "No resume or progress persistence was observed in the demo or documented." },
+    access: { e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located; the site refused unauthenticated fetches." },
+    signal: { e: "observed", t: "Student-stated expertise level per uploaded item. Nothing performance-derived was observed." },
+    authorship: { e: "observed", t: "The Essay Grader returns per-criterion scores and a Suggestions column in which each item shows the student's original sentence greyed out above a “Suggested Rewrite” of fully drafted replacement prose, presented as a one-click accept. That is authoring assessed prose on the student's behalf, and it is exactly the boundary the map draws." }
+  }
+},
+{
+  id: "khanmigo",
+  name: "Khanmigo",
+  vendor: "Khan Academy",
+  url: "https://www.khanmigo.ai/",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "A Socratic tutor docked to a publisher-authored course catalogue, not an upload journey. It matters for one thing: a teacher can pre-set two per-student values before the learner arrives, which is the smallest real instance of a prepared arrival found.",
+  stages: {
+    entry: { e: "documented", t: "School or district implementation. Teachers can pre-set two per-student values from the Teacher Dashboard — reading level as Simple, Standard or Professional, and default response language. That is genuinely a prepared presentation setting, at a fraction of the scope our route needs.", src: [s("Khanmigo settings", "https://support.khanacademy.org/hc/en-us/articles/20080075470477")] },
+    ingest: { e: "documented", t: "Learners may attach images only, session-only, never stored. Course-document upload was not found.", src: [s("Image uploads", "https://support.khanacademy.org/hc/en-us/articles/36868912022541")] },
+    orient: { e: "not-found", t: "There is no post-upload screen because there is no upload. Entry is a course catalogue: grade, then subject, then unit, then lesson." },
+    select: { e: "documented", t: "Socratic tutoring over Khan Academy's own curriculum, with teacher-assigned activities. Contextual openers differ by content type, which is a cheap way to make a blank assistant useful." },
+    generate: { e: "documented", t: "Guided questioning for the student; on the teacher side, lesson plans, rubrics, exit tickets and an IEP Assistant that generates IEP text rather than ingesting one." },
+    feedback: { e: "documented", t: "Socratic guidance rather than answers, with a rate-and-redirect control after each response: thumbs up or down, and “Did that answer your question?”. A student replying “not really, I think I need an example” gets a worked analogy." },
+    switch: { e: "not-found", t: "Beyond rate-and-redirect in conversation, no discrete control for rejecting or regenerating an activity is documented." },
+    trace: { e: "documented", t: "Not applicable in the same sense: the content is curriculum-grounded rather than upload-grounded, so there is no student source to cite." },
+    return: { e: "observed", t: "Teachers get an on-demand summary of recent student work, and a Class Snapshot reviews seven days of activity. That is the only genuinely performance-derived adaptation in the corpus, and it adapts the teacher's action rather than the student's activity." },
+    access: { e: "documented", t: "A platform-wide WCAG 2.1 AA statement with annual third-party audits. No Khanmigo-specific VPAT was found." },
+    signal: { e: "documented", t: "Educator-set reading level and language, plus platform mastery data. No learning-styles claim was found." },
+    authorship: { e: "not-found", t: "A tutoring product. No authorship boundary statement covering submitted written work was located." }
+  }
+},
+{
+  id: "century-tech",
+  name: "Century Tech",
+  vendor: "Century Tech",
+  url: "https://www.century.tech/",
+  tracks: ["revision"],
+  dsa: false,
+  summary: "Diagnostic-driven pathways on publisher content, where a teacher reviews the assessment before confirming what the learner works on. It is the closest analogue to a professional reviewing a document before settings activate, and it ingests no student material at all.",
+  stages: {
+    entry: { e: "documented", t: "A teacher runs a Smart Initial Assessment, then must manually assign courses after reviewing the results, and before that confirmation the learner's pathway is not blank. The diagnostic is generated by the system rather than brought in as a document, and what is set is curriculum, not support.", quote: "teachers must manually assign [courses] after reviewing assessment results", src: [s("Course assignment", "https://support.century.tech/support/solutions/articles/44002359899")] },
+    ingest: { e: "documented", t: "None. Worksheet GENai does not accept custom source material uploads, so there is no ingestion stage and no ingestion failure to handle.", src: [s("GENai", "https://support.century.tech/support/solutions/articles/44002529913")] },
+    orient: { e: "not-found", t: "The teacher dashboard has seven tabs. The learner's first screen was not found in reachable documentation." },
+    select: { e: "documented", t: "A system-generated personalised pathway plus manual teacher assignment. This is one of only two places in the survey where sequencing exists across a course, and it runs on publisher content with no upload." },
+    generate: { e: "documented", t: "Nuggets: micro-lessons made of videos, slideshows and self-marking questions." },
+    feedback: { e: "documented", t: "Self-marking questions, and detailed personalised feedback in seconds for writing tasks." },
+    switch: { e: "documented", t: "Worksheet GENai supports regenerate with feedback. A learner-facing reject was not found." },
+    trace: { e: "not-found", t: "No citation or grounding mechanism exists for either GENai tool." },
+    return: { e: "not-found", t: "What a second session looks like for the learner is not documented." },
+    access: { e: "documented", t: "A candid partial-conformance statement: partially conformant to WCAG 2.2 AA with action plans for the remaining four criteria. Coloured overlays for dyslexia and Irlen, high-contrast and colourblind schemes, and subtitles with variable speed. Built-in read-aloud is a roadmap item, not shipped.", src: [s("Accessibility", "https://support.century.tech/support/solutions/articles/44002663276")] },
+    signal: { e: "documented", t: "Diagnostic placement, teacher-confirmed, plus ongoing performance and misconception data. No learning-styles claim was found." },
+    authorship: { e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+  }
+},
+
+/* ============================ ESSAY TRACK ============================ */
+{
+  id: "everway-writing-helper",
+  name: "Everway Writing Helper",
+  vendor: "Everway, formerly Texthelp",
+  url: "https://www.everway.com/en-gb/govt-grant-schemes/what-is-dsa/writing-helper/",
+  tracks: ["essay"],
+  dsa: true,
+  summary: "The DSA benchmark for a staged, evidence-to-authored-text journey, and the reason ticket 28 needs a link target for “the essay journey done like this”. Notably, its current page carries no explicit statement that it will not write the essay.",
+  stages: {
+    entry: { e: "documented", t: "DSA-distributed through the equipment supplier. No trainer or assessor pre-configuration of the student's account is documented.", src: [s("Everway DSA page", "https://www.everway.com/en-gb/govt-grant-schemes/what-is-dsa/writing-helper/")] },
+    ingest: { e: "documented", t: "The student imports research PDFs and keeps all their resources, regardless of format, in one place. Ingestion failure handling was not found." },
+    orient: { e: "observed", t: "Seven named stages carry the orientation, so the student always knows where they are in the whole.", quote: "set goals, such as the word count. Next the question is broken down into key words and then the structure is mapped out. Step 4 is to add the sources, followed by snippets that add weight to the students' work. Then finally Writing Helper will help students to review work and make any corrections before publishing" },
+    select: { e: "observed", t: "The sequence chooses. This is a fixed pipeline rather than a menu, which makes it one of only two orchestrated journeys over a student's own sources in the whole survey." },
+    generate: { e: "documented", t: "Goals, keyword breakdown, a structure map, a source library, evidence snippets and a review pass. It generates scaffolding, not assessed prose." },
+    feedback: { e: "documented", t: "The review stage marks incomplete source details and unreworded snippets, which is feedback on the student's handling of evidence rather than on the argument." },
+    switch: { e: "not-found", t: "No control for rejecting or regenerating a stage output is documented." },
+    trace: { e: "documented", t: "Evidence snippets carry their citations into a bibliography, so a quotation keeps its source. Page-level click-through was not found." },
+    return: { e: "not-found", t: "Resumption of a part-finished piece is not documented." },
+    access: { e: "documented", t: "A June 2025 VPAT exists with partial-support entries. Everway accessibility statement paths refused unauthenticated fetches during this research." },
+    signal: { e: "not-found", t: "No adaptation signal is documented. Nothing observed changes the sequence or its content per student." },
+    authorship: { e: "documented", t: "The student rewords snippets or marks direct quotations, and the tool does not compose the argument. No explicit “we do not write your essay” sentence was found on the current page, which several mainstream competitors have and it does not." }
+  }
+},
+{
+  id: "studiosity",
+  name: "Studiosity",
+  vendor: "Studiosity",
+  url: "https://support.studiosity.com/",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "Institution-licensed writing feedback where the student can upload the task brief and change how the system responds. That mechanism is the nearest analogue anywhere to our needs-assessment PDF route, applied to the task rather than the learner.",
+  stages: {
+    entry: { e: "documented", t: "Institution-licensed and reached through the LMS. No per-student configuration by a third party is documented." },
+    ingest: { e: "observed", t: "Draft uploads as DOC, DOCX, ODT, TXT or RTF, to 8,000 words and under 4MB. Separately the student can upload the task brief as a PDF, after which feedback becomes task-aligned with in-progress and to-do coverage indicators.", src: [s("How it works", "https://support.studiosity.com/en/articles/489263-writing-feedback-how-it-works"), s("Upload task requirements", "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback")] },
+    orient: { e: "observed", t: "An annotated document with the feedback summary at the top right. Orientation is to the draft, not to the sources." },
+    select: { e: "documented", t: "There is nothing to select. One action, submit a draft, produces one response." },
+    generate: { e: "observed", t: "A feedback summary plus clickable in-text annotations, downloadable as PDF. With the brief uploaded, comments become criteria-referenced with coverage indicators." },
+    feedback: { e: "observed", t: "Formative help-not-answers feedback in minutes, hybrid rather than purely automated.", quote: "humans remain an integral part of our service; we balance AI with human oversight and intelligence" },
+    switch: { e: "observed", t: "Resubmission requires a change, or the submission is flagged as a duplicate. That is an unusual and useful anti-churn control." },
+    trace: { e: "documented", t: "Not a plagiarism checker, but it can recognise where a reference might be wanted. No link back to a specific source location." },
+    return: { e: "observed", t: "Resubmission of a changed draft is the return path. No progress state across drafts is documented." },
+    access: { e: "not-found", t: "No accessibility statement was located." },
+    signal: { e: "observed", t: "The student's stated task requirements, supplied as a PDF at the start. This is the mechanism our needs-assessment route needs, demonstrated on a different document type." },
+    authorship: { e: "observed", t: "One of the three plainest authorship boundary statements located.", quote: "You'll never receive answers or corrections to your work — instead, you will receive feedback and guidance so that you can learn", src: [s("Is it cheating", "https://support.studiosity.com/en/articles/8719444-is-using-studiosity-like-cheating")] }
+  }
+},
+{
+  id: "cadmus",
+  name: "Cadmus",
+  vendor: "Cadmus",
+  url: "https://cadmus.io/",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "An assessment environment that intervenes at the moment of pasting rather than policing afterwards. Its Paste Chip is the model just-in-time integrity prompt, and it refuses the detection framing outright.",
+  stages: {
+    entry: { e: "documented", t: "Institution-licensed and launched from the LMS. Configuration is by the educator, per assessment, not per student." },
+    ingest: { e: "not-found", t: "Whether and how a student brings their own sources into the environment is not published on reachable first-party pages." },
+    orient: { e: "not-found", t: "Educator-configured scaffolded assessment. The product surface the student sees is not published, so no orientation screen could be established." },
+    select: { e: "not-found", t: "What the student is offered and in what order is set by the educator's configuration and is not published." },
+    generate: { e: "documented", t: "It generates no study activities. It provides the writing environment, the scaffolding the educator configured, and the process record." },
+    feedback: { e: "documented", t: "Educator drafting feedback before the due date." },
+    switch: { e: "not-found", t: "No student-facing control for changing approach is documented." },
+    trace: { e: "observed", t: "The Paste Chip appears where the risk occurs and offers the remedy in the same place.", quote: "When pasting a sentence from an external source, Cadmus will add a 'Paste Chip' at the end of your pasted text. This tells you how many words have been pasted, and reminds you to add a citation or consider paraphrasing if necessary", src: [s("Academic integrity with Cadmus", "https://cadmus.io/news/academic-integrity-with-cadmus/")] },
+    return: { e: "documented", t: "Analytics show pasted words, editing volume and device count across the writing period, so the work is a continuous record rather than a submission event." },
+    access: { e: "not-found", t: "No accessibility statement was located; accessibility paths refused unauthenticated fetches." },
+    signal: { e: "documented", t: "Educator setup. Nothing derives from the individual learner." },
+    authorship: { e: "observed", t: "An educative, non-detective boundary.", quote: "Cadmus does NOT flag for plagiarism or indicate whether any form of academic misconduct has taken place" }
+  }
+},
+{
+  id: "grammarly-authorship",
+  name: "Grammarly Authorship",
+  vendor: "Grammarly",
+  url: "https://www.grammarly.com/authorship",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "A passive process record that colour-codes each sentence by where it came from and leaves disclosure entirely with the student. It solves authorship by visible process rather than by refusing to generate, and its own product line generates freely elsewhere.",
+  stages: {
+    entry: { e: "documented", t: "Works inside Google Docs, Word, the Grammarly Editor and Canvas. No third-party configuration of a student account is documented; the Grammarly for Education admin console returned 404 on every path tried." },
+    ingest: { e: "not-found", t: "No source ingestion stage exists. Authorship records how text arrived in the document, not what the student read." },
+    orient: { e: "documented", t: "Passive by design. There is no orientation screen at all." },
+    select: { e: "documented", t: "Nothing is selected. The record runs continuously in the background." },
+    generate: { e: "observed", t: "An Authorship Report rather than study activities.", quote: "Replay your whole process from the first ideas to the last keystroke" },
+    feedback: { e: "observed", t: "The report colour-codes every sentence by source, which is feedback on process rather than on quality.", quote: "color-codes your entire assignment to show each sentence's source" },
+    switch: { e: "not-found", t: "No control for changing approach is documented; the feature is passive." },
+    trace: { e: "observed", t: "Distinguishes typed, pasted and AI-suggested text at sentence level. That is provenance within the document, not traceability back to a reading source." },
+    return: { e: "observed", t: "The replay is the return: the whole process is reviewable after the fact, and the student controls disclosure.", quote: "You decide when to share your Authorship Report. Grammarly doesn't auto-send it" },
+    access: { e: "not-found", t: "No accessibility statement was located; all paths tried returned 404." },
+    signal: { e: "not-found", t: "No adaptation signal. The feature records rather than adapts." },
+    authorship: { e: "observed", t: "Procedural transparency, not restriction. Grammarly's own AI generates freely elsewhere in the product line, which is an unresolved tension in its public materials." }
+  }
+},
+{
+  id: "packback-writing-lab",
+  name: "Packback Writing Lab",
+  vendor: "Packback",
+  url: "https://www.packback.co/writing-lab",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "Real-time writing coaching with a credibility score on the student's own sources, and the strongest published accessibility position in the essay cluster. It is the benchmark for what a documented conformance claim looks like.",
+  stages: {
+    entry: { e: "documented", t: "A free account, or free within an adopting course. No third-party configuration of a student account is documented." },
+    ingest: { e: "documented", t: "The student's own citations enter the feedback loop. A separate source library or upload path was not found." },
+    orient: { e: "observed", t: "A feedback summary covering word count, flow, grammar and research quality. Orientation is to the draft.", src: [s("Writing Lab", "https://www.packback.co/writing-lab")] },
+    select: { e: "documented", t: "Nothing is selected. Coaching runs continuously as the student writes." },
+    generate: { e: "observed", t: "Real-time coaching prompts and a Credibility Score rather than study activities." },
+    feedback: { e: "observed", t: "The Credibility Score weighs the source type — website, journal, book — and factors like the publisher, age, popularity and Journal Impact Score. That is feedback on evidence quality, which nothing else in the survey does." },
+    switch: { e: "not-found", t: "No control for rejecting a coaching prompt is documented." },
+    trace: { e: "documented", t: "Feedback references the student's actual citations." },
+    return: { e: "not-found", t: "No resume or draft-history behaviour is documented." },
+    access: { e: "observed", t: "The strongest accessibility documentation in this cluster: a WCAG Level AA target, annual third-party audits since June 2017, and VPAT 2.5 last updated June 2026.", src: [s("Accessibility", "https://www.packback.co/accessibility")] },
+    signal: { e: "not-found", t: "No adaptation signal is documented." },
+    authorship: { e: "observed", t: "Stated plainly on the product page.", quote: "actually teaches you how to write (rather than writing for you)" }
+  }
+},
+{
+  id: "turnitin-clarity",
+  name: "Turnitin Clarity",
+  vendor: "Turnitin",
+  url: "https://www.turnitin.com/",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "A composition environment bolted to the institution's existing integrity stack, where AI use is made observable rather than banned. Every product surface refused unauthenticated access, so the whole entry is documentation-derived.",
+  stages: {
+    entry: { e: "documented", t: "A paid add-on to Feedback Studio, inside the institution's LMS. The product page, blog and guides all returned 403 during this research." },
+    ingest: { e: "documented", t: "Assignment instructions and rubrics are in place around the draft. A student source library was not found." },
+    orient: { e: "documented", t: "A one-stop composition experience with the instructions and rubric present. No screen detail is published." },
+    select: { e: "documented", t: "The AI assistant is available when enabled by an educator, so what the student can reach is an educator toggle rather than a choice." },
+    generate: { e: "documented", t: "Writing assistance inside the composition environment, plus an educator-facing process view." },
+    feedback: { e: "documented", t: "Educator-facing rather than student-facing: similarity, AI detection and submission metrics in one place." },
+    switch: { e: "not-found", t: "No student-facing control for changing approach is documented." },
+    trace: { e: "documented", t: "Draft history, pasted versus typed text, and AI chat history. That is provenance within the document rather than a link to a reading source." },
+    return: { e: "documented", t: "Draft history persists across the writing period." },
+    access: { e: "not-found", t: "No accessibility statement for Clarity was located." },
+    signal: { e: "documented", t: "Educator toggle. Nothing derives from the individual learner." },
+    authorship: { e: "documented", t: "Transparency over prohibition: AI use is made observable rather than banned." }
+  }
+},
+{
+  id: "thesify",
+  name: "Thesify",
+  vendor: "Thesify",
+  url: "https://thesify.ai/",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "Rubric-based evaluation of a whole document, with the clearest authorship boundary statement located anywhere in this research. It is the sentence Everway's DSA page does not have.",
+  stages: {
+    entry: { e: "documented", t: "Direct sign-up. No third-party configuration of a student account is documented." },
+    ingest: { e: "observed", t: "Upload an existing PDF or Word file, including scientific papers and theses up to 100 pages. Ingestion failure handling was not found.", src: [s("Thesify", "https://thesify.ai/")] },
+    orient: { e: "observed", t: "Reviewer and Coauthor tools. Orientation is to the uploaded document, not to a reading list." },
+    select: { e: "observed", t: "The student picks Reviewer or Coauthor. Nothing is recommended or sequenced." },
+    generate: { e: "observed", t: "Rubric-based evaluation of thesis strength, evidence, clarity and alignment with assignment goals." },
+    feedback: { e: "observed", t: "Every suggestion is explained, which is the explain-on-demand pattern applied to writing feedback.", quote: "Explains every suggestion so you stay in control" },
+    switch: { e: "not-found", t: "No control for rejecting or regenerating a suggestion is documented." },
+    trace: { e: "not-found", t: "No link from a suggestion back to a source location is documented." },
+    return: { e: "not-found", t: "No resume or draft-history behaviour is documented." },
+    access: { e: "not-found", t: "No accessibility statement was located." },
+    signal: { e: "not-found", t: "No adaptation signal is documented beyond the rubric selected." },
+    authorship: { e: "observed", t: "The clearest statement located anywhere in this research.", quote: "Thesify is designed to assist and enhance your writing, not to write on your behalf" }
+  }
+},
+{
+  id: "jenni-ai",
+  name: "Jenni AI",
+  vendor: "Jenni",
+  url: "https://jenni.ai/",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "A source-grounded generator rather than an authorship-preserving coach, and the holder of the traceability standard the rest of the market has not met. Its sentence-to-PDF anchoring is the bar we should hold generated revision items to.",
+  stages: {
+    entry: { e: "documented", t: "Direct sign-up. No third-party configuration of a student account is documented." },
+    ingest: { e: "observed", t: "Drag in PDFs, import from Zotero or Mendeley, or search over 200 million papers from inside the product. Ingestion failure handling was not found.", src: [s("Jenni AI", "https://jenni.ai/")] },
+    orient: { e: "documented", t: "A source library with per-section control of which sources inform the text. That is orientation to the evidence base, which nothing on the revision side offers." },
+    select: { e: "documented", t: "The student controls which sources inform each section. Generation is continuous rather than selected from a menu." },
+    generate: { e: "observed", t: "Sentence-level autocomplete grounded in the imported papers, plus citations." },
+    feedback: { e: "observed", t: "Flags unverified or speculative claims in the draft." },
+    switch: { e: "documented", t: "Per-section source scoping is the switching control. No reject or report affordance is documented." },
+    trace: { e: "observed", t: "The traceability standard for the whole survey, and the reason exact-source anchoring inside a revision activity reads as a gap rather than an impossibility.", quote: "Jenni connects every AI-suggested sentence to the precise location in your source PDF helping you verify in one click" },
+    return: { e: "not-found", t: "No resume or draft-history behaviour is documented." },
+    access: { e: "not-found", t: "No accessibility statement was located." },
+    signal: { e: "documented", t: "Which sources the student ticks per section. Nothing performance-derived or profile-derived." },
+    authorship: { e: "observed", t: "A source-fidelity claim, not an authorship claim: smart AI autocomplete suggests sentences grounded in real papers. It sits on the generation side of the boundary the map draws." }
+  }
+},
+{
+  id: "copilot-in-word",
+  name: "Microsoft Copilot in Word",
+  vendor: "Microsoft",
+  url: "https://support.microsoft.com/en-us/copilot",
+  tracks: ["essay"],
+  dsa: false,
+  summary: "Drafting inside Word, included here because it is the default writing tool most students already have. Its boundary is a verify-before-submitting norm rather than a limit on generation.",
+  stages: {
+    entry: { e: "documented", t: "Inside Word, under the institution's or the individual's Microsoft 365 licence." },
+    ingest: { e: "documented", t: "Reference files can inform a draft. Ingestion failure handling for this surface was not found." },
+    orient: { e: "documented", t: "A Start a draft prompt. There is no orientation to sources." },
+    select: { e: "documented", t: "The student prompts. Nothing is recommended or sequenced." },
+    generate: { e: "documented", t: "Drafted prose in the document." },
+    feedback: { e: "documented", t: "Keep it, Regenerate or Discard on each generated draft." },
+    switch: { e: "documented", t: "Regenerate and Discard are first-class controls, which is more than most revision products offer for a bad output." },
+    trace: { e: "not-found", t: "No link from generated prose back to a source location is documented." },
+    return: { e: "not-found", t: "No study-specific resume behaviour applies." },
+    access: { e: "documented", t: "Covered by Microsoft's central accessibility conformance reports for Microsoft 365 rather than a Copilot-specific statement." },
+    signal: { e: "not-found", t: "No adaptation signal is documented for this surface." },
+    authorship: { e: "documented", t: "A verify-before-submitting norm, not a generation limit.", quote: "Remember that Copilot generates a draft. You'll need to verify and modify details" }
+  }
+},
+
+/* ============================ BOUNDARY CASES ============================ */
+{
+  id: "blackboard-ally",
+  name: "Blackboard Ally",
+  vendor: "Anthology",
+  url: "https://help.anthology.com/ally-lms/?lang=en",
+  tracks: ["boundary"],
+  dsa: false,
+  summary: "A pure format catalogue attached to course content, with no student profile and no generated learning activity. It is the cleanest available illustration of the difference between a format catalogue and a topic orientation.",
+  stages: {
+    entry: { e: "documented", t: "Institution-deployed inside the LMS. Nothing is configured per student." },
+    ingest: { e: "documented", t: "It works on content the institution has already put in the course, not on anything the student uploads." },
+    orient: { e: "observed", t: "Twelve alternative formats offered against a piece of course content, including Immersive Reader, Audio, ePub, OCR PDF and BeeLine Reader. It is a catalogue of formats, and nothing about the material itself.", src: [s("Ally help", "https://help.anthology.com/ally-lms/?lang=en")] },
+    select: { e: "observed", t: "The student picks a format. There is no recommendation and no sequence." },
+    generate: { e: "observed", t: "Alternative formats of an existing document. No learning activity is generated at all." },
+    feedback: { e: "not-found", t: "There is nothing to answer, so no feedback stage exists." },
+    switch: { e: "observed", t: "Pick a different format at any time. That is the whole interaction." },
+    trace: { e: "documented", t: "The alternative format is the same document, so provenance is trivially preserved and there is nothing to anchor." },
+    return: { e: "not-found", t: "No progress state exists to return to." },
+    access: { e: "documented", t: "Accessibility is the product: alternative formats exist to make course content usable. Conformance detail for the Ally interface itself was not extracted." },
+    signal: { e: "not-found", t: "No student profile, no personalisation and no adaptation signal." },
+    authorship: { e: "not-found", t: "Not a writing product. No authorship boundary statement applies." }
+  }
+},
+{
+  id: "helperbird",
+  name: "Helperbird",
+  vendor: "Helperbird",
+  url: "https://www.helperbird.com/features/",
+  tracks: ["boundary"],
+  dsa: false,
+  summary: "A reading and writing accessibility overlay with no study-activity generation. Its onboarding matters to us: preset-plus-adjust, with the student choosing the preset rather than a trainer.",
+  stages: {
+    entry: { e: "observed", t: "The preset-plus-adjust pattern, directly analogous to arriving at a prepared setting and then adjusting support — except the student chooses the preset.", quote: "Start with one of eight profiles for reading, focus, contrast, and movement, then adjust the settings to suit you", src: [s("Features", "https://www.helperbird.com/features/")] },
+    ingest: { e: "documented", t: "It works over whatever page or document the student is already reading. There is no upload and no library." },
+    orient: { e: "not-found", t: "No orientation screen exists, because there is no ingestion to report on." },
+    select: { e: "observed", t: "The student picks reading and display tools from the overlay. Nothing is recommended." },
+    generate: { e: "documented", t: "No learning activities. It changes how existing text is presented and read aloud." },
+    feedback: { e: "not-found", t: "There is nothing to answer, so no feedback stage exists." },
+    switch: { e: "observed", t: "Every setting is adjustable at any time from the same panel, which is the cheapest possible switching cost." },
+    trace: { e: "documented", t: "The text is the source, so nothing needs anchoring." },
+    return: { e: "documented", t: "Settings persist as the student's profile across pages." },
+    access: { e: "observed", t: "Accessibility is the product: reading, focus, contrast and movement profiles, with per-setting adjustment. No conformance claim for the extension itself was located." },
+    signal: { e: "observed", t: "Student-chosen preset, then student adjustment. A stated preference, not a diagnosis." },
+    authorship: { e: "not-found", t: "Not a writing-support product in the sense the map means. No authorship boundary statement applies." }
+  }
+},
+{
+  id: "aspire-student-portal",
+  name: "Aspire Student Portal",
+  vendor: "iansyst / Dyslexic.com",
+  url: "https://www.dyslexic.com/product/aspire-student-portal-course-subscription/",
+  tracks: ["boundary"],
+  dsa: false,
+  summary: "UK, DSA-adjacent, profile-tailored support content with no source ingestion and no generated activities. It is profile-guided entry built on the one adaptation signal the evidence does not support.",
+  stages: {
+    entry: { e: "observed", t: "Set-up choices tailor what the student sees from the start.", quote: "Content can be tailored for each student, taking into account disability, academic course, preferred learning style, location and recommended assistive technology", src: [s("Aspire Student Portal", "https://www.dyslexic.com/product/aspire-student-portal-course-subscription/")] },
+    ingest: { e: "not-found", t: "No source ingestion of any kind. The student brings nothing in." },
+    orient: { e: "observed", t: "A filtered content portal.", quote: "Users only see relevant content based on their selections during set-up" },
+    select: { e: "documented", t: "The student browses the filtered content. Nothing is generated and nothing is sequenced." },
+    generate: { e: "documented", t: "No generated learning activities. It serves prepared support content." },
+    feedback: { e: "not-found", t: "There is nothing to answer, so no feedback stage exists." },
+    switch: { e: "not-found", t: "Whether set-up selections can be revised later is not documented." },
+    trace: { e: "not-found", t: "Not applicable: there is no student source and no generated activity to anchor." },
+    return: { e: "documented", t: "The tailored portal persists across sessions." },
+    access: { e: "not-found", t: "No conformance claim, auditor or date was located." },
+    signal: { e: "observed", t: "Preferred learning style, alongside disability, course, location and recommended assistive technology. Learning style is the one signal in this whole survey the independent evidence rules out as a design basis." },
+    authorship: { e: "not-found", t: "Not a writing product. No authorship boundary statement applies." }
+  }
+},
+{
+  id: "mindview",
+  name: "MindView assessor hub",
+  vendor: "MatchWare",
+  url: "https://www.matchware.com/mind-mapping-software",
+  tracks: ["boundary"],
+  dsa: false,
+  summary: "Pre-built student personas offered to DSA assessors. They are aids for writing the assessor's own justification, not a means of configuring a live student account.",
+  stages: {
+    entry: { e: "documented", t: "The assessor hub offers pre-built student personas. They help the assessor write a justification; nothing an assessor does configures a student's account." },
+    ingest: { e: "not-found", t: "Ingestion behaviour in the student-facing product was not examined in this research." },
+    orient: { e: "not-found", t: "No post-upload orientation screen was established for the student-facing product." },
+    select: { e: "not-found", t: "Activity selection in the student-facing product was not established." },
+    generate: { e: "documented", t: "Mind maps and outlines on the student side; persona documents on the assessor side." },
+    feedback: { e: "not-found", t: "No feedback behaviour was established." },
+    switch: { e: "not-found", t: "No switching control was established." },
+    trace: { e: "not-found", t: "No source anchoring behaviour was established." },
+    return: { e: "not-found", t: "No return behaviour was established." },
+    access: { e: "not-found", t: "No conformance claim, auditor or date was located in this research." },
+    signal: { e: "documented", t: "The assessor personas shape the assessor's report, not the product. Nothing reaches the student's account." },
+    authorship: { e: "not-found", t: "No authorship boundary statement was located." }
+  }
+},
+{
+  id: "podsie",
+  name: "Podsie",
+  vendor: "Podsie, US non-profit",
+  url: "https://podsie.org/",
+  tracks: ["boundary"],
+  dsa: false,
+  summary: "The clearest documented teacher-to-student push model found, with a personal review deck and a named adaptation mechanism. The prepared arrival exists; the uploaded evidence base does not.",
+  stages: {
+    entry: { e: "documented", t: "The teacher creates a class and shares a code; the student joins with it and lands on a deck prepared for them.", quote: "Join your class with the code your teacher shared with you... your personal review deck is tailored to YOU", src: [s("Podsie", "https://podsie.org/")] },
+    ingest: { e: "documented", t: "No document ingestion at all. Assignments are created from a typed topic, a standards library, or the teacher's own questions." },
+    orient: { e: "documented", t: "The student arrives at a personal review deck rather than a catalogue, which is the shape our entry proposes — without any uploaded material behind it." },
+    select: { e: "documented", t: "The system schedules the deck. This is one of only two places in the survey where sequencing runs across a course, and it runs on teacher-authored content." },
+    generate: { e: "documented", t: "Questions and review decks, created quickly with AI, from pre-made standards-aligned content, or hand-written by the teacher." },
+    feedback: { e: "documented", t: "Correctness feedback feeding the knowledge-tracing model that schedules the next item." },
+    switch: { e: "not-found", t: "No student-facing control for rejecting or regenerating an item is documented." },
+    trace: { e: "documented", t: "Not applicable: the content is teacher-authored or standards-library content, so there is no student source to anchor to." },
+    return: { e: "documented", t: "The personal review deck is the return path, and it is scheduled rather than chosen." },
+    access: { e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located." },
+    signal: { e: "documented", t: "Named on its own research page: LLM-based knowledge component discovery and logistic knowledge tracing, so observed performance across a course.", src: [s("NSF research", "https://podsie.org/nsf-research")] },
+    authorship: { e: "not-found", t: "Not a writing product. No authorship boundary statement applies." }
+  }
+},
+{
+  id: "magicschool-iep",
+  name: "MagicSchool IEP generator",
+  vendor: "MagicSchool AI",
+  url: "https://www.magicschool.ai/",
+  tracks: ["boundary"],
+  dsa: false,
+  summary: "The nearest conceptual analogue to “a document produces settings a professional reviews”. It produces a document for a teacher to finalise, not student-facing product behaviour, and its input and output detail could not be confirmed first-party.",
+  stages: {
+    entry: { e: "not-found", t: "Teacher-facing. No student account, and no student-facing configuration path was established." },
+    ingest: { e: "not-found", t: "The fetched tool index did not list the generator, and its input detail could not be confirmed from first-party sources." },
+    orient: { e: "not-found", t: "There is no student-facing surface, so no orientation screen exists." },
+    select: { e: "not-found", t: "No student-facing activity selection exists." },
+    generate: { e: "documented", t: "IEP text for a teacher to review and finalise. It produces a document, not student-facing product behaviour." },
+    feedback: { e: "not-found", t: "No student-facing feedback exists." },
+    switch: { e: "not-found", t: "No student-facing switching control exists." },
+    trace: { e: "not-found", t: "Source anchoring in the generated IEP text could not be confirmed first-party." },
+    return: { e: "not-found", t: "No student-facing return journey exists." },
+    access: { e: "not-found", t: "No conformance claim, auditor or date was located." },
+    signal: { e: "documented", t: "The teacher's inputs, reviewed by the teacher. Nothing reaches a student's account, which is exactly why it is a boundary case rather than a comparator." },
+    authorship: { e: "not-found", t: "Not a student writing product. No authorship boundary statement applies." }
+  }
+}
+];
+
+/* --------- stage-level notes from the combination-evidence report --------- */
+var EVIDENCE_NOTES = {
+  select: "Combination evidence (issue 24): scheduling over a menu is supported, but because students' strategy choices are systematically inverted — they prefer restudy and under-select retrieval — not because learner control harms. The meta-analytic effect of learner control on achievement is g = 0.05.",
+  generate: "Combination evidence (issue 24): chaining formats is not supported. Crossed factorially, strong techniques are repeatedly sub-additive; concept mapping added to retrieval practice produced no benefit over retrieval alone at a one-week delay.",
+  feedback: "Combination evidence (issue 24): every outcome a product can easily instrument — preference, immediate performance, fluency, confidence, time in app — systematically mis-ranks study methods against delayed learning.",
+  return: "Combination evidence (issue 24): a system-scheduled personalised review schedule beat both massed study and a one-size-fits-all spaced schedule on a cumulative exam, with time held constant.",
+  trace: "Journeys report §6: no peer-reviewed study was located on whether inline citations or source traceability change student verification behaviour or trust calibration. Traceability is a design hypothesis, not an evidenced benefit.",
+  orient: "Journeys report §8: no first-run or post-upload screen was seen for any product requiring sign-in. This is the single largest limitation of the survey, and the reason ticket 29 exists.",
+  entry: "Journeys report §5: no product was found that ingests an assessment, IEP or needs report to configure a learner profile. Genio documents the opposite arrangement for DSA accounts."
+};
+
+/* ====================== state and helpers ====================== */
+
+var state = {
+  view: "journey",
+  product: PRODUCTS[0].id,
+  stage: null,
+  cmpStage: "orient",
+  group: true,
+  filter: ""
+};
+var suppressHash = false;
+var byId = {};
+PRODUCTS.forEach(function (p) { byId[p.id] = p; });
+var stageById = {};
+STAGES.forEach(function (s) { stageById[s.id] = s; });
+var captureCounts = {};
+
+function el(tag, cls, text) {
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+function chip(e, extra) {
+  var c = el("span", "chip ev-" + e + (extra || ""), EV_LABEL[e]);
+  return c;
+}
+function tracksOf(p) { return p.tracks || [p.track]; }
+function frameSrc(pid, sid) { return "frames/" + pid + "/" + sid + ".png"; }
+
+/* ====================== rail ====================== */
+
+function buildRail() {
+  var rail = document.getElementById("rail");
+  rail.innerHTML = "";
+  var q = state.filter.trim().toLowerCase();
+  var shown = 0;
+
+  ["revision", "essay", "boundary"].forEach(function (track) {
+    var items = PRODUCTS.filter(function (p) {
+      if (tracksOf(p).indexOf(track) === -1) return false;
+      if (tracksOf(p)[0] !== track) return false;
+      if (!q) return true;
+      return (p.name + " " + p.id + " " + (p.vendor || "") + " " + tracksOf(p).join(" ") + (p.dsa ? " dsa" : "")).toLowerCase().indexOf(q) !== -1;
+    });
+    if (!items.length) return;
+    shown += items.length;
+    var group = el("div", "rail-group");
+    group.appendChild(el("h2", null, TRACK_LABEL[track]));
+    var ul = el("ul", "rail-list");
+    items.forEach(function (p) {
+      var li = el("li");
+      var b = el("button", "rail-btn");
+      b.type = "button";
+      b.dataset.pid = p.id;
+      b.setAttribute("aria-current", p.id === state.product ? "true" : "false");
+      b.tabIndex = p.id === state.product ? 0 : -1;
+      var nm = el("span", "rail-name", p.name);
+      b.appendChild(nm);
+      if (p.dsa) b.appendChild(el("span", "dsa", "DSA"));
+      b.addEventListener("click", function () { go({ view: "journey", product: p.id, stage: null }); });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    group.appendChild(ul);
+    rail.appendChild(group);
+  });
+
+  if (!shown) rail.appendChild(el("p", "empty-msg", "No product matches that filter."));
+  document.getElementById("rail-count").textContent =
+    shown + " of " + PRODUCTS.length + " products · " + PRODUCTS.filter(function (p) { return p.dsa; }).length + " UK DSA-distributed";
+}
+
+function railButtons() {
+  return Array.prototype.slice.call(document.querySelectorAll(".rail-btn"));
+}
+
+document.getElementById("rail").addEventListener("keydown", function (ev) {
+  if (ev.key !== "ArrowDown" && ev.key !== "ArrowUp" && ev.key !== "Home" && ev.key !== "End") return;
+  var btns = railButtons();
+  if (!btns.length) return;
+  var i = btns.indexOf(document.activeElement);
+  if (i === -1) i = 0;
+  var next = ev.key === "ArrowDown" ? Math.min(i + 1, btns.length - 1)
+    : ev.key === "ArrowUp" ? Math.max(i - 1, 0)
+    : ev.key === "Home" ? 0 : btns.length - 1;
+  ev.preventDefault();
+  btns[next].focus();
+  go({ view: "journey", product: btns[next].dataset.pid, stage: null });
+});
+
+document.getElementById("filter").addEventListener("input", function (ev) {
+  state.filter = ev.target.value;
+  buildRail();
+});
+
+/* ====================== journey view ====================== */
+
+function buildJourney() {
+  var p = byId[state.product];
+  if (!p) return;
+  var head = document.getElementById("phead");
+  head.innerHTML = "";
+  head.appendChild(el("div", "eyebrow", tracksOf(p).map(function (t) { return TRACK_LABEL[t].replace(" that look comparable and are not", ""); }).join("  ·  ")));
+  var h1 = el("h1", null, p.name);
+  head.appendChild(h1);
+  if (p.vendor) head.appendChild(el("div", "vendor", p.vendor));
+  head.appendChild(el("p", "summary", p.summary));
+
+  var meta = el("div", "meta-row");
+  var idPill = el("span", "pill mono", p.id);
+  meta.appendChild(idPill);
+  if (p.dsa) meta.appendChild(el("span", "pill solid mono", "UK DSA"));
+  if (p.url) {
+    var a = document.createElement("a");
+    a.className = "pill";
+    a.href = p.url;
+    a.rel = "noopener";
+    a.target = "_blank";
+    a.textContent = p.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+    meta.appendChild(a);
+  }
+  var cap = el("span", "capture-status");
+  cap.id = "capture-status";
+  cap.textContent = "0 of " + STAGES.length + " frames captured";
+  meta.appendChild(cap);
+  head.appendChild(meta);
+
+  captureCounts[p.id] = 0;
+
+  var wrap = document.getElementById("stages");
+  wrap.innerHTML = "";
+  STAGES.forEach(function (st, i) {
+    var cell = p.stages[st.id] || { e: "not-found", t: "This stage was not covered for this product in the source reports." };
+    var card = el("section", "stage");
+    card.id = "stage-" + st.id;
+
+    var hd = el("div", "stage-head");
+    hd.appendChild(el("span", "stage-num mono", String(i + 1).padStart(2, "0")));
+    hd.appendChild(el("h3", "stage-name", st.name));
+    hd.appendChild(chip(cell.e));
+    if (PRIORITY.indexOf(st.id) !== -1) hd.appendChild(el("span", "prio", "capture priority"));
+    hd.appendChild(el("p", "stage-gloss", st.gloss));
+    card.appendChild(hd);
+
+    var body = el("div", "stage-body");
+    body.appendChild(el("p", null, cell.t));
+    if (cell.quote) {
+      var bq = document.createElement("blockquote");
+      bq.textContent = "“" + cell.quote + "”";
+      body.appendChild(bq);
+    }
+    if (cell.src && cell.src.length) {
+      var sd = el("div", "srcs");
+      cell.src.forEach(function (x) {
+        var a = document.createElement("a");
+        a.className = "src";
+        a.href = x.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = x.label;
+        sd.appendChild(a);
+      });
+      body.appendChild(sd);
+    }
+    card.appendChild(body);
+    card.appendChild(buildFrame(p.id, st.id));
+    wrap.appendChild(card);
+  });
+
+  if (state.stage) {
+    var target = document.getElementById("stage-" + state.stage);
+    if (target) {
+      document.querySelectorAll(".stage.flash").forEach(function (n) { n.classList.remove("flash"); });
+      target.classList.add("flash");
+      requestAnimationFrame(function () { target.scrollIntoView({ block: "start", behavior: "auto" }); });
+    }
+  }
+}
+
+function buildFrame(pid, sid) {
+  var box = el("figure", "frame");
+  box.style.margin = "0";
+  var path = frameSrc(pid, sid);
+  var img = document.createElement("img");
+  img.alt = pid + " — " + stageById[sid].name + " screenshot";
+  box.appendChild(img);
+  img.addEventListener("error", function () {
+    if (img.parentNode) img.parentNode.removeChild(img);
+    box.classList.add("empty");
+    box.textContent = "";
+    box.appendChild(el("div", "fl", "no frame yet"));
+    box.appendChild(el("div", "fp", path));
+    box.appendChild(el("div", "fl", "drop a 1280px-wide PNG here"));
+  });
+  img.addEventListener("load", function () {
+    captureCounts[pid] = (captureCounts[pid] || 0) + 1;
+    var node = document.getElementById("capture-status");
+    if (node && state.product === pid) node.textContent = captureCounts[pid] + " of " + STAGES.length + " frames captured";
+  });
+  img.src = path;
+  return box;
+}
+
+/* ====================== stage compare view ====================== */
+
+function buildStageSelect() {
+  var sel = document.getElementById("stage-select");
+  sel.innerHTML = "";
+  STAGES.forEach(function (st, i) {
+    var o = document.createElement("option");
+    o.value = st.id;
+    o.textContent = String(i + 1).padStart(2, "0") + "  " + st.name + " — " + st.gloss.replace(/\.$/, "");
+    sel.appendChild(o);
+  });
+  sel.value = state.cmpStage;
+  sel.addEventListener("change", function () { go({ view: "stage", cmpStage: sel.value }); });
+  document.getElementById("group-toggle").addEventListener("change", function (ev) {
+    state.group = ev.target.checked;
+    buildCompare();
+  });
+}
+
+function buildCompare() {
+  var st = stageById[state.cmpStage];
+  var host = document.getElementById("cmp");
+  host.innerHTML = "";
+  document.getElementById("stage-select").value = state.cmpStage;
+
+  var intro = el("div");
+  var h = el("h3");
+  h.style.cssText = "font-family:Fraunces,Georgia,serif;font-size:20px;margin:0 0 4px;";
+  h.textContent = String(STAGES.indexOf(st) + 1).padStart(2, "0") + " — " + st.name;
+  intro.appendChild(h);
+  var g = el("p", "section-intro", st.gloss);
+  intro.appendChild(g);
+  if (EVIDENCE_NOTES[st.id]) {
+    var note = el("p", "caveat", EVIDENCE_NOTES[st.id]);
+    note.style.marginBottom = "20px";
+    intro.appendChild(note);
+  }
+  host.appendChild(intro);
+
+  var rows = PRODUCTS.map(function (p) { return { p: p, c: p.stages[st.id] }; });
+
+  if (state.group) {
+    EV_ORDER.forEach(function (e) {
+      var subset = rows.filter(function (r) { return r.c && r.c.e === e; });
+      if (!subset.length) return;
+      var gp = el("section", "cmp-group");
+      var gh = el("h3");
+      gh.appendChild(chip(e));
+      gh.appendChild(el("span", "cnt", subset.length + " of " + PRODUCTS.length + " products"));
+      gp.appendChild(gh);
+      var list = el("div", "cmp-list");
+      subset.forEach(function (r) { list.appendChild(cmpRow(r.p, r.c, st, false)); });
+      gp.appendChild(list);
+      host.appendChild(gp);
+    });
+  } else {
+    var list = el("div", "cmp-list");
+    rows.forEach(function (r) { if (r.c) list.appendChild(cmpRow(r.p, r.c, st, true)); });
+    host.appendChild(list);
+  }
+}
+
+function cmpRow(p, c, st, withChip) {
+  var row = el("div", "cmp-row");
+  var who = el("div", "who");
+  var a = document.createElement("a");
+  a.href = "#/" + p.id + "/" + st.id;
+  a.textContent = p.name;
+  who.appendChild(a);
+  var tr = el("span", "tr", tracksOf(p).join(" + ") + (p.dsa ? " · DSA" : ""));
+  who.appendChild(tr);
+  if (withChip) who.appendChild(chip(c.e));
+  row.appendChild(who);
+  var bd = el("div");
+  bd.appendChild(el("p", null, c.t));
+  if (c.quote) {
+    var bq = document.createElement("blockquote");
+    bq.style.marginTop = "9px";
+    bq.textContent = "“" + c.quote + "”";
+    bd.appendChild(bq);
+  }
+  row.appendChild(bd);
+  return row;
+}
+
+/* ====================== matrix view ====================== */
+
+function buildMatrix() {
+  var host = document.getElementById("matrix");
+  host.innerHTML = "";
+  var table = el("table", "matrix");
+  var thead = document.createElement("thead");
+  var hr = document.createElement("tr");
+  hr.appendChild(el("th", null, "Product"));
+  STAGES.forEach(function (st, i) {
+    var th = el("th", null, String(i + 1).padStart(2, "0") + " " + st.name);
+    th.title = st.gloss;
+    hr.appendChild(th);
+  });
+  thead.appendChild(hr);
+  table.appendChild(thead);
+
+  var tbody = document.createElement("tbody");
+  PRODUCTS.forEach(function (p) {
+    var tr = document.createElement("tr");
+    var th = el("th", null, p.name + (p.dsa ? "  · DSA" : ""));
+    tr.appendChild(th);
+    STAGES.forEach(function (st) {
+      var c = p.stages[st.id];
+      var td = document.createElement("td");
+      var b = el("button", "cell-btn");
+      b.type = "button";
+      b.title = p.name + " — " + st.name + ": " + EV_LABEL[c.e];
+      b.setAttribute("aria-label", p.name + ", " + st.name + ", " + EV_LABEL[c.e]);
+      var sw = el("span", "mx ev-" + c.e, EV_CODE[c.e]);
+      b.appendChild(sw);
+      b.addEventListener("click", function () { go({ view: "journey", product: p.id, stage: st.id }); });
+      td.appendChild(b);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  host.appendChild(table);
+}
+
+/* ====================== routing ====================== */
+
+function setView(v) {
+  state.view = v;
+  [["journey", "view-journey"], ["stage", "view-stage"], ["matrix", "view-matrix"]].forEach(function (pair) {
+    document.getElementById("view-" + pair[0]).hidden = (pair[0] !== v);
+    var tab = document.getElementById("tab-" + pair[0]);
+    tab.setAttribute("aria-selected", pair[0] === v ? "true" : "false");
+  });
+}
+
+function go(next) {
+  Object.keys(next).forEach(function (k) { state[k] = next[k]; });
+  render();
+  writeHash();
+}
+
+function writeHash() {
+  var h;
+  if (state.view === "stage") h = "#/stage/" + state.cmpStage;
+  else if (state.view === "matrix") h = "#/matrix";
+  else h = "#/" + state.product + (state.stage ? "/" + state.stage : "");
+  if (location.hash !== h) {
+    suppressHash = true;
+    location.hash = h;
+  }
+}
+
+function readHash() {
+  var raw = location.hash.replace(/^#\/?/, "");
+  var parts = raw.split("/").filter(Boolean);
+  if (!parts.length) return;
+  if (parts[0] === "matrix") { state.view = "matrix"; return; }
+  if (parts[0] === "stage") {
+    state.view = "stage";
+    if (parts[1] && stageById[parts[1]]) state.cmpStage = parts[1];
+    return;
+  }
+  if (byId[parts[0]]) {
+    state.view = "journey";
+    state.product = parts[0];
+    state.stage = (parts[1] && stageById[parts[1]]) ? parts[1] : null;
+  }
+}
+
+function render() {
+  setView(state.view);
+  buildRail();
+  if (state.view === "journey") buildJourney();
+  else if (state.view === "stage") buildCompare();
+  else buildMatrix();
+}
+
+window.addEventListener("hashchange", function () {
+  if (suppressHash) { suppressHash = false; return; }
+  readHash();
+  render();
+});
+
+["journey", "stage", "matrix"].forEach(function (v) {
+  document.getElementById("tab-" + v).addEventListener("click", function () { go({ view: v }); });
+});
+document.getElementById("view-journey").addEventListener("click", function () {});
+
+/* tab list arrow keys */
+document.querySelector(".tabs").addEventListener("keydown", function (ev) {
+  if (ev.key !== "ArrowRight" && ev.key !== "ArrowLeft") return;
+  var tabs = Array.prototype.slice.call(this.querySelectorAll(".tab"));
+  var i = tabs.indexOf(document.activeElement);
+  if (i === -1) return;
+  ev.preventDefault();
+  var n = ev.key === "ArrowRight" ? (i + 1) % tabs.length : (i - 1 + tabs.length) % tabs.length;
+  tabs[n].focus();
+  tabs[n].click();
+});
+
+/* theme toggle: light -> dark -> system */
+var themeBtn = document.getElementById("theme-btn");
+themeBtn.addEventListener("click", function () {
+  var cur = document.documentElement.getAttribute("data-theme");
+  var next = cur === "light" ? "dark" : cur === "dark" ? null : "light";
+  if (next) document.documentElement.setAttribute("data-theme", next);
+  else document.documentElement.removeAttribute("data-theme");
+  themeBtn.textContent = next ? (next === "light" ? "Light" : "Dark") : "Theme";
+});
+
+buildStageSelect();
+readHash();
+render();
+</script>
+</body>
+</html>

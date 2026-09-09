@@ -4240,6 +4240,19 @@ byId["remnote"].stages.select = {
 };
 byId["remnote"].summary = "Notes and uploads with both flashcard practice and a documented Guided Learn route through source sections. Guided Learn prepares summaries, cards and quizzes; its quality and learning effects require separate evaluation.";
 
+/* Curation check, 2026-09-09: StudyFetch. Current documentary evidence; older frames remain historical. */
+byId["studyfetch"].stages.select = {
+  "e": "documented",
+  "c": "Study Plan recommends the next topic from uploaded materials.",
+  "t": "The June 2026 Study Plan guide describes Recommended ordering from uncovered topics, weak areas and upcoming work, alongside Material, Exam, Syllabus and Custom order. This establishes a documented content recommendation alongside the tools menu; it does not validate the ranking or learning outcomes. The older captured catalogue does not establish the current default.",
+  "src": [
+    {
+      "label": "Study Plan redesign",
+      "url": "https://www.studyfetch.com/blog/study-plan-redesign"
+    }
+  ]
+};
+
 /* What each screenshot shows. One entry per captured frame, written by the
    capture agents. `crop` marks a frame masked to remove personal data. */
 var FRAME_CAPTIONS = {

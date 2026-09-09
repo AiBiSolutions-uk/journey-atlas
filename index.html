@@ -861,6 +861,7 @@ table.matrix tbody tr:hover th, table.matrix tbody tr:hover td { background: var
 .legend { display: grid; gap: 8px; margin-bottom: 16px; }
 .legend-item { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; align-items: baseline; font-size: 13.5px; color: var(--ink-2); }
 .legend-item .chip { justify-self: start; }
+.legend-lead { font-size: 13px; line-height: 1.5; color: var(--ink-2); margin: 0 0 12px; }
 .colophon { font-size: 12.5px; color: var(--ink-3); margin: 16px 0 0; }
 
 /* ====================== responsive ====================== */
@@ -2755,7 +2756,10 @@ function featOf(pid, fid) {
 
 var PRIORITY = ["orient", "select", "generate", "feedback", "return"];
 
-var EV_LABEL = { "observed": "observed", "documented": "documented", "vendor-claim": "vendor claim", "not-found": "not found" };
+/* The tag grades the CLAIM, never the picture. "none found" means we found no
+   such control in public sources, thus a screenshot of that screen can sit
+   beside it without contradiction. */
+var EV_LABEL = { "observed": "seen in use", "documented": "in vendor docs", "vendor-claim": "vendor says", "not-found": "none found" };
 
 /* Which products a UK student can currently get through Disabled Students' Allowance,
    how each one reaches them, and how strong the evidence for that route is. */
@@ -6955,10 +6959,11 @@ render();
   <summary>How to read this page</summary>
   <div class="legend-foot-body">
     <div class="legend">
-      <div class="legend-item"><span class="chip ev-observed">observed</span><span>Seen in the running product, a screenshot, a public API or the shipped JavaScript.</span></div>
-      <div class="legend-item"><span class="chip ev-documented">documented</span><span>Stated in the vendor&rsquo;s own help centre, policy or guide.</span></div>
-      <div class="legend-item"><span class="chip ev-vendor-claim">vendor claim</span><span>A marketing assertion with no independent support.</span></div>
-      <div class="legend-item"><span class="chip ev-not-found">not found</span><span>Could not be established from public sources. A gap in our knowledge, not proof of absence.</span></div>
+      <p class="legend-lead">Each tag grades the sentence it sits under, not the picture. A screenshot can sit beside &ldquo;none found&rdquo;, because the picture shows the screen where the missing control would be.</p>
+      <div class="legend-item"><span class="chip ev-observed">seen in use</span><span>We saw it in the running product, a screenshot, a public API or the shipped JavaScript.</span></div>
+      <div class="legend-item"><span class="chip ev-documented">in vendor docs</span><span>The vendor states it in their own help centre, policy or guide.</span></div>
+      <div class="legend-item"><span class="chip ev-vendor-claim">vendor says</span><span>A marketing assertion with no independent support.</span></div>
+      <div class="legend-item"><span class="chip ev-not-found">none found</span><span>We found no such thing in public sources. This is a gap in our knowledge, not proof of absence.</span></div>
     </div>
     <p class="caveat">StudyCog was missed by the first 50-product survey because studycog.co.uk is a client-rendered SPA that serves crawlers a short placeholder instead of the page (<a href="https://github.com/AiBiSolutions-uk/bubblewrap/issues/25">issue&nbsp;25</a>). Read every <b>not found</b> on this page as &ldquo;not found in public documentation&rdquo;, never as &ldquo;the product does not do this&rdquo;.</p>
     <p class="colophon">Each stage row opens to the full record, its verbatim quote and its sources. The link ids never change. Link to any of it: <span class="mono">#/studycog</span> for a journey, <span class="mono">#/studycog/orient</span> for one stage of it, <span class="mono">#/stage/orient</span> for that stage across the field, <span class="mono">#/matrix</span> for the grid. Research date 9&nbsp;September&nbsp;2026.</p>

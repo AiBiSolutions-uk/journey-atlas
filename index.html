@@ -974,7 +974,18 @@ body.lb-open { overflow: hidden; }
 .lb-x:hover { border-color: var(--accent); }
 .lb-stage { position: relative; flex: 1 1 auto; min-height: 0; display: flex;
             align-items: center; justify-content: center; background: var(--sunk); padding: 10px; }
-.lb-stage img { max-width: 100%; max-height: calc(94vh - 210px); object-fit: contain; display: block; }
+/* The picture sits in a box of its own. Only maximums are set, thus a frame
+   smaller than the box keeps its captured size. A stretched screenshot lies
+   about its detail. The maximum is in viewport units, because a percentage
+   against a flex box of indefinite height resolves to no limit at all. */
+.lb-stage img { max-width: 100%; max-height: calc(94vh - 270px);
+                width: auto; height: auto; display: block; }
+.lb-stage { min-height: 220px; }
+.lb-none { display: grid; gap: 6px; text-align: center; justify-items: center; max-width: 46ch; }
+.lb-none-l { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.lb-none-p { font-size: 12.5px; line-height: 1.5; color: var(--ink-3); }
+.lb-rec { max-width: 90ch; }
+.lb-foot { max-height: 30vh; overflow: auto; overscroll-behavior: contain; }
 .lb-nav { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%);
           width: 42px; height: 62px; cursor: pointer; font-size: 26px; line-height: 1;
           background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 3px; }
@@ -1272,8 +1283,6 @@ html[data-view="journey"] .cat-blurb { display: none; }
 .x-view.grab { cursor: grab; }
 .x-view.grabbing { cursor: grabbing; }
 .x-view img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
-.x-view.zoomed { align-items: flex-start; justify-content: flex-start; }
-.x-view.zoomed img { max-width: none; max-height: none; margin: auto; }
 .x-view--none { flex-direction: column; gap: 6px; text-align: center; }
 
 .x-record {
@@ -1362,11 +1371,6 @@ html[data-view="journey"] .cat-blurb { display: none; }
 /* ---------- the loupe: zoom added to the existing lightbox ---------- */
 
 .lb-stage { overflow: auto; overscroll-behavior: contain; }
-.lb-stage.zoomed { align-items: flex-start; justify-content: flex-start; }
-.lb-stage.zoomed img { max-width: none; max-height: none; margin: auto; }
-.lb-stage.grab { cursor: grab; }
-.lb-stage.grabbing { cursor: grabbing; }
-.lb-zoom { display: flex; gap: 5px; margin-left: 14px; }
 
 /* ---------- the prototype switcher. Not part of the design under review. ---------- */
 
@@ -1380,10 +1384,8 @@ html[data-view="journey"] .cat-blurb { display: none; }
   .x-drawer { grid-template-columns: minmax(0, 1fr); }
 }
 
-.x-tools-z { display: flex; gap: 5px; }
 .x-plate--big .x-mount { max-height: 56vh; min-height: 180px; }
 .x-plate--big .x-mount img { max-height: 56vh; }
-.x-drawer .x-cell { cursor: zoom-in; }
 .lb-eyebrow { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--ink-2); }
 .lb-eyebrow, .lb-count { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
 
@@ -1638,8 +1640,6 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 .s-view.grab { cursor: grab; }
 .s-view.grabbing { cursor: grabbing; }
 .s-view img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
-.s-view.zoomed { align-items: flex-start; justify-content: flex-start; }
-.s-view.zoomed img { max-width: none; max-height: none; margin: auto; }
 .s-blank { display: grid; gap: 6px; text-align: center; justify-items: center; max-width: 46ch; }
 .s-blank-h { font-family: Newsreader, Georgia, serif; font-size: 19px; font-weight: 600; color: var(--ink-2); }
 .s-blank-p { font-size: 13px; color: var(--ink-3); line-height: 1.5; }
@@ -1734,11 +1734,6 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 /* ---------- the loupe, added to the existing lightbox ---------- */
 
 .lb-stage { overflow: auto; overscroll-behavior: contain; }
-.lb-stage.zoomed { align-items: flex-start; justify-content: flex-start; }
-.lb-stage.zoomed img { max-width: none; max-height: none; margin: auto; }
-.lb-stage.grab { cursor: grab; }
-.lb-stage.grabbing { cursor: grabbing; }
-.lb-zoom { display: flex; gap: 5px; margin-left: 14px; }
 .lb-eyebrow { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--ink-2); }
 .lb-eyebrow, .lb-count { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
 
@@ -1870,12 +1865,12 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
     <div class="lb-stage">
       <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Previous screenshot">&#8249;</button>
       <img id="lb-img" alt="">
+      <div class="lb-none" id="lb-none" hidden></div>
       <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Next screenshot">&#8250;</button>
     </div>
     <div class="lb-foot">
-      <p class="lb-cap" id="lb-cap"></p>
-      <p class="fc-meta" id="lb-meta"></p>
-      <p class="lb-hint mono">Left and right arrow keys move between screens. Escape closes.</p>
+      <div class="lb-rec" id="lb-rec"></div>
+      <p class="lb-hint mono">Left and right arrow keys move between stages. Escape closes.</p>
     </div>
   </div>
 </div>
@@ -4899,7 +4894,7 @@ var FRAME_CAPTIONS = {
   "access": {
    "c": "This is not a control screen. It is page 3 of Helperbird's own public accessibility conformance report, dated Apr 20, 2024. The report follows the WCAG edition of the VPAT, version 2.5.",
    "crop": false,
-   "note": "Linked from the Accessibility Statement page footer at https://www.helperbird.com/accessibility-statement/. The report shows a staff member's name and work email. This is vendor contact information, not a student's data.",
+   "note": "Linked from the Accessibility Statement page footer at https://www.helperbird.com/accessibility-statement/. We covered the auditor name and the work email with grey blocks. The atlas does not publish a person name or a contact address, even one the vendor made public. Nothing else in the frame is changed.",
    "src": "https://docs.google.com/document/d/1SVhQ75l3unbG9sfisUVlCQ3dGIgXRixKDAGfukm3jMY/edit?usp=sharing",
    "ts": ""
   },
@@ -6590,16 +6585,15 @@ function buildThumbs(p) {
     b.appendChild(im);
     b.appendChild(el("span", "thumb-n mono", String(STAGES.indexOf(st) + 1).padStart(2, "0")));
     b.appendChild(el("span", "thumb-name", st.name));
-    b.addEventListener("click", function () { openLightbox(p.id, idx); });
+    b.addEventListener("click", function () { openLightbox(p.id, sid); });
     strip.appendChild(b);
   });
   host.appendChild(strip);
 }
 
-function openLightbox(pid, idx) {
-  LB.pid = pid;
-  LB.list = framesOf(pid);
-  LB.i = Math.max(0, Math.min(idx, LB.list.length - 1));
+/* The loupe walks every stage, not only the ones that hold a picture. A stage
+   with no frame still has a record, and the reader must be able to reach it. */
+function showLightbox() {
   LB.open = true;
   LB.lastFocus = document.activeElement;
   var box = document.getElementById("lightbox");
@@ -6614,6 +6608,14 @@ function openLightbox(pid, idx) {
   document.getElementById("lb-close").focus();
 }
 
+function openLightbox(pid, sid) {
+  LB.axis = null;
+  LB.pid = pid;
+  LB.list = STAGES.map(function (st) { return st.id; });
+  LB.i = Math.max(0, LB.list.indexOf(STAGE_ALIAS[sid] || sid));
+  showLightbox();
+}
+
 function closeLightbox() {
   LB.open = false;
   var box = document.getElementById("lightbox");
@@ -6624,6 +6626,7 @@ function closeLightbox() {
   });
   document.body.classList.remove("lb-open");
   if (LB.lastFocus && LB.lastFocus.focus) LB.lastFocus.focus();
+  if (state.view === "journey" && state.stage) go({ stage: null });
 }
 
 function stepLightbox(d) {
@@ -6636,19 +6639,40 @@ function renderLightbox() {
   var sid = LB.list[LB.i];
   var st = stageById[sid];
   var p = byId[LB.pid];
-  document.getElementById("lb-img").src = frameSrc(LB.pid, sid);
-  document.getElementById("lb-img").alt = p.name + " — " + st.name;
+  var img = document.getElementById("lb-img");
+  var none = document.getElementById("lb-none");
+  var cell = cellOf(p, sid);
+
+  if (hasFrame(LB.pid, sid)) {
+    img.src = frameSrc(LB.pid, sid);
+    img.alt = p.name + " \u2014 " + st.name;
+    img.hidden = false;
+    none.hidden = true;
+  } else {
+    img.removeAttribute("src");
+    img.hidden = true;
+    none.hidden = false;
+    none.innerHTML = "";
+    var na = cell.e === "n-a";
+    var gone = cell.e === "not-found" || na;
+    none.appendChild(el("div", "lb-none-l",
+      na ? "Does not apply" : gone ? "Nothing to show" : "No picture yet"));
+    none.appendChild(el("div", "lb-none-p", na
+      ? "This stage is not a question this product answers."
+      : gone
+      ? "We did not find this stage in the product."
+      : "The stage is documented, but we hold no screenshot."));
+  }
+
   document.getElementById("lb-eyebrow").textContent =
-    p.name + "  ·  " + String(STAGES.indexOf(st) + 1).padStart(2, "0") + " " + st.name;
+    pad2(stageNum(sid)) + "  " + st.name + " \u2014 " + p.name;
   document.getElementById("lb-count").textContent = (LB.i + 1) + " of " + LB.list.length;
 
-  var meta = (FRAME_CAPTIONS[LB.pid] || {})[sid] || {};
-  document.getElementById("lb-cap").textContent = meta.c || "";
-  var mrow = document.getElementById("lb-meta");
-  mrow.innerHTML = "";
-  if (meta.src) mrow.appendChild(link(meta.src, meta.ts ? "Source at " + meta.ts : "Source", "fc-src"));
-  if (meta.crop) mrow.appendChild(el("span", "fc-crop", "masked to remove personal data"));
-  if (meta.note) mrow.appendChild(el("span", "fc-note", meta.note));
+  var rec = document.getElementById("lb-rec");
+  rec.innerHTML = "";
+  recordBits(rec, p, sid);
+  document.querySelector(".lb-hint").textContent =
+    "Left and right arrow keys move between stages. Escape closes.";
 }
 
 document.addEventListener("keydown", function (ev) {
@@ -7125,64 +7149,6 @@ function curStage(p) {
 }
 function metaOf(pid, sid) { return (FRAME_CAPTIONS[pid] || {})[sid] || null; }
 
-/* ---------- the loupe: fit, 1:1, 2:1, and drag to pan ---------- */
-
-var PAN = null;
-document.addEventListener("mousemove", function (ev) {
-  if (!PAN) return;
-  PAN.v.scrollLeft = PAN.sl - (ev.clientX - PAN.x);
-  PAN.v.scrollTop = PAN.st - (ev.clientY - PAN.y);
-});
-document.addEventListener("mouseup", function () {
-  if (!PAN) return;
-  PAN.v.classList.remove("grabbing");
-  PAN = null;
-});
-
-/* The reader keeps the zoom the student chose. A reset on every step throws
-   away the 2:1 they just set, thus the zoom lives outside the control. */
-var ZOOM = "fit";
-function zoomControls(view, img) {
-  var wrap = el("div", "x-tools-z");
-  var defs = [
-    ["fit", "Fit", "Fit the whole frame in the box"],
-    [1, "1:1", "Show the frame at its captured size"],
-    [2, "2:1", "Show the frame at twice its captured size"]
-  ];
-  var btns = [];
-  function set(z) {
-    if (z !== "fit") {
-      view.classList.add("zoomed", "grab");
-      img.style.width = Math.round((img.naturalWidth || 1280) * z) + "px";
-      img.style.height = "auto";
-    } else {
-      view.classList.remove("zoomed", "grab");
-      img.style.width = "";
-      img.style.height = "";
-    }
-    btns.forEach(function (b) { b.setAttribute("aria-pressed", b._z === z ? "true" : "false"); });
-    ZOOM = z;
-  }
-  defs.forEach(function (d) {
-    var b = el("button", "x-btn", d[1]);
-    b.type = "button";
-    b._z = d[0];
-    b.title = d[2];
-    b.addEventListener("click", function () { set(d[0]); });
-    wrap.appendChild(b);
-    btns.push(b);
-  });
-  view._setZoom = set;
-  if (img.complete) set(ZOOM);
-  else img.addEventListener("load", function () { set(ZOOM); });
-  view.addEventListener("mousedown", function (ev) {
-    if (!view.classList.contains("zoomed")) return;
-    PAN = { v: view, x: ev.clientX, y: ev.clientY, sl: view.scrollLeft, st: view.scrollTop };
-    view.classList.add("grabbing");
-    ev.preventDefault();
-  });
-  return wrap;
-}
 
 /* ---------- shared parts ---------- */
 
@@ -7252,16 +7218,6 @@ function recordBits(host, p, sid) {
   }
 }
 
-function loupeButton(p, sid) {
-  var b = el("button", "x-btn", "Open the loupe");
-  b.type = "button";
-  b.title = "Open this frame full size, with zoom and pan";
-  b.disabled = !hasFrame(p.id, sid);
-  b.addEventListener("click", function () {
-    openLightbox(p.id, framesOf(p.id).indexOf(sid));
-  });
-  return b;
-}
 
 function featureBlock(p) {
   var box = el("div", "x-feats");
@@ -7327,7 +7283,7 @@ function layLightTable(host, p) {
 
   var bar = el("div", "x-sheet-bar");
   bar.appendChild(el("h2", "x-h2", "Eleven stages, one plate each"));
-  bar.appendChild(el("p", "x-hint", "Select a plate to open its record. Select the plate image to open the loupe."));
+  bar.appendChild(el("p", "x-hint", "Select a plate to open the loupe. It holds the picture and the record."));
   sheetWrap.appendChild(bar);
 
   var sheet = el("div", "x-sheet");
@@ -7336,15 +7292,14 @@ function layLightTable(host, p) {
     var cell = cellOf(p, st.id);
     var b = el("div", "x-cell");
     if (state.stage === st.id) b.setAttribute("aria-current", "true");
-    var fig = plate(p.id, st.id, "x-plate--grid", hasFrame(p.id, st.id) ? function () {
-      if (state.stage !== st.id) selectStage(p, st.id, false);
-      openLightbox(p.id, framesOf(p.id).indexOf(st.id));
-    } : null);
+    /* One gesture, one answer. Every plate opens the loupe. */
+    var open = function () { selectStage(p, st.id, false); };
+    var fig = plate(p.id, st.id, "x-plate--grid", open);
     var cap = el("button", "x-cap");
     cap.type = "button";
     cap.setAttribute("aria-label",
-      "Stage " + (i + 1) + ", " + st.name + ", " + EV_LABEL[cell.e] + ". Open the record.");
-    cap.addEventListener("click", function () { selectStage(p, st.id, true); });
+      "Stage " + (i + 1) + ", " + st.name + ", " + EV_LABEL[cell.e] + ". Open the loupe.");
+    cap.addEventListener("click", open);
     var top = el("div", "x-cap-top");
     top.appendChild(el("span", "x-cap-n", pad2(i + 1)));
     top.appendChild(el("span", "x-cap-name", st.name));
@@ -7363,53 +7318,13 @@ function layLightTable(host, p) {
   sheetWrap.appendChild(featureBlock(p));
   host.appendChild(sheetWrap);
 
-  if (state.stage && stageById[state.stage]) {
-    var i = STAGES.indexOf(stageById[state.stage]);
-    var cols = getComputedStyle(sheet).gridTemplateColumns.trim().split(/\s+/).length || 1;
-    var endIdx = Math.min(cells.length, (Math.floor(i / cols) + 1) * cols) - 1;
-    sheet.insertBefore(lightTableDrawer(p, state.stage), cells[endIdx].nextSibling);
-    var target = cells[i];
-    requestAnimationFrame(function () { target.scrollIntoView({ block: "nearest" }); });
+  /* #/<product>/<stage> resolves on first load, and it opens the loupe. The
+     grid behind it does not scroll, because the loupe covers it. */
+  if (state.stage && stageById[state.stage] && !LB.open) {
+    openLightbox(p.id, state.stage);
   }
 }
 
-function lightTableDrawer(p, sid) {
-  var st = stageById[sid];
-  var cell = cellOf(p, sid);
-  var box = el("div", "x-drawer");
-
-  var hd = el("div", "x-drawer-hd");
-  hd.appendChild(el("span", "x-cap-n", pad2(stageNum(sid))));
-  hd.appendChild(el("h3", null, st.name));
-  hd.appendChild(chip(cell.e, p.id, sid));
-  var x = el("button", "x-close", "Close");
-  x.type = "button";
-  x.addEventListener("click", function () { selectStage(p, sid, true); });
-  hd.appendChild(x);
-  box.appendChild(hd);
-
-  var leftCol = el("div");
-  var fig = plate(p.id, sid, "x-plate--big");
-  if (hasFrame(p.id, sid)) {
-    var open = el("button", "x-cell");
-    open.type = "button";
-    open.setAttribute("aria-label", "Open " + st.name + " in the loupe");
-    open.appendChild(fig);
-    open.addEventListener("click", function () { openLightbox(p.id, framesOf(p.id).indexOf(sid)); });
-    leftCol.appendChild(open);
-    var tools = el("div", "x-metarow");
-    tools.appendChild(loupeButton(p, sid));
-    leftCol.appendChild(tools);
-  } else {
-    leftCol.appendChild(fig);
-  }
-  box.appendChild(leftCol);
-
-  var rec = el("div");
-  recordBits(rec, p, sid);
-  box.appendChild(rec);
-  return box;
-}
 
 
 /* ---------- wiring ---------- */
@@ -7426,25 +7341,6 @@ render = function () {
   _render();
 };
 
-/* the loupe, added to the existing lightbox */
-var lbStage = document.querySelector(".lb-stage");
-var lbImg = document.getElementById("lb-img");
-var lbZoom = zoomControls(lbStage, lbImg);
-lbZoom.className = "lb-zoom";
-document.querySelector(".lb-bar").insertBefore(lbZoom, document.getElementById("lb-count"));
-
-var _renderLightbox = renderLightbox;
-renderLightbox = function () {
-  _renderLightbox();
-  var sid = LB.list[LB.i];
-  var st = stageById[sid];
-  var pr = byId[LB.pid];
-  document.getElementById("lb-eyebrow").textContent =
-    pad2(stageNum(sid)) + "  " + st.name + " \u2014 " + pr.name;
-  document.querySelector(".lb-hint").textContent =
-    "Left and right arrow keys move between screens. Escape closes. Zoom in, then drag the frame to move it.";
-  if (lbStage._setZoom) lbStage._setZoom(ZOOM);
-};
 
 render();
 
@@ -7695,7 +7591,6 @@ function stageReader(sid) {
     img.alt = pr.name + ", " + st.name;
     img.src = frameSrc(pid, sid);
     view.appendChild(img);
-    tools.appendChild(zoomControls(view, img));
   } else {
     view.appendChild(blankBox(pr, sid, cov));
   }
@@ -7754,7 +7649,8 @@ function layWall(host, sid) {
     wall.appendChild(el("h2", "s-bandhead", BAND_LABEL[band] + "  ·  " + rows.length));
     wall.appendChild(el("p", "s-bandsub", BAND_BLURB[band]));
     var sheet = el("div", "s-sheet" + (band === "gap" ? " s-sheet--tight" : ""));
-    rows.forEach(function (p) { sheet.appendChild(wallCard(p, sid, band)); });
+    var ids = rows.map(function (q) { return q.id; });
+    rows.forEach(function (p, k) { sheet.appendChild(wallCard(p, sid, band, ids, k)); });
     wall.appendChild(sheet);
   });
 
@@ -7781,17 +7677,17 @@ function layWall(host, sid) {
   host.appendChild(wall);
 }
 
-function wallCard(p, sid, band) {
+function wallCard(p, sid, band, ids, k) {
   var cell = cellOf(p, sid);
   var card = el("div", "s-card");
   if (p.id === curProduct(sid)) card.setAttribute("aria-current", "true");
   var shot = el("button", "s-shot");
   shot.type = "button";
-  shot.setAttribute("aria-label", "Read " + p.name + " at " + stageById[sid].name + " above");
+  shot.setAttribute("aria-label", "Open " + p.name + " at " + stageById[sid].name + " in the loupe");
   shot.appendChild(sPlate(p.id, sid, "s-plate--grid"));
-  if (band !== "shot") { shot.disabled = true; shot.style.cursor = "default"; }
-  /* Selecting a plate loads it into the reader. No modal on the default path. */
-  shot.addEventListener("click", function () { pickProduct(p.id); });
+  /* One gesture, one answer. Every plate opens the loupe, and the loupe pages
+     across the products in this band at this stage. */
+  shot.addEventListener("click", function () { openStageLoupe(sid, ids, k); });
   card.appendChild(shot);
 
   var cap = el("div", "s-cap");
@@ -7836,12 +7732,7 @@ function openStageLoupe(sid, pidList, i) {
   LB.sid = sid;
   LB.list = pidList;
   LB.i = Math.max(0, Math.min(i, pidList.length - 1));
-  LB.open = true;
-  LB.lastFocus = document.activeElement;
-  document.getElementById("lightbox").hidden = false;
-  document.body.classList.add("lb-open");
-  renderLightbox();
-  document.getElementById("lb-close").focus();
+  showLightbox();
 }
 
 var _renderLightbox = renderLightbox;
@@ -7849,22 +7740,30 @@ renderLightbox = function () {
   if (LB.axis !== "stage") { _renderLightbox(); return; }
   var pid = LB.list[LB.i];
   var p = byId[pid];
-  var st = stageById[LB.sid];
-  document.getElementById("lb-img").src = frameSrc(pid, LB.sid);
-  document.getElementById("lb-img").alt = p.name + " — " + st.name;
+  var sid = LB.sid;
+  var st = stageById[sid];
+  var img = document.getElementById("lb-img");
+  var none = document.getElementById("lb-none");
+  if (hasFrame(pid, sid)) {
+    img.src = frameSrc(pid, sid);
+    img.alt = p.name + " \u2014 " + st.name;
+    img.hidden = false;
+    none.hidden = true;
+  } else {
+    img.removeAttribute("src");
+    img.hidden = true;
+    none.hidden = false;
+    none.innerHTML = "";
+    none.appendChild(blankBox(p, sid, coverOf(p, sid)));
+  }
   document.getElementById("lb-eyebrow").textContent =
-    pad2(stageNum(LB.sid)) + "  " + st.name + " — " + p.name;
+    pad2(stageNum(sid)) + "  " + st.name + " \u2014 " + p.name;
   document.getElementById("lb-count").textContent = (LB.i + 1) + " of " + LB.list.length;
-  var meta = metaOf(pid, LB.sid) || {};
-  document.getElementById("lb-cap").textContent = meta.c || claimOf(cellOf(p, LB.sid));
-  var mrow = document.getElementById("lb-meta");
-  mrow.innerHTML = "";
-  if (meta.src) mrow.appendChild(link(meta.src, meta.ts ? "Source at " + meta.ts : "Source", "fc-src"));
-  if (meta.crop) mrow.appendChild(el("span", "fc-crop", "masked to remove personal data"));
-  if (meta.note) mrow.appendChild(el("span", "fc-note", meta.note));
+  var rec = document.getElementById("lb-rec");
+  rec.innerHTML = "";
+  sRecord(rec, p, sid);
   document.querySelector(".lb-hint").textContent =
-    "Left and right arrow keys move to the next product at this stage. Escape closes. Zoom in, then drag the frame.";
-  if (lbStage._setZoom) lbStage._setZoom(ZOOM);
+    "Left and right arrow keys move to the next product at this stage. Escape closes.";
 };
 
 var _closeLightbox = closeLightbox;

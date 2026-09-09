@@ -4364,6 +4364,19 @@ byId["lernabl"].stages.select = {
   ]
 };
 
+/* Curation check, 2026-09-09: Caption.Ed. Current documentary evidence; older frames remain historical. */
+byId["caption-ed"].stages.select = {
+  "e": "not-found",
+  "c": "The current source does not establish revision-session selection.",
+  "t": "The current student page describes recording, transcripts, attached slides and summaries. It does not establish how quiz questions or a next study topic are selected. The older automatic-quiz description is not freshly confirmed by this source.",
+  "src": [
+    {
+      "label": "Student features",
+      "url": "https://caption-ed.com/for-students/"
+    }
+  ]
+};
+
 /* What each screenshot shows. One entry per captured frame, written by the
    capture agents. `crop` marks a frame masked to remove personal data. */
 var FRAME_CAPTIONS = {

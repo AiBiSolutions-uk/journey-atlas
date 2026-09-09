@@ -4253,6 +4253,27 @@ byId["studyfetch"].stages.select = {
   ]
 };
 
+/* Curation check, 2026-09-09: NotebookLM. Current documentary evidence; older frames remain historical. */
+byId["notebooklm"].stages.select = {
+  "e": "documented",
+  "c": "Studio delegates question selection; Gemini Apps has a separate lesson route.",
+  "t": "Studio lets learners choose a format and source focus, then generates its content; occasional starter artifacts are also documented. Separately, Gemini Apps study notebooks build lessons and recommendations from uploaded material, goals and quiz results. The Apps route has personal-account and rollout restrictions and must not be confused with Studio or Gemini in Classroom.",
+  "src": [
+    {
+      "label": "Studio quizzes",
+      "url": "https://support.google.com/gemininotebook/answer/16958963?hl=en-GB"
+    },
+    {
+      "label": "Starter artifacts",
+      "url": "https://support.google.com/gemininotebook/answer/16206563?hl=en"
+    },
+    {
+      "label": "Separate Gemini Apps study notebooks",
+      "url": "https://support.google.com/gemini/answer/16972047?hl=en"
+    }
+  ]
+};
+
 /* What each screenshot shows. One entry per captured frame, written by the
    capture agents. `crop` marks a frame masked to remove personal data. */
 var FRAME_CAPTIONS = {

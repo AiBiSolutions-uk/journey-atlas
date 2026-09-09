@@ -994,17 +994,17 @@ function catOf(p) { return CAT_BY_ID[CAT_OF[p.id]] || null; }
 var PRICING = {
   "studycog": {
     e: "observed",
-    t: "Sold only through UK assistive-technology suppliers as a five-year whole-course licence: Dyslexic.com lists £336.67 and Assistive IT lists £366.67 ex VAT (£440.00 inc VAT), each a one-off payment rather than a subscription. In practice DSA pays via the supplier, not the student; a student without a DSA award would have to fund the whole amount up front. There is no consumer price, no free tier and no self-serve checkout. Three Scottish universities run open 90-day trials on a university email address.",
+    t: "Sold only through UK assistive-technology suppliers as a five-year whole-course licence. Dyslexic.com lists £336.67 and Assistive IT lists £366.67 ex VAT (£440.00 inc VAT). Both are one-off payments, not subscriptions. No other DSA supplier stocks it. Neither the product page nor the site's VAT page states if the listed price includes VAT, so the ex-VAT reading is inferred and not settled. There is no consumer price, no free tier and no self-serve checkout. Three Scottish universities run open 90-day trials on a university email address.",
     src: "https://www.dyslexic.com/product/studycog-5-yr-license/"
   },
   "notebooklm": {
     e: "observed",
-    t: "Now branded Gemini Notebook. The Standard tier is free with any Google account and gives 100 notebooks, 50 chats per day, 3 audio and 3 video overviews per day, and 10 per day each of reports, flashcards, quizzes and mind maps - enough for ordinary coursework. Plus is not sold on its own; it arrives bundled with a consumer Google AI plan, listed on Google One UK at £7.99 per month for Google AI Plus and £18.99 per month for Google AI Pro, paid by the individual. Plus roughly doubles the volume limits and adds earlier model access, but adds no capability the free tier lacks.",
+    t: "Now branded Gemini Notebook. The Standard tier is free with any Google account and gives 100 notebooks, 50 chats per day, 3 audio and 3 video overviews per day, and 10 per day each of reports, flashcards, quizzes and mind maps - enough for ordinary coursework. Plus is not sold on its own. It arrives bundled with a consumer Google AI plan, listed on Google One UK at £7.99 per month for Google AI Plus and £18.99 per month for Google AI Pro, paid by the individual. Plus roughly doubles the volume limits and adds earlier model access, but adds no capability the free tier lacks.",
     src: "https://one.google.com/about/plans"
   },
   "gemini-classroom": {
     e: "observed",
-    t: "Google Workspace for Education Fundamentals is free for qualifying institutions and now includes Gemini for Education and Gemini in Classroom as core features, so the base edition costs a school nothing. Education Plus is listed at £4.80 per user per year and is sold through Contact Sales rather than self-serve checkout. A Google AI Pro for Education add-on is listed at £12.60 per user per month on a one-year commitment, or £20.16 per user per month billed monthly. The school or university pays; the student never buys it.",
+    t: "Google Workspace for Education Fundamentals is free for qualifying institutions and now includes Gemini for Education and Gemini in Classroom as core features, so the base edition costs a school nothing. Education Plus is listed at £4.80 per user per year and is sold through Contact Sales rather than self-serve checkout. A Google AI Pro for Education add-on is listed at £12.60 per user per month on a one-year commitment, or £20.16 per user per month billed monthly. The school or university pays. The student never buys it.",
     src: "https://edu.google.com/workspace-for-education/editions/compare-editions/"
   },
   "chatgpt-study-mode": {
@@ -1014,27 +1014,27 @@ var PRICING = {
   },
   "copilot-study-learn": {
     e: "documented",
-    t: "Microsoft's education support documentation states the Study and Learn agent comes pre-installed with all Education SKUs at no extra cost, and is available with Microsoft 365 Education A1, A3 and A5 licences. The institution therefore pays nothing extra and the student pays nothing, though an IT admin must enable Copilot Chat with age-gating for learners aged 13 to 17. It is a first-party agent inside Microsoft 365 Copilot, not the consumer Copilot app. The separate commercial Microsoft 365 Copilot Business add-on is £16.10 per user per month paid yearly excluding VAT, but that is not what schools pay for Study and Learn.",
+    t: "Microsoft's education support documentation states the Study and Learn agent comes pre-installed with all Education SKUs at no extra cost, and is available with Microsoft 365 Education A1, A3 and A5 licences. The institution thus pays nothing extra and the student pays nothing, though an IT admin must enable Copilot Chat with age-gating for learners aged 13 to 17. It is a first-party agent inside Microsoft 365 Copilot, not the consumer Copilot app. The separate commercial Microsoft 365 Copilot Business add-on is £16.10 per user per month paid yearly excluding VAT, but that is not what schools pay for Study and Learn.",
     src: "https://support.microsoft.com/en-us/education/copilot/study-learn-agent"
   },
   "genio-notes": {
     e: "observed",
-    t: "Genio's individual plan is £12 per month or £144 for one year, paid by the student, with a 30-day full-feature trial that needs no payment details. The individual plan does not include Live Captions, which come only through an institutional or DSA licence. On the DSA supplier catalogue Assistive IT lists Genio Notes DSA at £324.00 inc VAT (£270.00 ex VAT) and Genio Notes plus Captions for DSA (3-year) at £1,440.00 inc VAT (£1,200.00 ex VAT); Dyslexic.com lists £271.00 and £1,100.00 respectively. On the DSA route the funding body pays, not the student.",
+    t: "The individual plan is £12 a month or £144 a year, paid by the student, with a 30-day full-feature trial that needs no card. The individual plan does not include Live Captions, which come only with an institutional or DSA licence. On the DSA route Assistive IT lists Genio Notes at £324.00 inc VAT (£270.00 ex VAT), and Genio Notes plus Captions (3-year) at £1,440.00 inc VAT (£1,200.00 ex VAT). Dyslexic.com lists £271.00 and £1,100.00. Those two suppliers are the only priced sources.",
     src: "https://genio.co/pricing/individuals"
   },
   "jamworks": {
     e: "observed",
-    t: "Jamworks' own pricing page lists a Student plan at £14.99 per month, paid by the student, covering unlimited AI notes, study tutor, flashcards and transcription. There is no free tier - only a 14-day trial that requires card details up front, so a student cannot use it long-term without paying. On the DSA supplier catalogue Assistive IT lists Jamworks at £528.00 inc VAT (£440.00 ex VAT) while Dyslexic.com lists £720.00 to £1,800.00 depending on the notetaking-hours bundle, so there is no single DSA price. Institution pricing is quote-only.",
+    t: "The Student plan is £14.99 a month, paid by the student, and covers unlimited AI notes, study tutor, flashcards and transcription. There is no free tier. The 14-day trial asks for card details up front, so a student cannot use it long-term without paying. On the DSA route Assistive IT lists £528.00 inc VAT (£440.00 ex VAT), and Dyslexic.com lists £720.00 to £1,800.00 by notetaking-hours bundle, so there is no single DSA price. Institution pricing is quote-only.",
     src: "https://www.jamworks.com/pricing"
   },
   "caption-ed": {
     e: "observed",
-    t: "Everway publishes no consumer price for Caption.Ed; its product pages carry no figures and route to sales, and there is no free tier or student checkout. The only real numbers are DSA supplier catalogue listings, paid by DSA rather than the student. Assistive IT lists Caption.Ed Notes DSA at £307.50 inc VAT (£256.25 ex VAT), and Caption.Ed Pro captioning plus note-taking at £1,140.00 inc VAT (£950.00 ex VAT) for one year and £2,280.00 inc VAT (£1,900.00 ex VAT) for two. Dyslexic.com lists a three-year licence at £900.00 to £4,000.00 across Lite, Pro and Expert minute tiers.",
+    t: "Everway publishes no consumer price. The product pages carry no figures and route to sales. There is no free tier and no student checkout. The only real numbers are DSA supplier listings, paid by DSA and not by the student. Assistive IT lists Caption.Ed Notes at £307.50 inc VAT (£256.25 ex VAT), and Caption.Ed Pro at £1,140.00 inc VAT for one year and £2,280.00 inc VAT for two. Dyslexic.com lists a three-year licence at £900.00 to £4,000.00 across Lite, Pro and Expert minute tiers.",
     src: "https://www.assistiveit.co.uk/?s=caption"
   },
   "lernabl": {
     e: "observed",
-    t: "Lernabl's live buy-now page confirms £9.99 per month for a UK individual, cancel anytime, paid by the student, covering unlimited study methods, the personalised planner and the mock exam tool. Non-UK pricing is USD 15 per month or USD 99 per year in the USA, and CAD 19.99 per month in Canada. There is no free tier for individuals; universities and colleges get a term-long pilot at a quote-only price. On the DSA supplier catalogue Assistive IT lists Lernabl at £276.00 inc VAT (£230.00 ex VAT) and Dyslexic.com lists £230.00, paid by DSA.",
+    t: "The buy-now page confirms £9.99 a month for a UK individual, cancel anytime, paid by the student. It covers unlimited study methods, the personalised planner and the mock exam tool. Outside the UK it is USD 15 a month or USD 99 a year in the USA, and CAD 19.99 a month in Canada. There is no free tier for individuals. Universities get a term-long pilot at a quote-only price. On the DSA route Assistive IT lists £276.00 inc VAT (£230.00 ex VAT) and Dyslexic.com lists £230.00. No other DSA supplier stocks it.",
     src: "https://lernabl.com/buy-now"
   },
   "knowt": {
@@ -1044,17 +1044,17 @@ var PRICING = {
   },
   "remnote": {
     e: "observed",
-    t: "RemNote's pricing page shows Free at USD 0, Pro at USD 8 per month or USD 96 billed yearly, and Pro with AI at USD 18 per month or USD 216 billed yearly, all paid by the student. The free tier gives unlimited notes, flashcards and synced devices, but caps 3 annotated PDFs, 5 image-occlusion cards, 1 scheduled exam, 1 handwritten document and 250 AI credits a month. A student doing plain text flashcards can revise on the free tier indefinitely. No student or education discount is published.",
+    t: "The pricing table shows Free at USD 0, Pro at USD 8 a month or USD 96 a year, and Pro with AI at USD 18 a month or USD 216 a year. The student pays. The page source contradicts itself: its JSON-LD carries a stale USD 10 / USD 120 pair next to the current USD 96. The visible pair is internally consistent (8 x 12 = 96), so we take USD 8 / USD 96 as current. The free tier gives unlimited notes, flashcards and synced devices, but caps 3 annotated PDFs, 5 image-occlusion cards, 1 scheduled exam, 1 handwritten document and 250 AI credits a month. No student discount is published.",
     src: "https://www.remnote.com/pricing"
   },
   "quizlet": {
     e: "observed",
-    t: "Quizlet's own upgrade page sits behind a captcha and could not be read, so the observed figures come from the UK Apple App Store listing, which shows in-app purchases of Quizlet Plus at £9.99 and £44.99, Quizlet Go at £44.99 and Quizlet Teacher at £35.99. Apple does not label which figure is monthly and which is annual, so the billing period is not confirmed. The student pays. Quizlet's help centre states a free account gives flashcards, practice questions and diagrams, while Learn, Test, Study Guides, Expert Solutions and offline study are subscription-only - so the free tier is little more than plain flashcard review.",
+    t: "Quizlet's own upgrade page sits behind a captcha and cannot be read. The figures come from the UK Apple App Store, which shows Quizlet Plus at £9.99 and £44.99, Quizlet Go at £44.99 and Quizlet Teacher at £35.99. UK Google Play gives only a range, £1.79 to £44.99, with no breakdown. It confirms the £44.99 ceiling but not the billing periods, which stay unconfirmed on both stores. The student pays. A free account gives flashcards, practice questions and diagrams. Learn, Test, Study Guides, Expert Solutions and offline study are paid-only, so the free tier is little more than plain flashcard review.",
     src: "https://apps.apple.com/gb/app/id546473125"
   },
   "studyfetch": {
     e: "observed",
-    t: "StudyFetch no longer publishes a web pricing page - /pricing, /plans, /upgrade and /premium all return 404 behind a Cloudflare challenge. The observed prices are the vendor's own in-app purchases on the UK Apple App Store: StudyFetch Premium at £19.99 monthly, £29.00 quarterly and £99.00 yearly, plus AI tutor add-ons at £6.99 for one hour and £25.00 for five. The student pays. What the free tier includes or limits is not published anywhere public, so it cannot be relied on.",
+    t: "StudyFetch no longer publishes a web pricing page: /pricing, /plans, /upgrade and /premium all return 404 or sit behind a Cloudflare challenge. The observed prices are the vendor's own in-app purchases on the UK Apple App Store: Premium at £19.99 monthly, £29.00 quarterly and £99.00 yearly, plus AI tutor add-ons at £6.99 for one hour and £25.00 for five. There is no StudyFetch Android listing, so Apple is the only store source. The student pays. What the free tier includes is not published anywhere public.",
     src: "https://apps.apple.com/gb/app/studyfetch-make-learning-easy/id6663574866"
   },
   "khanmigo": {
@@ -1064,37 +1064,37 @@ var PRICING = {
   },
   "century-tech": {
     e: "observed",
-    t: "CENTURY publishes no per-student or per-school price for its schools and colleges product; that route is Book a demo or Get a quote only, and century.tech/pricing now redirects away. CENTURY does publish a direct-to-parent price: CENTURY Core at £12.49 per month for a single user, or £99.92 billed annually (£8.33 per month), with a 7-day free trial, covering English, maths and science for Years 3 to 6, KS3 and GCSE. The parent pays, and the page does not state whether the figure is inc or ex VAT. No published UK framework or procurement figure for the institutional product was located.",
+    t: "CENTURY publishes no per-student or per-school price for its schools and colleges product. That route is demo or quote only, and century.tech/pricing now redirects away. CENTURY does publish a direct-to-parent price: Core at £12.49 a month for one user, or £99.92 a year (£8.33 a month), with a 7-day free trial. It covers English, maths and science for Years 3 to 6, KS3 and GCSE. The parent pays. The page does not state if the figure is inc or ex VAT. A framework sweep found nothing: G-Cloud and YPO both return no results, and CCS, ESPO and NEPO cannot be tested without a browser.",
     src: "https://www.century.tech/explore-century/parents/"
   },
   "everway-writing-helper": {
     e: "observed",
-    t: "Everway publishes no price for Writing Helper itself and has no live product page for it; it appears only in the support knowledge base, and whether it is bundled into Read&Write or sold separately is not stated publicly. The Read&Write for Education pricing page lists an individual licence at £250 plus VAT, schools from £1,250 and further and higher education from £3,000, all billed annually in GBP. The school, college or university pays, except for the individual licence, which a student or a DSA award can fund. Parents are told to contact Everway for special pricing.",
+    t: "Everway publishes no price for Writing Helper and has no live product page for it. It appears only in the support knowledge base. Whether it is bundled into Read&Write or sold separately is not stated publicly. The Read&Write for Education pricing page lists an individual licence at £250 plus VAT, schools from £1,250, and further and higher education from £3,000, all billed yearly in GBP. The school, college or university pays, except for the individual licence, which a student or a DSA award can fund. DSA suppliers list Read&Write only as a quote request, so no supplier figure was observed.",
     src: "https://www.everway.com/en-gb/products/read-and-write-education/pricing/"
   },
   "studiosity": {
     e: "not-found",
-    t: "Studiosity publishes no price. The site is addressed entirely to institutions and students reach it through their own university's sign-in, so the university pays and the student pays nothing at the point of use. There is no free public tier: a student whose institution has not bought Studiosity cannot use it at all. No published UK or Australian procurement contract value was located.",
+    t: "Studiosity publishes no price. The site addresses institutions only, and students reach it through their own university sign-in. The university pays and the student pays nothing at the point of use. There is no free public tier: a student whose institution has not bought Studiosity cannot use it at all. G-Cloud returns 0 results and an AusTender search returns 0 records. UK Contracts Finder and Find a Tender cannot be keyword-searched without a browser, so they stay untested.",
     src: "https://www.studiosity.com/pricing"
   },
   "cadmus": {
     e: "not-found",
-    t: "Cadmus publishes no numbers. Its pricing page names three licence models - Pilot, Pay-Per-User charged on a per-student-user basis, and Enterprise for institution-wide rollout - and routes every one of them to Request pricing. The university pays; students get access through their institution's assessment setup and there is no individual or free tier. No published procurement contract value was located.",
+    t: "Cadmus publishes no numbers. Its pricing page names three licence models, Pilot, Pay-Per-User and Enterprise, and routes every one to Request pricing. The university pays. Students get access through their institution's assessment setup, and there is no individual or free tier. G-Cloud returns two hits that are both CoSector listings and not Cadmus, and AusTender returns two generic agency panels with no Cadmus contract or value. Contracts Finder and Find a Tender stay untested.",
     src: "https://www.cadmus.io/pricing"
   },
   "grammarly-authorship": {
     e: "observed",
-    t: "Grammarly's UK plans page shows Free at £0 per month, Pro at £10 per month, and Enterprise as contact-sales only with no published figure. Grammarly's Authorship page states that Authorship is available in both Grammarly Free and Grammarly Pro, so the writing-process tracking feature costs a student nothing. The student pays for Pro if they want it; education site licences and Enterprise are bought by the institution. Free omits the advanced rewriting, tone and plagiarism tooling in Pro, but does include Authorship in Google Docs, Word, Canvas LMS and the Grammarly editor.",
+    t: "Grammarly's UK plans page shows Free at £0 per month, Pro at £10 per month, and Enterprise as contact-sales only with no published figure. Grammarly's Authorship page states that Authorship is available in both Grammarly Free and Grammarly Pro, so the writing-process tracking feature costs a student nothing. The student pays for Pro if they want it. Education site licences and Enterprise are bought by the institution. Free omits the advanced rewriting, tone and plagiarism tooling in Pro, but does include Authorship in Google Docs, Word, Canvas LMS and the Grammarly editor.",
     src: "https://www.grammarly.com/authorship"
   },
   "packback-writing-lab": {
     e: "not-found",
-    t: "Packback publishes no price anywhere on its site; packback.co/pricing returns 404 and the homepage routes to Request a Demo or a sales contact. The marketing is aimed at institutions and instructors adopting it for a course, which implies the institution or department pays, but the site does not say so and does not confirm whether a per-student courseware charge exists. The earlier finding that a student gets free access within an adopting course could not be verified against any live vendor page and should be treated as an assumption rather than a fact.",
+    t: "Packback publishes no price anywhere on its site. packback.co/pricing returns 404, and the homepage routes to a demo request or a sales contact. The marketing addresses institutions and instructors who adopt it for a course, which suggests the institution pays, but the site does not say so. It does not confirm if a per-student courseware charge exists. The live FAQ page covers AI, plagiarism detection and feedback, but says nothing about cost. The earlier finding that a student gets free access inside an adopting course is unverified. Treat it as an assumption and not a fact.",
     src: "https://www.packback.co/"
   },
   "turnitin-clarity": {
     e: "not-found",
-    t: "Turnitin publishes no price for Clarity. Its product page states that Clarity integrates with Turnitin Feedback Studio as a paid add-on and works alongside Turnitin Originality, and the only commercial call to action on the site is Contact Sales - there is no pricing page, no checkout and no published per-student or per-FTE rate. It is sold to the institution as a licence layered on an existing Feedback Studio subscription, so the university or school pays and the student never buys it. Checks of UK Contracts Finder, Find a Tender and the G-Cloud catalogue surfaced no award notice carrying a Clarity figure.",
+    t: "Turnitin publishes no price for Clarity. The product page states that Clarity is a paid add-on to Turnitin Feedback Studio and works alongside Turnitin Originality. The only commercial call to action is Contact Sales. There is no pricing page, no checkout and no published per-student or per-FTE rate. It is sold to the institution as a licence layered on an existing Feedback Studio subscription, so the university or school pays and the student never buys it. G-Cloud returns 0 results for Turnitin. Contracts Finder and Find a Tender cannot be keyword-searched without a browser, so they stay untested.",
     src: "https://www.turnitin.com/products/feedback-studio/clarity"
   },
   "thesify": {
@@ -1104,32 +1104,32 @@ var PRICING = {
   },
   "jenni-ai": {
     e: "observed",
-    t: "Jenni AI is paid by the student in USD: Free at USD 0, Plus at USD 12 per month and Pro at USD 29 per month, with the page noting local currency is available in the app. Pro is the unlimited tier; Plus caps 5,000 autocompletes, 500 edits and 500 chats a month. The free tier is metered by daily actions rather than words - 10 autocompletes a day, 3 edits, 5 chat messages, 3 reviews and 10 PDF uploads - but it does include unlimited citations, 10,000-plus citation styles and body-content export. An annual option advertised as saving 60% is rendered only in-app, so no annual figure was observed.",
+    t: "Jenni AI is paid by the student in USD: Free at USD 0, Plus at USD 12 per month and Pro at USD 29 per month, with the page noting local currency is available in the app. Pro is the unlimited tier. Plus caps 5,000 autocompletes, 500 edits and 500 chats a month. The free tier is metered by daily actions rather than words - 10 autocompletes a day, 3 edits, 5 chat messages, 3 reviews and 10 PDF uploads - but it does include unlimited citations, 10,000-plus citation styles and body-content export. An annual option advertised as saving 60% is rendered only in-app, so no annual figure was observed.",
     src: "https://jenni.ai/pricing"
   },
   "copilot-in-word": {
     e: "observed",
-    t: "Two different products share the name. For an individual, Microsoft 365 Personal is £8.49 per month or £84.99 per year and now bundles Copilot in the Word, Excel, PowerPoint, Outlook and OneNote desktop apps; Family is £10.49 per month or £104.99 per year but the AI is for the subscription owner only. For an institution, the Microsoft 365 Copilot Business add-on is £13.80 per user per month on annual billing (promotional through December 2026, list £16.10) or £19.32 billed monthly, all excluding VAT, and the university pays it. A student on a university Microsoft 365 A licence gets Word and web-grounded Copilot Chat free, but in-document Edit with Copilot in Word requires the paid add-on, whose academic price is not published.",
+    t: "Two different products share the name. For an individual, Microsoft 365 Personal is £8.49 per month or £84.99 per year and now bundles Copilot in the Word, Excel, PowerPoint, Outlook and OneNote desktop apps. Family is £10.49 per month or £104.99 per year but the AI is for the subscription owner only. For an institution, the Microsoft 365 Copilot Business add-on is £13.80 per user per month on annual billing (promotional through December 2026, list £16.10) or £19.32 billed monthly, all excluding VAT, and the university pays it. A student on a university Microsoft 365 A licence gets Word and web-grounded Copilot Chat free, but in-document Edit with Copilot in Word requires the paid add-on, whose academic price is not published.",
     src: "https://www.microsoft.com/en-gb/microsoft-365-copilot/pricing"
   },
   "blackboard-ally": {
     e: "not-found",
-    t: "Anthology publishes no price for Blackboard Ally. The product page offers only Request a Demo and Contact Us - there is no pricing page, no rate card and no per-student figure. It is licensed to the institution as an add-on to the LMS, typically scaled by enrolment or FTE and negotiated per contract, so the university pays and the student gets it invisibly through the VLE at no personal cost. No matching notice was found on UK Contracts Finder or Find a Tender, and Blackboard Ally is not listed on the G-Cloud Digital Marketplace.",
+    t: "Anthology publishes no price for Blackboard Ally. The product page offers only a demo request and a contact form. There is no pricing page, no rate card and no per-student figure. It is licensed to the institution as an LMS add-on, usually scaled by enrolment or FTE and negotiated per contract. The university pays, and the student gets it invisibly through the VLE at no personal cost. G-Cloud returns 0 results. Contracts Finder and Find a Tender cannot be keyword-searched without a browser, so they stay untested.",
     src: "https://www.blackboard.com/products/teaching-and-learning/learning-effectiveness/blackboard-ally"
   },
   "helperbird": {
     e: "observed",
-    t: "Helperbird Pro is USD 35.00 per year for an individual, annual only with no monthly or lifetime option, paid by the student; the homepage was running a sale at USD 20. The permanent free tier needs no account or card and covers dyslexia fonts, letter and line spacing, Reading Mode, Immersive Reader, basic text-to-speech, colour overlays, high contrast, translate and a PDF reader - but not natural voices with word highlighting, voice typing, word prediction, spell check, AI summarise and simplify, or Screenshot Reader. Helperbird for Schools Pro Max is USD 1,500 per year as a site licence paid by the school, and district Enterprise is quote-only. No UK DSA supplier catalogue listing was found.",
+    t: "Helperbird Pro is USD 35.00 per year for an individual, annual only with no monthly or lifetime option, paid by the student. The homepage was running a sale at USD 20. The permanent free tier needs no account or card and covers dyslexia fonts, letter and line spacing, Reading Mode, Immersive Reader, basic text-to-speech, colour overlays, high contrast, translate and a PDF reader - but not natural voices with word highlighting, voice typing, word prediction, spell check, AI summarise and simplify, or Screenshot Reader. Helperbird for Schools Pro Max is USD 1,500 per year as a site licence paid by the school, and district Enterprise is quote-only. No UK DSA supplier catalogue listing was found.",
     src: "https://www.helperbird.com/pricing"
   },
   "aspire-student-portal": {
     e: "observed",
-    t: "The Aspire Student Portal course subscription is listed at £214.80 on Dyslexic.com, which is operated by iansyst. The listing describes it as a course-long subscription rather than a fixed 12-month term, so the duration follows the length of the student's course. The page does not state whether the figure is ex or inc VAT. This is a DSA-route purchase - the student's DSA award pays rather than the student - and there is no free tier.",
+    t: "Dyslexic.com, operated by iansyst, lists the Aspire Student Portal course subscription at £214.80. The listing describes it as a course-long subscription and not a fixed 12-month term, so the duration follows the length of the student's course. Neither the product page nor the site's VAT page states if the figure is ex or inc VAT, so the VAT treatment is unsettled. This is a DSA-route purchase with no free tier. No other supplier lists Aspire at a price.",
     src: "https://www.dyslexic.com/product/aspire-student-portal-course-subscription/"
   },
   "mindview": {
     e: "observed",
-    t: "On the UK DSA supplier catalogue Assistive IT lists the MindView 9 DSA Suite at £249.00 ex VAT (£298.80 inc VAT) as a one-off licence restricted to DSA students, who must send a student ID and award letter before dispatch; the Access to Work workplace version is £405.00 ex VAT (£486.00 inc VAT). Dyslexic.com lists a MindView AT Suite three-year subscription at £438.00, noting zero-rated VAT for qualifying assistive-technology purchases. Direct from MatchWare the MindView Suite is a subscription at USD 340 per year, with educational pricing quote-only. There is no free tier: on the DSA route the funding body pays, otherwise the student must fund the full licence.",
+    t: "On the DSA route Assistive IT lists the MindView 9 DSA Suite at £249.00 ex VAT (£298.80 inc VAT) as a one-off licence for DSA students only, who must send a student ID and award letter before dispatch. The Access to Work workplace version is £405.00 ex VAT (£486.00 inc VAT). Dyslexic.com lists a MindView AT Suite three-year subscription at £438.00, and notes zero-rated VAT for qualifying assistive-technology purchases. Direct from MatchWare the Suite is a subscription at USD 340 a year, with educational pricing quote-only. There is no free tier: on the DSA route the funding body pays, otherwise the student must fund the full licence.",
     src: "https://www.assistiveit.co.uk/product/mindview-9-dsa-suite/"
   },
   "podsie": {

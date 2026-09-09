@@ -3381,8 +3381,8 @@ var PRODUCTS = [
     feedback: { c: "Per-section RAG badges, strengths, areas to improve, and feedback turned into tasks.", e: "observed", t: "The Writing Coach returns, per section, a RAG status badge, a verdict, collapsible Strengths and Areas to Improve, and each area carries a “Would strengthen mark” tag with the suggestion phrased as a question rather than a rewrite. An Add Task control turns a piece of feedback into a tracked next action. Quiz results carry Performance by Topic and Practise Weak Topics." },
     switch: { c: "A change of representation is cheap and reversible. Nothing carries state between formats.", e: "observed", t: "Switching representation is cheap and reversible: Original and Easy-to-Read is a persistent toggle, Back to Original sits inside the AI Tools menu, and a split view exists. Switching between approaches to the same source is a menu re-pick; nothing carries state from a summary into a quiz, or from a weak quiz topic into a re-read." },
     trace: { c: "This is where StudyCog contradicts the survey's market-wide finding.", e: "observed", t: "This is where StudyCog contradicts the survey's market-wide finding. Summary sentences carry inline anchors giving page number and section name; Explore Themes carries “Where did this come from?”; the quiz carries “See in document”; the reader popover carries “See in Original (p.1)”. Seven distinct copy strings ship for ways the anchor can fail, which is not something a decorative citation feature needs.", quote: "That wording appears more than once. Try selecting a longer or more unique phrase." },
-    return: { c: "Better provided for than anything in the survey.", e: "observed", t: "Better provided for than anything in the survey. Assignments resume with a step counter, a progress percentage and Continue; the library has Recently Viewed; quiz history and feedback history persist; accessibility settings carry across devices. On trial expiry the student is told their documents, notes and annotations are safe." },
-    access: { c: "A single Shift+S accessibility panel. The WCAG claim is self-declared and undated.", e: "observed", t: "A single Accessibility panel on Shift+S covering text-to-speech provider and voice, speed, font size, line spacing, seven font families including OpenDyslexic, seven colour schemes, Reduce Motion, Bionic Reading and a Reading Ruler; plus Skip Citations While Reading, Speak Maths and Tables, RSVP, and fully remappable keyboard shortcuts. The conformance claim is weak: a self-declared “100%” WCAG figure with no named auditor, no date, and one of the four WCAG principles missing from the scorecard." },
+    return: { c: "Better provided for than anything in the survey.", e: "documented", t: "Better provided for than anything in the survey. Assignments resume with a step counter, a progress percentage and Continue; the library has Recently Viewed; quiz history and feedback history persist; accessibility settings carry across devices. On trial expiry the student is told their documents, notes and annotations are safe." },
+    access: { c: "A single Shift+S accessibility panel. The WCAG claim is self-declared and undated.", e: "documented", t: "A single Accessibility panel on Shift+S covering text-to-speech provider and voice, speed, font size, line spacing, seven font families including OpenDyslexic, seven colour schemes, Reduce Motion, Bionic Reading and a Reading Ruler; plus Skip Citations While Reading, Speak Maths and Tables, RSVP, and fully remappable keyboard shortcuts. The conformance claim is weak: a self-declared “100%” WCAG figure with no named auditor, no date, and one of the four WCAG principles missing from the scorecard." },
     signal: { c: "Preferences, the uploaded brief, and quiz performance. Diagnosis changes nothing.", e: "observed", t: "Three signals, none of them a support profile: student-set presentation preferences, the uploaded brief and marking criteria which shape the outline and the feedback criteria, and observed within-format quiz performance driving Practise Weak Topics. Diagnosis, condition and needs assessment change nothing. The assessor-facing Recommendation Builder runs the opposite direction, generating justification prose for the assessor's report." },
     authorship: { c: "Stated at least six times across product pages and the FAQ.", e: "documented", t: "Stated at least six times across product pages and the FAQ, in language as crisp as Thesify's or Microsoft's.", quote: "No. StudyCog's AI is specifically designed NOT to write content for you... The actual writing — the ideas, arguments, and words — must come from you." }
   }
@@ -3403,7 +3403,7 @@ var PRODUCTS = [
     generate: { c: "Study guides, audio and video overviews, mind maps, flashcards, quizzes, slides.", e: "observed", t: "Study guides, briefings, audio overviews, mind maps, flashcards, quizzes, infographics and slide decks, plus Video Overview and Data Table in the current Studio grid. Generation is asynchronous and non-blocking: two jobs run at once while the student keeps reading.", src: [s("NotebookLM overview", "https://support.google.com/notebooklm/answer/16164461?hl=en-GB")] },
     feedback: { c: "Self-marked Got it or Missed it, plus an Explain button.", e: "observed", t: "Self-marked “Got it!” and “Missed it!”, an Explain button, and an end-of-session result offering review, retake or “Only cards you missed”. Quiz answers can be explained on request. Adaptive difficulty was not found; difficulty is a setting, not something the system adapts.", src: [s("Flashcards and quizzes", "https://support.google.com/notebooklm/answer/16958963?hl=en-GB")] },
     switch: { c: "Difficulty, quantity, retake and missed-cards only. No reject affordance found.", e: "observed", t: "Difficulty easy, medium or hard, a custom prompt, quantity, retake, “Only cards you missed”, and deleting a mind map to regenerate it. No reject or report affordance for a bad activity was found.", src: [s("Mind maps", "https://support.google.com/notebooklm/answer/16212283?hl=en-GB")] },
-    trace: { c: "Numbered citations open the source pane at the cited line, highlighted.", e: "observed", t: "Chat answers carry numbered citation markers, and clicking one opens the Source guide pane at the cited line with it highlighted in situ. Mind-map nodes open a scoped chat query rather than jumping to a passage, and click-through to a PDF page or a video timestamp is not documented.", quote: "NotebookLM can be inaccurate; please double check its responses" },
+    trace: { c: "Numbered citations open the source pane at the cited line, highlighted.", e: "documented", t: "Chat answers carry numbered citation markers, and clicking one opens the Source guide pane at the cited line with it highlighted in situ. Mind-map nodes open a scoped chat query rather than jumping to a passage, and click-through to a PDF page or a video timestamp is not documented.", quote: "NotebookLM can be inaccurate; please double check its responses" },
     return: { c: "Progress persists within a notebook.", e: "observed", t: "Progress persists within a notebook. There is no cross-notebook dashboard and no spaced repetition.", quote: "Gemini Notebook will remember your progress, and you can pick up where you left off if you leave and return" },
     access: { c: "A third-party-audited VPAT exists. We did not extract its per-criterion ratings.", e: "documented", t: "A third-party-audited VPAT exists, but its per-criterion ratings could not be extracted during this research, so the actual conformance position is unknown.", src: [s("NotebookLM ACR", "https://services.google.com/fh/files/misc/google_notebooklm_vpat.pdf")] },
     signal: { c: "No adaptation signal was located.", e: "not-found", t: "No adaptation signal was located. There is no prior-knowledge check, no preference intake and no learning-styles claim. Everything that changes behaviour is explicit configuration: which sources you tick, the focus areas you type, response length, and a Default / Learning guide / Custom chat style." },
@@ -3424,12 +3424,12 @@ var PRODUCTS = [
     orient: { c: "Starter tiles, a hybrid of catalogue and prompt.", e: "observed", t: "Starter tiles, a hybrid of catalogue and prompt. This is the middle position between a single recommendation and a full format catalogue.", quote: "help me learn, quiz me, make flashcards or create a study guide" },
     select: { c: "The student picks a tile. The product recommends nothing from the content.", e: "observed", t: "The student picks a tile, with the class and assignment supplying context for “context-aware help and tailored practice”. Nothing content-based is recommended." },
     generate: { c: "Audio and Video Overviews, flashcards, interactive visual diagrams, quizzes and study guides.", e: "observed", t: "Audio and Video Overviews, flashcards, interactive visual diagrams, quizzes and study guides." },
-    feedback: { c: "What happens after a student answers is not documented for this surface.", e: "not-found", t: "What happens after a student answers a Classroom-surfaced quiz question is not documented on the reachable first-party pages." },
+    feedback: { c: "The answer is marked, and both the wrong and the right choice get a reason.", e: "observed", t: "A Google video of the surface shows the chosen answer marked \u201cNot quite\u201d with a reason, the correct answer marked \u201cRight answer\u201d with its own explanation, and a question counter. First-party written documentation of the same behaviour was not found." },
     switch: { c: "No regenerate, reject or report control is documented for this surface.", e: "not-found", t: "No control for regenerating, rejecting or reporting a poor activity is documented for this surface." },
     trace: { c: "Traceability is inherited from NotebookLM, at the same undocumented granularity.", e: "documented", t: "Notebook citation behaviour applies, so traceability is inherited from NotebookLM at the same undocumented granularity." },
     return: { c: "Per-class notebooks stay synchronised as courses progress, so returning finds current material.", e: "observed", t: "Per-class notebooks stay synchronised as courses progress, so returning finds current material. Student-level progress persistence for generated activities is not documented." },
     access: { c: "Admin controls exist per organisation.", e: "documented", t: "Admin controls exist per organisation. No Classroom-specific accessibility conformance report for the Gemini surface was located." },
-    signal: { c: "Teacher assignment, plus the selected class and assignment as context.", e: "observed", t: "Teacher assignment, plus the selected class and assignment as context. Nothing derives from the individual learner." },
+    signal: { c: "Teacher assignment and class context, plus an offer to retarget the next quiz at missed topics.", e: "observed", t: "Teacher assignment, plus the selected class and assignment as context. After a quiz, the product offers to aim the next one at the topics the student missed. That offer is the only step found that derives from the individual learner." },
     authorship: { c: "No authorship boundary statement was located for this surface.", e: "not-found", t: "No authorship boundary statement was located for this surface." }
   }
 },
@@ -3521,7 +3521,7 @@ var PRODUCTS = [
     trace: { c: "Flashcards link back to lecture highlights.", e: "observed", t: "Flashcards link back to lecture highlights. Whether that resolves to an exact timestamp or slide is not stated." },
     return: { c: "No resume behaviour or progress persistence is documented.", e: "not-found", t: "No resume behaviour or progress persistence is documented." },
     access: { c: "Claims full WCAG 2.2 AA with a weekly internal automated audit.", e: "documented", t: "Claims full WCAG 2.2 AA with a weekly internal automated audit. The statement was last reviewed 1 June 2026. No third-party auditor is named." },
-    signal: { c: "Not documented.", e: "documented", t: "Not documented. No learning-styles claim was found." },
+    signal: { c: "Not documented.", e: "not-found", t: "Nothing was found that describes what the product adapts to. No learning-styles claim was found either." },
     authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
   }
 },
@@ -3657,7 +3657,7 @@ var PRODUCTS = [
     feedback: { c: "Inline explanation and a running score dial, with no citation to the source.", e: "observed", t: "A wrong answer is marked and the assistant delivers a substantive inline explanation with a running score dial. The explanation carries no citation back to the uploaded source." },
     switch: { c: "A context-sensitive assistant panel on every screen: the best mid-activity escape hatch.", e: "observed", t: "A right-hand assistant panel is present on every screen and is context-sensitive to the current activity, offering different openers on a flashcard, a quiz question and a notes document. That is the best mid-activity escape hatch observed anywhere." },
     trace: { c: "No link from a generated item back to the source location.", e: "not-found", t: "No link from a generated item back to the source location was observed or documented." },
-    return: { c: "No resume or progress persistence was observed in the demo or documented.", e: "not-found", t: "No resume or progress persistence was observed in the demo or documented." },
+    return: { c: "A Jump back in card with a per-set progress bar, and a day-streak tile.", e: "observed", t: "The dashboard holds a \u201cJump back in\u201d section with a per-set progress bar, a Recent Activities section, a day-streak tile and an Add exam date link. The demo set stands at 0 per cent, thus we did not see progress advance." },
     access: { c: "We found no accessibility statement, VPAT or WCAG claim.", e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located; the site refused unauthenticated fetches." },
     signal: { c: "Student-stated expertise level per uploaded item.", e: "observed", t: "Student-stated expertise level per uploaded item. Nothing performance-derived was observed." },
     authorship: { c: "Essay Grader offers one-click replacement prose. That crosses the authorship boundary.", e: "observed", t: "The Essay Grader returns per-criterion scores and a Suggestions column in which each item shows the student's original sentence greyed out above a “Suggested Rewrite” of fully drafted replacement prose, presented as a one-click accept. That is authoring assessed prose on the student's behalf, and it is exactly the boundary the map draws." }
@@ -3705,7 +3705,7 @@ var PRODUCTS = [
     trace: { c: "No citation or grounding mechanism exists for either GENai tool.", e: "not-found", t: "No citation or grounding mechanism exists for either GENai tool." },
     return: { c: "What a second session looks like for the learner is not documented.", e: "not-found", t: "What a second session looks like for the learner is not documented." },
     access: { c: "Partially conformant to WCAG 2.2 AA, with action plans for four criteria.", e: "documented", t: "A candid partial-conformance statement: partially conformant to WCAG 2.2 AA with action plans for the remaining four criteria. Coloured overlays for dyslexia and Irlen, high-contrast and colourblind schemes, and subtitles with variable speed. Built-in read-aloud is a roadmap item, not shipped.", src: [s("Accessibility", "https://support.century.tech/support/solutions/articles/44002663276")] },
-    signal: { c: "Diagnostic placement, teacher-confirmed, plus ongoing performance and misconception data.", e: "documented", t: "Diagnostic placement, teacher-confirmed, plus ongoing performance and misconception data. No learning-styles claim was found." },
+    signal: { c: "Diagnostic placement, teacher-confirmed, plus ongoing performance and misconception data.", e: "documented", t: "Diagnostic placement, teacher-confirmed, plus ongoing performance and misconception data. No learning-styles taxonomy was found, but the recommended-path tooltip uses the phrase \u201chow you learn best\u201d." },
     authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
   }
 },
@@ -3754,7 +3754,7 @@ var PRODUCTS = [
     return: { c: "Resubmission of a changed draft is the return path.", e: "observed", t: "Resubmission of a changed draft is the return path. No progress state across drafts is documented." },
     access: { c: "No accessibility statement was located.", e: "not-found", t: "No accessibility statement was located." },
     signal: { c: "The student's stated task requirements, supplied as a PDF at the start.", e: "observed", t: "The student's stated task requirements, supplied as a PDF at the start. This is the mechanism our needs-assessment route needs, demonstrated on a different document type." },
-    authorship: { c: "One of the three plainest authorship boundary statements located.", e: "observed", t: "One of the three plainest authorship boundary statements located.", quote: "You'll never receive answers or corrections to your work — instead, you will receive feedback and guidance so that you can learn", src: [s("Is it cheating", "https://support.studiosity.com/en/articles/8719444-is-using-studiosity-like-cheating")] }
+    authorship: { c: "One of the three plainest authorship boundary statements located.", e: "documented", t: "One of the three plainest authorship boundary statements located.", quote: "You'll never receive answers or corrections to your work — instead, you will receive feedback and guidance so that you can learn", src: [s("Is it cheating", "https://support.studiosity.com/en/articles/8719444-is-using-studiosity-like-cheating")] }
   }
 },
 {
@@ -3777,7 +3777,7 @@ var PRODUCTS = [
     return: { c: "Analytics make the work a continuous record rather than a submission event.", e: "documented", t: "Analytics show pasted words, editing volume and device count across the writing period, so the work is a continuous record rather than a submission event." },
     access: { c: "We found no accessibility statement. The accessibility paths refused unauthenticated fetches.", e: "not-found", t: "No accessibility statement was located; accessibility paths refused unauthenticated fetches." },
     signal: { c: "Educator setup.", e: "documented", t: "Educator setup. Nothing derives from the individual learner." },
-    authorship: { c: "An educative, non-detective boundary.", e: "observed", t: "An educative, non-detective boundary.", quote: "Cadmus does NOT flag for plagiarism or indicate whether any form of academic misconduct has taken place" }
+    authorship: { c: "An educative, non-detective boundary.", e: "vendor-claim", t: "An educative, non-detective boundary.", quote: "Cadmus does NOT flag for plagiarism or indicate whether any form of academic misconduct has taken place" }
   }
 },
 {
@@ -3823,7 +3823,7 @@ var PRODUCTS = [
     return: { c: "No resume or draft-history behaviour is documented.", e: "not-found", t: "No resume or draft-history behaviour is documented." },
     access: { c: "WCAG AA target, annual third-party audits since 2017, VPAT 2.5 June 2026.", e: "observed", t: "The strongest accessibility documentation in this cluster: a WCAG Level AA target, annual third-party audits since June 2017, and VPAT 2.5 last updated June 2026.", src: [s("Accessibility", "https://www.packback.co/accessibility")] },
     signal: { c: "No adaptation signal is documented.", e: "not-found", t: "No adaptation signal is documented." },
-    authorship: { c: "Stated plainly on the product page.", e: "observed", t: "Stated plainly on the product page.", quote: "actually teaches you how to write (rather than writing for you)" }
+    authorship: { c: "Stated plainly on the product page.", e: "vendor-claim", t: "Stated plainly on the product page.", quote: "actually teaches you how to write (rather than writing for you)" }
   }
 },
 {
@@ -3869,7 +3869,7 @@ var PRODUCTS = [
     return: { c: "No resume or draft-history behaviour is documented.", e: "not-found", t: "No resume or draft-history behaviour is documented." },
     access: { c: "No accessibility statement was located.", e: "not-found", t: "No accessibility statement was located." },
     signal: { c: "No adaptation signal is documented beyond the rubric selected.", e: "not-found", t: "No adaptation signal is documented beyond the rubric selected." },
-    authorship: { c: "The clearest statement located anywhere in this research.", e: "observed", t: "The clearest statement located anywhere in this research.", quote: "Thesify is designed to assist and enhance your writing, not to write on your behalf" }
+    authorship: { c: "The clearest statement located anywhere in this research.", e: "vendor-claim", t: "The clearest statement located anywhere in this research.", quote: "Thesify is designed to assist and enhance your writing, not to write on your behalf" }
   }
 },
 {
@@ -3888,7 +3888,7 @@ var PRODUCTS = [
     generate: { c: "Sentence-level autocomplete grounded in the imported papers, plus citations.", e: "observed", t: "Sentence-level autocomplete grounded in the imported papers, plus citations." },
     feedback: { c: "Flags unverified or speculative claims in the draft.", e: "observed", t: "Flags unverified or speculative claims in the draft." },
     switch: { c: "Per-section source scoping is the switching control.", e: "documented", t: "Per-section source scoping is the switching control. No reject or report affordance is documented." },
-    trace: { c: "The traceability standard for the whole survey.", e: "observed", t: "The traceability standard for the whole survey, and the reason exact-source anchoring inside a revision activity reads as a gap rather than an impossibility.", quote: "Jenni connects every AI-suggested sentence to the precise location in your source PDF helping you verify in one click" },
+    trace: { c: "The traceability standard for the whole survey.", e: "vendor-claim", t: "The traceability standard for the whole survey, and the reason exact-source anchoring inside a revision activity reads as a gap rather than an impossibility.", quote: "Jenni connects every AI-suggested sentence to the precise location in your source PDF helping you verify in one click" },
     return: { c: "No resume or draft-history behaviour is documented.", e: "not-found", t: "No resume or draft-history behaviour is documented." },
     access: { c: "No accessibility statement was located.", e: "not-found", t: "No accessibility statement was located." },
     signal: { c: "Which sources the student ticks per section.", e: "documented", t: "Which sources the student ticks per section. Nothing performance-derived or profile-derived." },
@@ -3961,7 +3961,7 @@ var PRODUCTS = [
     switch: { c: "Every setting is adjustable at any time from the same panel.", e: "observed", t: "Every setting is adjustable at any time from the same panel, which is the cheapest possible switching cost." },
     trace: { c: "The text is the source, so nothing needs anchoring.", e: "documented", t: "The text is the source, so nothing needs anchoring." },
     return: { c: "Settings persist as the student's profile across pages.", e: "documented", t: "Settings persist as the student's profile across pages." },
-    access: { c: "Accessibility is the product: reading, focus, contrast and movement profiles, with per-setting adjustment.", e: "observed", t: "Accessibility is the product: reading, focus, contrast and movement profiles, with per-setting adjustment. No conformance claim for the extension itself was located." },
+    access: { c: "Accessibility is the product: reading, focus, contrast and movement profiles, with per-setting adjustment.", e: "observed", t: "Accessibility is the product: reading, focus, contrast and movement profiles, with per-setting adjustment. Helperbird publishes a conformance report for the extension, VPAT 2.5 against WCAG 2.1, dated April 2024. The report is self-performed by a member of Helperbird staff, and it states that this was the first time the company did one." },
     signal: { c: "Student-chosen preset, then student adjustment.", e: "observed", t: "Student-chosen preset, then student adjustment. A stated preference, not a diagnosis." },
     authorship: { c: "Not a writing-support product in the sense the map means.", e: "not-found", t: "Not a writing-support product in the sense the map means. No authorship boundary statement applies." }
   }
@@ -4007,7 +4007,7 @@ var PRODUCTS = [
     switch: { c: "No switching control was established.", e: "not-found", t: "No switching control was established." },
     trace: { c: "No source anchoring behaviour was established.", e: "not-found", t: "No source anchoring behaviour was established." },
     return: { c: "No return behaviour was established.", e: "not-found", t: "No return behaviour was established." },
-    access: { c: "No conformance claim, auditor or date was located in this research.", e: "not-found", t: "No conformance claim, auditor or date was located in this research." },
+    access: { c: "A Digital Accessibility Centre certification badge, with no date, scope or report.", e: "vendor-claim", t: "MatchWare shows a Digital Accessibility Centre certification badge. No dated report, no scope and no conformance level was located, thus the badge is the whole of the evidence." },
     signal: { c: "The assessor personas shape the assessor's report, not the product.", e: "documented", t: "The assessor personas shape the assessor's report, not the product. Nothing reaches the student's account." },
     authorship: { c: "No authorship boundary statement was located.", e: "not-found", t: "No authorship boundary statement was located." }
   }
@@ -4246,7 +4246,7 @@ var FRAME_CAPTIONS = {
  },
  "blackboard-ally": {
   "access": {
-   "c": "Ally shows the file as a machine translated Spanish version. A toggle switches between Original and Spanish and three buttons open text, grammar and reading preferences.",
+   "c": "The reader shows a Spanish version of the file. A toggle switches between Original and Spanish, and three unlabelled icon buttons sit beside it. Nothing on screen names the buttons, says the translation is machine made, or identifies the product as Ally.",
    "crop": false,
    "note": "",
    "src": "https://www.youtube.com/watch?v=1tkTDghLm7s",
@@ -4369,7 +4369,7 @@ var FRAME_CAPTIONS = {
  },
  "caption-ed": {
   "access": {
-   "c": "A 'Your custom dictionary' panel lists subject words the student added, for example 'Parametricism' and 'Biomimetic'. Adding these words to the dictionary improves transcription for jargon-heavy lectures, a control specific to Caption.Ed among the six products in this batch.",
+   "c": "A 'Your custom dictionary' panel lists subject words the student added, for example 'Parametricism' and 'Biomimetic'. Adding these words to the dictionary improves transcription for jargon-heavy lectures, a control specific to Caption.Ed among the UK DSA assistive tools.",
    "crop": false,
    "note": "hubfs/wp-content asset 'Frame-34658-2.png'. Caption.Ed's own accessibility statement also names light, dark, and sepia display modes, but no screenshot of those modes exists in the sources checked.",
    "src": "https://caption-ed.com/for-students/",
@@ -4796,7 +4796,7 @@ var FRAME_CAPTIONS = {
    "ts": ""
   },
   "generate": {
-   "c": "A conversational quiz reads: 'I have 5 questions for you.' Question 1 asks about H.G. Wells' novel The Time Machine, and the correct answer is already marked green with a check as Question 2 begins to load.",
+   "c": "A conversational quiz reads: 'I have 5 questions for you.' Question 1 asks what percentage of new information a learner forgets after 20 minutes. One answer is marked green with a check.",
    "crop": false,
    "note": "This is the vendor's 'Quiz Me' product-page screenshot, filename 'Quiz me hero (1).png'. Its chrome matches the other in-app Notes screenshots.",
    "src": "https://genio.co/notes/quiz-me",
@@ -4912,7 +4912,7 @@ var FRAME_CAPTIONS = {
    "ts": "10:37"
   },
   "generate": {
-   "c": "Helperbird makes no new activity. It changes how an existing page looks. This is the Wikipedia Honey Bee article after the Reading Comfort profile is applied: a cream background, larger text, taller lines, and narrower paragraphs.",
+   "c": "Helperbird makes no new activity. It changes how an existing page looks. This frame shows the Wikipedia Honey bee article with Wikipedia's own Appearance panel open. The Reading Comfort profile is not applied here, thus the frame shows the starting point and not the result.",
    "crop": false,
    "note": "Re-encoded with a smaller color palette to bring the file under 500KB. No content is cropped or changed.",
    "src": "https://www.helperbird.com/features/accessibility-profiles/",
@@ -5265,7 +5265,7 @@ var FRAME_CAPTIONS = {
    "ts": "17:45"
   },
   "return": {
-   "c": "The 'Choose Your Exam...' dropdown on the home screen now lists a second saved exam, 'Human anatomy', next to the first one, 'Rivers of the world'. Past exams stay ready to reopen on a later visit.",
+   "c": "The 'Choose Your Exam...' control on the home screen holds a saved exam, 'Human anatomy'. The control is closed in this frame, thus the other saved exams are not readable. Past exams stay ready to reopen on a later visit.",
    "crop": false,
    "note": "",
    "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
@@ -5381,7 +5381,7 @@ var FRAME_CAPTIONS = {
  },
  "mindview": {
   "access": {
-   "c": "This is not a control screen. It is one certification badge on the hub page: a Digital Accessibility Centre (DAC) badge. The hub page shows nine other certification badges next to it, including WCAG, VPAT Compliant, and 508 Compliant.",
+   "c": "This is not a control screen. It is one certification badge: a Digital Accessibility Centre (DAC) mark reading 'Certified'. The badge carries no date, no scope and no link to a report. The other badges that the vendor hub shows are outside this frame.",
    "crop": false,
    "note": "Rasterized from the vendor's SVG badge file with rsvg-convert. No content is added or removed.",
    "src": "https://www.matchware.com/dsa",
@@ -5752,7 +5752,7 @@ var FRAME_CAPTIONS = {
  },
  "studycog": {
   "access": {
-   "c": "One panel, opened with Shift+S, holds three groups of controls: a text-to-speech voice picker and speed, display settings for font, spacing, and color, and reading tools with a Bionic Reading toggle and a Reading Ruler.",
+   "c": "One panel, shown in its default state, holds three groups of controls: a text-to-speech voice picker and speed, display settings for font, spacing, and color, and reading tools with a Bionic Reading toggle and a Reading Ruler.",
    "crop": false,
    "note": "",
    "src": "https://studycog.co.uk/api/tour-image/accessibility.webp",
@@ -5794,7 +5794,7 @@ var FRAME_CAPTIONS = {
    "ts": ""
   },
   "return": {
-   "c": "On a return visit, each of 3 projects shows a stage name such as 'Planning', a step count such as 'Step 2 of 5', a progress bar, and a Continue button. The session resumes mid-pipeline instead of restarting.",
+   "c": "On a return visit, each of 3 projects shows a stage name such as 'Planning', a progress bar, and a Continue button. The session resumes mid-pipeline instead of restarting. The step counter that the record describes is not legible at this size.",
    "crop": false,
    "note": "",
    "src": "https://studycog.co.uk/api/tour-image/assignments.webp",
@@ -5879,13 +5879,6 @@ var FRAME_CAPTIONS = {
    "src": "https://youtu.be/38nO-jQyT7w",
    "ts": "03:12"
   },
-  "signal": {
-   "c": "The essay grading results give a score of 79 percent. Bars break the score into Introduction, Main Points, Organization, Works Cited and Mechanics.",
-   "crop": false,
-   "note": "",
-   "src": "https://youtu.be/38nO-jQyT7w",
-   "ts": "08:54"
-  },
   "trace": {
    "c": "The study set links the notes back to the source file. Tabs switch between Notes, View PDF, Transcript and Dual View. The viewer shows page 6 of 17.",
    "crop": false,
@@ -5896,11 +5889,11 @@ var FRAME_CAPTIONS = {
  },
  "thesify": {
   "authorship": {
-   "c": "Thesify's comparison table says it \"explains every suggestion so you stay in control\" and \"assists, never writes for you.\"",
+   "c": "The essay grading results give a score of 79 percent. Bars break the score into Introduction, Main Points, Organization, Works Cited and Mechanics.",
    "crop": false,
    "note": "",
-   "src": "https://www.thesify.ai/",
-   "ts": "2026-09-09"
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "08:54"
   },
   "feedback": {
    "c": "Section by Section Feedback marks each part with a dot: green for Title & Abstract, orange for Introduction.",
@@ -6021,7 +6014,6 @@ var FRAMES = {
   "generate",
   "switch",
   "return",
-  "access"
  ],
  "century-tech": [
   "entry",
@@ -6175,14 +6167,12 @@ var FRAMES = {
  "magicschool-iep": [
   "entry",
   "ingest",
-  "orient",
   "select",
   "generate",
   "feedback",
   "switch",
   "trace",
   "return",
-  "access",
   "signal",
   "authorship"
  ],
@@ -6190,8 +6180,6 @@ var FRAMES = {
   "entry",
   "ingest",
   "orient",
-  "select",
-  "generate",
   "feedback",
   "switch",
   "trace",
@@ -6272,8 +6260,7 @@ var FRAMES = {
   "feedback",
   "trace",
   "return",
-  "access",
-  "signal"
+  "authorship"
  ],
  "thesify": [
   "ingest",

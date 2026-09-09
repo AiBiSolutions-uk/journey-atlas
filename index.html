@@ -819,22 +819,34 @@ table.matrix tbody tr:hover th, table.matrix tbody tr:hover td { background: var
 
 /* ====================== footer legend ====================== */
 
+/* Pinned to the corner and closed until asked for, so it never sits in the way. */
 .legend-foot {
-  border-top: 1px solid var(--rule);
-  background: var(--surface);
-  padding: 0 34px;
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  width: max-content;
+  max-width: min(600px, calc(100vw - 36px));
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(8, 14, 16, .07), 0 14px 34px rgba(8, 14, 16, .13);
 }
+.legend-foot[open] { width: min(600px, calc(100vw - 36px)); }
 .legend-foot > summary {
   cursor: pointer;
-  padding: 13px 0;
+  padding: 9px 15px;
   font-size: 13px;
   color: var(--ink-2);
   list-style: none;
+  white-space: nowrap;
 }
+.legend-foot > summary:hover { color: var(--accent); }
+.legend-foot[open] > summary { border-bottom: 1px solid var(--rule); }
 .legend-foot > summary::-webkit-details-marker { display: none; }
 .legend-foot > summary::before { content: "+ "; font-family: "DM Mono", monospace; color: var(--ink-3); }
 .legend-foot[open] > summary::before { content: "\2013 "; }
-.legend-foot-body { padding-bottom: 26px; max-width: 88ch; }
+.legend-foot-body { padding: 14px 15px 16px; max-height: min(66vh, 560px); overflow-y: auto; }
 .legend { display: grid; gap: 8px; margin-bottom: 16px; }
 .legend-item { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; align-items: baseline; font-size: 13.5px; color: var(--ink-2); }
 .legend-item .chip { justify-self: start; }
@@ -855,7 +867,7 @@ table.matrix tbody tr:hover th, table.matrix tbody tr:hover td { background: var
     padding: 12px 16px 18px;
   }
   .main { padding: 20px 16px 80px; }
-  .legend-foot { padding: 0 16px; }
+  .legend-foot { right: 10px; bottom: 10px; max-width: calc(100vw - 20px); }
   .masthead-inner { padding: 0 14px; gap: 10px; flex-wrap: wrap; min-height: 48px; }
   .phead h1 { font-size: 30px; }
   .stage > summary { grid-template-columns: 26px minmax(0, 1fr); row-gap: 4px; }
@@ -898,6 +910,55 @@ th.mg-corner { border: 0; }
 .fc-crop { font-family: "DM Mono", ui-monospace, Menlo, monospace; font-size: 0.68rem;
            text-transform: uppercase; letter-spacing: .06em; color: var(--ev-not-found-fg); }
 .fc-note { font-style: italic; }
+
+/* --- thumbnails --- */
+.thumbs-head { margin: 26px 0 10px; }
+.thumbs-title { font-family: Newsreader, Georgia, serif; font-size: 1.15rem; margin: 0; }
+.thumbs-sub { font-size: 0.82rem; color: var(--ink-3); margin: 3px 0 0; }
+.thumbs-none { font-size: 0.85rem; color: var(--ink-3); margin: 22px 0 0;
+               padding: 12px 14px; border: 1px dashed var(--rule-strong); border-radius: 3px; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 12px; }
+.thumb { display: block; text-align: left; padding: 0 0 8px; cursor: pointer;
+         background: var(--surface); border: 1px solid var(--rule); border-radius: 3px;
+         overflow: hidden; font: inherit; }
+.thumb:hover { border-color: var(--accent); }
+.thumb:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.thumb img { display: block; width: 100%; height: 104px; object-fit: cover;
+             object-position: top center; background: var(--sunk);
+             border-bottom: 1px solid var(--rule); }
+.thumb-n { display: block; font-size: 10px; color: var(--ink-3); padding: 7px 9px 0; }
+.thumb-name { display: block; font-size: 12px; line-height: 1.3; color: var(--ink-2); padding: 1px 9px 0; }
+
+/* --- lightbox --- */
+body.lb-open { overflow: hidden; }
+.lb { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; }
+.lb[hidden] { display: none; }
+.lb-backdrop { position: absolute; inset: 0; background: rgba(8, 14, 16, .82); }
+.lb-panel { position: relative; z-index: 1; width: min(1240px, 94vw); max-height: 94vh;
+            display: flex; flex-direction: column; background: var(--paper);
+            border: 1px solid var(--rule-strong); border-radius: 4px; overflow: hidden; }
+.lb-bar { display: flex; align-items: center; gap: 14px; padding: 9px 12px;
+          border-bottom: 1px solid var(--rule); background: var(--surface); }
+.lb-eyebrow { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); }
+.lb-count { font-size: 11px; color: var(--ink-3); margin-left: auto; }
+.lb-x { font: inherit; font-size: 12px; padding: 4px 11px; cursor: pointer;
+        background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 3px; }
+.lb-x:hover { border-color: var(--accent); }
+.lb-stage { position: relative; flex: 1 1 auto; min-height: 0; display: flex;
+            align-items: center; justify-content: center; background: var(--sunk); padding: 10px; }
+.lb-stage img { max-width: 100%; max-height: calc(94vh - 210px); object-fit: contain; display: block; }
+.lb-nav { position: absolute; top: 50%; transform: translateY(-50%);
+          width: 42px; height: 62px; cursor: pointer; font-size: 26px; line-height: 1;
+          background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 3px; }
+.lb-nav:hover { border-color: var(--accent); color: var(--accent); }
+.lb-prev { left: 10px; } .lb-next { right: 10px; }
+.lb-foot { padding: 11px 14px 13px; border-top: 1px solid var(--rule); background: var(--surface); }
+.lb-cap { margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--ink); max-width: 90ch; }
+.lb-hint { margin: 7px 0 0; font-size: 10.5px; color: var(--ink-3); }
+@media (max-width: 700px) {
+  .lb-nav { width: 34px; height: 48px; font-size: 20px; }
+  .lb-stage img { max-height: calc(94vh - 250px); }
+}
 </style>
 </head>
 <body>
@@ -929,6 +990,7 @@ th.mg-corner { border: 0; }
     <section class="view" id="view-journey" role="tabpanel" aria-labelledby="tab-journey">
       <div class="phead" id="phead"></div>
       <div id="spine-host"></div>
+      <div id="thumbs-host"></div>
       <div class="stages" id="stages"></div>
     </section>
 
@@ -3206,6 +3268,13 @@ var FRAME_CAPTIONS = {
    "src": "https://www.turnitin.com/products/feedback-studio/clarity",
    "ts": "2026-09-09"
   },
+  "signal": {
+   "c": "Clarity's AI chat follows settings the teacher picked: response length and which help types are active. It does not adapt to the student.",
+   "crop": false,
+   "note": "Same image as entry.png, shown for a different question.",
+   "src": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "ts": "2026-09-09"
+  },
   "trace": {
    "c": "Clicking a flagged, pasted passage shows its exact source link and lets the teacher play back that part of the writing session.",
    "crop": false,
@@ -3214,6 +3283,240 @@ var FRAME_CAPTIONS = {
    "ts": "2026-09-09"
   }
  }
+};
+
+/* Which stage frames exist on disk, per product. Built from the frames folder. */
+var FRAMES = {
+ "aspire-student-portal": [
+  "orient"
+ ],
+ "blackboard-ally": [
+  "orient",
+  "generate"
+ ],
+ "cadmus": [
+  "orient",
+  "select",
+  "feedback",
+  "return",
+  "signal",
+  "authorship"
+ ],
+ "caption-ed": [
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "switch",
+  "return",
+  "access"
+ ],
+ "century-tech": [
+  "entry",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "signal"
+ ],
+ "chatgpt-study-mode": [
+  "entry",
+  "ingest",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "signal"
+ ],
+ "copilot-study-learn": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "return",
+  "authorship"
+ ],
+ "everway-writing-helper": [
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "authorship"
+ ],
+ "gemini-classroom": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "signal",
+  "authorship"
+ ],
+ "genio-notes": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "return"
+ ],
+ "grammarly-authorship": [
+  "entry",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "authorship"
+ ],
+ "helperbird": [
+  "orient",
+  "select",
+  "generate",
+  "access",
+  "authorship"
+ ],
+ "jamworks": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "return"
+ ],
+ "jenni-ai": [
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "switch",
+  "trace",
+  "return",
+  "signal",
+  "authorship"
+ ],
+ "khanmigo": [
+  "generate",
+  "signal"
+ ],
+ "knowt": [
+  "entry",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch"
+ ],
+ "lernabl": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "return",
+  "access"
+ ],
+ "magicschool-iep": [
+  "ingest",
+  "orient",
+  "generate",
+  "switch"
+ ],
+ "mindview": [
+  "orient",
+  "select",
+  "generate",
+  "access"
+ ],
+ "notebooklm": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "signal"
+ ],
+ "packback-writing-lab": [
+  "orient",
+  "generate",
+  "feedback",
+  "trace",
+  "return",
+  "access",
+  "signal",
+  "authorship"
+ ],
+ "quizlet": [
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "signal"
+ ],
+ "remnote": [
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "signal"
+ ],
+ "studiosity": [
+  "ingest",
+  "orient",
+  "feedback",
+  "trace",
+  "return",
+  "signal"
+ ],
+ "studycog": [
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "return",
+  "access",
+  "authorship"
+ ],
+ "thesify": [
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "authorship"
+ ],
+ "turnitin-clarity": [
+  "entry",
+  "orient",
+  "feedback",
+  "trace",
+  "signal",
+  "authorship"
+ ]
 };
 
 var captureCounts = {};
@@ -3464,6 +3767,7 @@ function buildJourney() {
 
   captureCounts[p.id] = 0;
   buildSpine(p);
+  buildThumbs(p);
 
   var wrap = document.getElementById("stages");
   wrap.innerHTML = "";
@@ -3565,6 +3869,100 @@ function buildFrame(pid, sid) {
   img.src = path;
   return box;
 }
+
+
+/* ====================== screenshots: thumbnails and lightbox ====================== */
+
+var LB = { list: [], i: 0, pid: null, open: false, lastFocus: null };
+
+function framesOf(pid) { return FRAMES[pid] || []; }
+
+function buildThumbs(p) {
+  var host = document.getElementById("thumbs-host");
+  if (!host) return;
+  host.innerHTML = "";
+  var got = framesOf(p.id);
+  if (!got.length) {
+    host.appendChild(el("p", "thumbs-none",
+      "No screenshots captured yet for this product."));
+    return;
+  }
+  var head = el("div", "thumbs-head");
+  head.appendChild(el("h2", "thumbs-title", "What it looks like"));
+  head.appendChild(el("p", "thumbs-sub",
+    got.length + " of " + STAGES.length + " screens captured. Select one to open it full size."));
+  host.appendChild(head);
+
+  var strip = el("div", "thumbs");
+  got.forEach(function (sid, idx) {
+    var b = el("button", "thumb");
+    b.type = "button";
+    var st = stageById[sid];
+    b.setAttribute("aria-label", "Open screenshot: " + st.name);
+    var im = document.createElement("img");
+    im.src = frameSrc(p.id, sid);
+    im.alt = "";
+    im.loading = "lazy";
+    b.appendChild(im);
+    b.appendChild(el("span", "thumb-n mono", String(STAGES.indexOf(st) + 1).padStart(2, "0")));
+    b.appendChild(el("span", "thumb-name", st.name));
+    b.addEventListener("click", function () { openLightbox(p.id, idx); });
+    strip.appendChild(b);
+  });
+  host.appendChild(strip);
+}
+
+function openLightbox(pid, idx) {
+  LB.pid = pid;
+  LB.list = framesOf(pid);
+  LB.i = Math.max(0, Math.min(idx, LB.list.length - 1));
+  LB.open = true;
+  LB.lastFocus = document.activeElement;
+  var box = document.getElementById("lightbox");
+  box.hidden = false;
+  document.body.classList.add("lb-open");
+  renderLightbox();
+  document.getElementById("lb-close").focus();
+}
+
+function closeLightbox() {
+  LB.open = false;
+  document.getElementById("lightbox").hidden = true;
+  document.body.classList.remove("lb-open");
+  if (LB.lastFocus && LB.lastFocus.focus) LB.lastFocus.focus();
+}
+
+function stepLightbox(d) {
+  if (!LB.open || !LB.list.length) return;
+  LB.i = (LB.i + d + LB.list.length) % LB.list.length;
+  renderLightbox();
+}
+
+function renderLightbox() {
+  var sid = LB.list[LB.i];
+  var st = stageById[sid];
+  var p = byId[LB.pid];
+  document.getElementById("lb-img").src = frameSrc(LB.pid, sid);
+  document.getElementById("lb-img").alt = p.name + " — " + st.name;
+  document.getElementById("lb-eyebrow").textContent =
+    p.name + "  ·  " + String(STAGES.indexOf(st) + 1).padStart(2, "0") + " " + st.name;
+  document.getElementById("lb-count").textContent = (LB.i + 1) + " of " + LB.list.length;
+
+  var meta = (FRAME_CAPTIONS[LB.pid] || {})[sid] || {};
+  document.getElementById("lb-cap").textContent = meta.c || "";
+  var mrow = document.getElementById("lb-meta");
+  mrow.innerHTML = "";
+  if (meta.src) mrow.appendChild(link(meta.src, meta.ts ? "Source at " + meta.ts : "Source", "fc-src"));
+  if (meta.crop) mrow.appendChild(el("span", "fc-crop", "masked to remove personal data"));
+  if (meta.note) mrow.appendChild(el("span", "fc-note", meta.note));
+}
+
+document.addEventListener("keydown", function (ev) {
+  if (!LB.open) return;
+  if (ev.key === "Escape") { ev.preventDefault(); closeLightbox(); }
+  else if (ev.key === "ArrowRight") { ev.preventDefault(); stepLightbox(1); }
+  else if (ev.key === "ArrowLeft") { ev.preventDefault(); stepLightbox(-1); }
+});
 
 /* ====================== stage compare view ====================== */
 
@@ -3863,6 +4261,11 @@ themeBtn.addEventListener("click", function () {
 buildStageSelect();
 readHash();
 render();
+
+document.getElementById("lb-close").addEventListener("click", closeLightbox);
+document.getElementById("lb-backdrop").addEventListener("click", closeLightbox);
+document.getElementById("lb-prev").addEventListener("click", function () { stepLightbox(-1); });
+document.getElementById("lb-next").addEventListener("click", function () { stepLightbox(1); });
 </script>
 
 <details class="legend-foot" id="legend-foot">
@@ -3879,5 +4282,26 @@ render();
   </div>
 </details>
 
+
+<div id="lightbox" class="lb" hidden role="dialog" aria-modal="true" aria-label="Screenshot viewer">
+  <div class="lb-backdrop" id="lb-backdrop"></div>
+  <div class="lb-panel">
+    <div class="lb-bar">
+      <span class="lb-eyebrow mono" id="lb-eyebrow"></span>
+      <span class="lb-count mono" id="lb-count"></span>
+      <button type="button" class="lb-x" id="lb-close" aria-label="Close viewer">Close</button>
+    </div>
+    <div class="lb-stage">
+      <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Previous screenshot">&#8249;</button>
+      <img id="lb-img" alt="">
+      <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Next screenshot">&#8250;</button>
+    </div>
+    <div class="lb-foot">
+      <p class="lb-cap" id="lb-cap"></p>
+      <p class="fc-meta" id="lb-meta"></p>
+      <p class="lb-hint mono">Left and right arrow keys move between screens. Escape closes.</p>
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -159,3 +159,36 @@ screen in both columns. StudyFetch describes it three times.
 Authorship is nearly empty: 18 of 30 are "none found", and 12 of those are
 boilerplate for products that are not writing tools. Those must read "not
 applicable", not "none found".
+
+## What was applied, 2026-09-09
+
+Every finding above is either fixed or listed below as still open. Three
+commits carry the work: `8caa69a`, `ef7dd2c` and `9f6fad5`.
+
+**Fixed.**
+
+| Area | Count | What changed |
+|---|---|---|
+| Personal data | 22 frames | Cropped the presenter tile, the bookmark bars, the tenant GUID, the teacher name and the recording URL out of Jamworks, Lernabl, Knowt, MagicSchool and Copilot frames. |
+| Picture against sentence | 8 cells | Where the frame won, the sentence changed. |
+| Evidence grades | 15 cells | Nine overstated their source. Five entry cells rested on a 403 or a 404. One accessibility claim rested on a single help article. |
+| Invented caption text | 15 captions | Removed the named things that are not in the picture. |
+| Frames that show another screen | 8 frames | Pulled from the record. The empty state is the honest one. |
+| Duplicate frames | 10 pairs | Both sides now name the other. |
+| Undeclared edits | 6 frames | The black bars, the blur, the yellow arrow and the composite are all declared. |
+| Stage merge | 2 stages into 1 | Orientation and Task selection describe one screen. The id `orient` is an alias, thus every old link resolves. |
+| Evidence classes | 4 into 5 | "Not applicable" replaces 14 boilerplate "none found" cells in Authorship. |
+| The chip beside a picture | all cells | A `not-found` cell that holds a frame now reads "not on this screen". |
+
+**Still open.**
+
+- Accessibility holds 7 frames of 30 on a DSA-funded product. Capture is the
+  only fix. Authorship, Source traceability and Re-engagement come next.
+- The remaining stage renames wait on a decision. Task selection and
+  Personalisation are settled and keep their names.
+- The stage loupe misses the focus trap that the lightbox uses. Panning is
+  mouse-only. The plate hairline sits at 1.48:1 in light and 1.29:1 in dark.
+  `--ink-3` sits at 3.36:1.
+- Century Tech holds frames with no caption.
+- Jenni AI needs a frame that shows the web clipper. The old one was a
+  publisher page with no product in it.

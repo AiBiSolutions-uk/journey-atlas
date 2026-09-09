@@ -182,15 +182,48 @@ commits carry the work: `8caa69a`, `ef7dd2c` and `9f6fad5`.
 | Evidence classes | 4 into 5 | "Not applicable" replaces 14 boilerplate "none found" cells in Authorship. |
 | The chip beside a picture | all cells | A `not-found` cell that holds a frame now reads "not on this screen". |
 
+## What was applied, 2026-09-09, second pass
+
+Commits `dd4597f` and the one that carries this file close the interface and
+the record items above. Capture is the only item that stays open.
+
+**Fixed in this pass.**
+
+| Area | What changed |
+|---|---|
+| One gesture, one answer | Every plate opens the loupe. The inline drawer, the zoom control and the pan handlers are removed. The loupe carries the whole record, thus a stage with no picture is still worth opening. |
+| The focus trap | One `showLightbox` step now serves both axes. The stage loupe keeps the keyboard inside the dialog. |
+| Contrast | A new `--edge` token draws the boundary of a control the reader can select. It holds 3.0:1 or better against every ground, in both themes. `--ink-3` in light moves to #5E6B6F, which is 4.54:1 against paper. |
+| Captions | Every one of the 243 frames now carries a caption and a source. StudyFetch Authorship was the last one missing. |
+| Personal data | Grey blocks cover the auditor name and the work email in the Helperbird conformance report, and the byline name and photo in the Studiosity article. |
+| Accessibility capture | Four new frames: Genio Notes, CENTURY, Caption.Ed and Jamworks. The Caption.Ed frame replaces one that showed the transcription dictionary. |
+| Authorship capture | One new frame: the Studiosity "Is using Studiosity like cheating?" article. |
+
+**Accessibility, where it stands.**
+
+11 frames of 30. Of the 19 without one, 11 cells read "none found", thus no
+frame can exist. The 8 that describe a claim and hold no picture are
+NotebookLM, Gemini in Classroom, ChatGPT Study Mode, Copilot Study and Learn,
+Khanmigo, Everway Writing Helper, Copilot in Word and MagicSchool.
+
+Four of those were tried and rejected in this pass. The Khan Academy article
+sits behind bot detection, which we do not cross. The Everway page is a
+statement for the website with a stock photo, not the June 2025 VPAT the
+record describes. The Microsoft report directory loaded an empty table. Each
+one would have shown something other than the claim beside it.
+
+**Authorship, where it stands.**
+
+17 frames of 30. 12 of the remaining 13 read "not applicable", because the
+product makes revision material and not text a student submits. Only ChatGPT
+Study Mode is a real gap.
+
 **Still open.**
 
-- Accessibility holds 7 frames of 30 on a DSA-funded product. Capture is the
-  only fix. Authorship, Source traceability and Re-engagement come next.
-- The remaining stage renames wait on a decision. Task selection and
-  Personalisation are settled and keep their names.
-- The stage loupe misses the focus trap that the lightbox uses. Panning is
-  mouse-only. The plate hairline sits at 1.48:1 in light and 1.29:1 in dark.
-  `--ink-3` sits at 3.36:1.
-- Century Tech holds frames with no caption.
+- Citation and grounding holds 17 frames of 30, and Resume and review holds 17.
+  These need in-product capture, thus they wait on access we do not have.
 - Jenni AI needs a frame that shows the web clipper. The old one was a
-  publisher page with no product in it.
+  publisher page with no product in it. The clipper sits inside the signed-in
+  app, thus we cannot capture it from public pages.
+- "Writing Helper" is unresolved. We do not know whether this means the
+  Everway entry we hold or a different product.

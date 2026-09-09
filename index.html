@@ -23,9 +23,12 @@
   --sunk: #DDE2DB;
   --rule: #CBD2CC;
   --rule-strong: #A9B4AC;
+  /* The boundary of a control the reader can select. It holds 3:1 against
+     every ground it sits on, thus it passes WCAG 1.4.11. */
+  --edge: #728475;
   --ink: #101E23;
   --ink-2: #4C5D62;
-  --ink-3: #7C8C90;
+  --ink-3: #5E6B6F;
   --accent: #0C4A50;
   --accent-ink: #FAFBF8;
   --accent-soft: #D3E1E0;
@@ -57,6 +60,7 @@
     --sunk: #0A1113;
     --rule: #253034;
     --rule-strong: #3B4A4E;
+    --edge: #516971;
     --ink: #DFE6E3;
     --ink-2: #A0B0B1;
     --ink-3: #74888C;
@@ -91,6 +95,7 @@
   --sunk: #0A1113;
   --rule: #253034;
   --rule-strong: #3B4A4E;
+  --edge: #516971;
   --ink: #DFE6E3;
   --ink-2: #A0B0B1;
   --ink-3: #74888C;
@@ -1081,7 +1086,7 @@ html[data-view="journey"] .cat-blurb { display: none; }
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--edge);
   background: var(--surface);
 }
 .x-ev { height: 3px; flex: none; }
@@ -1186,7 +1191,7 @@ html[data-view="journey"] .cat-blurb { display: none; }
 }
 .x-mount--absent { background: var(--sunk); }
 .x-cell .x-plate { transition: border-color .12s; }
-.x-cell:hover .x-plate { border-color: var(--rule-strong); }
+.x-cell:hover .x-plate { border-color: var(--ink-3); }
 .x-cell[aria-current="true"] .x-plate { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
 .x-cap { padding: 8px 9px 10px; display: grid; gap: 3px; font: inherit; text-align: left; }
 .x-cap-top { display: flex; align-items: baseline; gap: 8px; }
@@ -1469,7 +1474,7 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 
 .s-plate {
   margin: 0; display: flex; flex-direction: column; min-width: 0;
-  border: 1px solid var(--rule); background: var(--surface);
+  border: 1px solid var(--edge); background: var(--surface);
 }
 .s-ev { height: 3px; flex: none; }
 .s-mount {
@@ -4377,11 +4382,11 @@ var FRAME_CAPTIONS = {
  },
  "caption-ed": {
   "access": {
-   "c": "A 'Your custom dictionary' panel lists subject words the student added, for example 'Parametricism' and 'Biomimetic'. Adding these words to the dictionary improves transcription for jargon-heavy lectures, a control specific to Caption.Ed among the UK DSA assistive tools.",
-   "crop": false,
-   "note": "hubfs/wp-content asset 'Frame-34658-2.png'. Caption.Ed's own accessibility statement also names light, dark, and sepia display modes, but no screenshot of those modes exists in the sources checked.",
-   "src": "https://caption-ed.com/for-students/",
-   "ts": ""
+   "c": "The CareScribe accessibility statement. Section 2.0 Conformance Status says the company uses WCAG 2.2 as guiding principles. It names no conformance level and no auditor.",
+   "crop": true,
+   "note": "Cut above a cookie consent banner that covered the lower part of the page. The statement date, 14 June 2024, sits below the cut and is in the record instead. This frame replaces an earlier one that showed the transcription dictionary, which is not an accessibility control.",
+   "src": "https://caption-ed.com/accessibilitystatement/",
+   "ts": "2026-09-09"
   },
   "generate": {
    "c": "An AI-built 'Recording summary' for 'Introduction to Cognitive Psychology' sorts the lecture under headings: 'Opening Remarks and Lecture Overview', 'Encoding and Depth of Processing', 'Retrieval Practice and Spaced Repetition', and two more. This matches the research report's description, 'chaptered summaries'.",
@@ -4427,6 +4432,13 @@ var FRAME_CAPTIONS = {
   }
  },
  "century-tech": {
+  "access": {
+   "c": "The CENTURY Platform Accessibility Information article, modified 24 July 2025. It says the learner experience is partially conformant to WCAG 2.2 AA, with action plans for the remaining four criteria.",
+   "crop": true,
+   "note": "Cut below the first bullet of the Platform design section.",
+   "src": "https://support.century.tech/support/solutions/articles/44002663276",
+   "ts": "2026-09-09"
+  },
   "entry": {
    "c": "A login screen offers sign-in for an existing account, or a button that says \"I have a class code.\" A teacher or school sets up the account and the class code, not the student.",
    "crop": false,
@@ -4789,6 +4801,13 @@ var FRAME_CAPTIONS = {
   }
  },
  "genio-notes": {
+  "access": {
+   "c": "The Genio help article 'Is Genio accessible?' states full WCAG 2.1 and 2.2 Level AA compliance, verified by third-party auditor Level Access as of April 2026, with an ACR available.",
+   "crop": true,
+   "note": "Cut below the first line of the Screen reader support section, so that no half sentence sits at the edge.",
+   "src": "https://help.genio.co/article/24-accessibility-and-glean",
+   "ts": "2026-09-09"
+  },
   "entry": {
    "c": "A new-capture menu offers two modes: 'In-Person Recording' (Microphone) and 'Remote Recording' (Screen Audio, or Screen Audio & Mic). This is a capture control, not an account-setup screen. Nothing on screen shows who owns the account.",
    "crop": false,
@@ -4970,6 +4989,13 @@ var FRAME_CAPTIONS = {
   }
  },
  "jamworks": {
+  "access": {
+   "c": "The Jamworks accessibility page. A badge above the headline reads 'WCAG 2.2 Level AA Conformant', and a View VPAT button sits under it.",
+   "crop": true,
+   "note": "Cut below the buttons, above a cookie consent banner. We did not open the VPAT, thus the frame shows the claim and not the report behind it.",
+   "src": "https://jamworks.com/accessibility/",
+   "ts": "2026-09-09"
+  },
   "entry": {
    "c": "A standalone app widget greets the signed-in account by name and shows one button: 'Start recording'. Below it sit 'Go to My Jamworks Account' and 'Change Account' links, so the same widget also switches which account controls the session.",
    "crop": false,
@@ -5715,6 +5741,13 @@ var FRAME_CAPTIONS = {
   }
  },
  "studiosity": {
+  "authorship": {
+   "c": "The Studiosity help article 'Is using Studiosity like cheating?' answers no, and says a student will never receive answers or corrections, only feedback and guidance.",
+   "crop": true,
+   "note": "The byline named a member of Studiosity staff and showed a photo. A grey block covers both. The atlas does not publish a person name or a face. The article is dated 18 December 2023.",
+   "src": "https://support.studiosity.com/en/articles/8719444-is-using-studiosity-like-cheating",
+   "ts": "2026-09-09"
+  },
   "feedback": {
    "c": "The Feedback Summary opens with a note thanking the student and explaining that feedback is split into categories.",
    "crop": true,
@@ -5837,6 +5870,13 @@ var FRAME_CAPTIONS = {
    "note": "",
    "src": "https://youtu.be/p75Twlxjots",
    "ts": "01:22"
+  },
+  "authorship": {
+   "c": "The essay grading results give a score of 79 percent, broken into Introduction, Main Points, Organization, Works Cited and Mechanics. The Suggestions column shows the student's own sentence greyed out above a Suggested Rewrite of finished replacement prose.",
+   "crop": false,
+   "note": "The essay on screen is an op-ed about a Texas legislature campaign. It is the vendor's demo text, not a student's coursework.",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "08:54"
   },
   "entry": {
    "c": "The StudyFetch home page shows an empty Your Study Sets list with three folders. A side panel shows a zero-day streak and a daily objective.",
@@ -6022,6 +6062,7 @@ var FRAMES = {
   "generate",
   "switch",
   "return",
+  "access"
  ],
  "century-tech": [
   "entry",
@@ -6030,7 +6071,8 @@ var FRAMES = {
   "select",
   "generate",
   "feedback",
-  "signal"
+  "signal",
+  "access"
  ],
  "chatgpt-study-mode": [
   "entry",
@@ -6093,7 +6135,8 @@ var FRAMES = {
   "generate",
   "feedback",
   "switch",
-  "return"
+  "return",
+  "access"
  ],
  "grammarly-authorship": [
   "entry",
@@ -6124,7 +6167,8 @@ var FRAMES = {
   "generate",
   "feedback",
   "switch",
-  "return"
+  "return",
+  "access"
  ],
  "jenni-ai": [
   "orient",
@@ -6244,7 +6288,8 @@ var FRAMES = {
   "feedback",
   "trace",
   "return",
-  "signal"
+  "signal",
+  "authorship"
  ],
  "studycog": [
   "ingest",

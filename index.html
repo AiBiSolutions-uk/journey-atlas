@@ -541,11 +541,14 @@ a.pill:hover { border-color: var(--accent); color: var(--accent); }
 
 .stage-detail {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
-  gap: 26px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
   padding: 4px 8px 26px 44px;
   align-items: start;
 }
+/* The screenshot is the point of the atlas, so it gets the full column. */
+.stage-detail .frame { max-width: 1080px; width: 100%; }
+.stage-detail .frame img { display: block; width: 100%; height: auto; }
 .stage-gloss {
   font-size: 12.5px;
   color: var(--ink-3);
@@ -840,8 +843,7 @@ table.matrix tbody tr:hover th, table.matrix tbody tr:hover td { background: var
 /* ====================== responsive ====================== */
 
 @media (max-width: 1180px) {
-  .stage-detail { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .frame { max-width: 460px; }
+  .stage-detail { gap: 16px; }
 }
 @media (max-width: 900px) {
   .shell { grid-template-columns: minmax(0, 1fr); }
@@ -889,6 +891,13 @@ th.mg-corner { border: 0; }
   padding: 0 0 3px 1px; border-bottom: 2px solid var(--accent-soft);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+.frame-cap { margin: 8px 2px 0; }
+.fc-text { font-size: 0.86rem; line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 74ch; }
+.fc-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;
+           margin: 5px 0 0; font-size: 0.74rem; color: var(--ink-3); }
+.fc-crop { font-family: "DM Mono", ui-monospace, Menlo, monospace; font-size: 0.68rem;
+           text-transform: uppercase; letter-spacing: .06em; color: var(--ev-not-found-fg); }
+.fc-note { font-style: italic; }
 </style>
 </head>
 <body>
@@ -1967,6 +1976,1246 @@ var byId = {};
 PRODUCTS.forEach(function (p) { byId[p.id] = p; });
 var stageById = {};
 STAGES.forEach(function (s) { stageById[s.id] = s; });
+/* What each screenshot shows. One entry per captured frame, written by the
+   capture agents. `crop` marks a frame masked to remove personal data. */
+var FRAME_CAPTIONS = {
+ "aspire-student-portal": {
+  "orient": {
+   "c": "Aspire has no upload step. A student answers setup questions first. The dashboard then shows only content that matches the answers. The vendor states that content \"can be tailored for each student, taking into account disability, academic course, preferred learning style, location and recommended assistive technology.\" The vendor also states: \"Users only see relevant content based on their selections during set-up.\" One input is preferred learning style. Section 6 of the journeys report finds no evidence base for matching content to a preferred learning style. This screenshot also answers two other questions. It shows four category tiles, Study Skills, Assistive Technology, Mental Health and Wellbeing, and Career-Related Learning, which is what the student picks from. It also shows a panel called Where You Left Off, which is what a second visit looks like.",
+   "crop": false,
+   "note": "The screenshot appears in the vendor's own product listing. The content shown, such as Managing Panic and 5 tasks, is demo content, not a real student's data.",
+   "src": "https://www.dyslexic.com/product/aspire-student-portal-course-subscription/",
+   "ts": ""
+  }
+ },
+ "blackboard-ally": {
+  "generate": {
+   "c": "This panel shows a pure format menu, with no student profile and no generated activity. It offers eight formats for one file: OCRed PDF, HTML, ePub, electronic braille, audio, BeeLine Reader, Immersive Reader, and a translated version. Every format is a direct copy of the same instructor file.",
+   "crop": true,
+   "note": "The demo file name, O'Brien a4200.pdf, is covered under Selected file. It can read like a real surname, so it is redacted. No other part of the panel is changed.",
+   "src": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
+   "ts": ""
+  },
+  "orient": {
+   "c": "An instructor uploads a course file. Blackboard adds one Ally icon next to it, labeled Download Alternative Formats. The icon is the only entry point. No student account or profile exists.",
+   "crop": false,
+   "note": "The file name is generic vendor demo content, a Van Gogh essay file. It is not a real student's document.",
+   "src": "https://help.anthology.com/ally-lms/en/instructors/alternative-formats/student-view-of-alternative-formats.html",
+   "ts": ""
+  }
+ },
+ "cadmus": {
+  "authorship": {
+   "c": "The editor flags 44 pasted words and offers to help the student paraphrase or quote them instead. Cadmus does not block the paste; it nudges the student to rewrite it.",
+   "crop": true,
+   "note": "Cropped to remove the document author's name shown at the top of the page.",
+   "src": "https://cadmus.io/news/academic-integrity-with-cadmus/",
+   "ts": "2026-09-09"
+  },
+  "feedback": {
+   "c": "After grading, the student opens Cadmus and sees a grade and a link to view the full feedback.",
+   "crop": false,
+   "note": "",
+   "src": "https://cadmus.io/video-tutorials/",
+   "ts": "2026-09-09"
+  },
+  "orient": {
+   "c": "On arrival, the student sees Resources, Tips, and a step-by-step checklist for the research essay.",
+   "crop": false,
+   "note": "",
+   "src": "https://cadmus.io/video-tutorials/",
+   "ts": "2026-09-09"
+  },
+  "return": {
+   "c": "A returning student sees the same screen: their grade and a button to view feedback in full.",
+   "crop": false,
+   "note": "Same image as feedback.png, shown for a different question.",
+   "src": "https://cadmus.io/video-tutorials/",
+   "ts": "2026-09-09"
+  },
+  "select": {
+   "c": "The teacher picks the assignment type from a library organized by discipline: essay, lab report, case study, and more. The student does not choose the format.",
+   "crop": false,
+   "note": "",
+   "src": "https://cadmus.io/product-overview/",
+   "ts": "2026-09-09"
+  },
+  "signal": {
+   "c": "The teacher sets the accepted answers, the feedback release date, and which student group gets it. Cadmus follows the teacher's setup, not the student's choices.",
+   "crop": false,
+   "note": "",
+   "src": "https://cadmus.io/product-overview/",
+   "ts": "2026-09-09"
+  }
+ },
+ "caption-ed": {
+  "access": {
+   "c": "A 'Your custom dictionary' panel lists subject words the student added, for example 'Parametricism' and 'Biomimetic'. Adding these words to the dictionary improves transcription for jargon-heavy lectures, a control specific to Caption.Ed among the six products in this batch.",
+   "crop": false,
+   "note": "hubfs/wp-content asset 'Frame-34658-2.png'. Caption.Ed's own accessibility statement also names light, dark, and sepia display modes, but no screenshot of those modes exists in the sources checked.",
+   "src": "https://caption-ed.com/for-students/",
+   "ts": ""
+  },
+  "generate": {
+   "c": "An AI-built 'Recording summary' for 'Introduction to Cognitive Psychology' sorts the lecture under headings: 'Opening Remarks and Lecture Overview', 'Encoding and Depth of Processing', 'Retrieval Practice and Spaced Repetition', and two more. This matches the research report's description, 'chaptered summaries'.",
+   "crop": false,
+   "note": "hubfs/wp-content asset 'Frame-34599-14-scaled.png', originally 2560 pixels wide, resized to 1280.",
+   "src": "https://caption-ed.com/for-students/",
+   "ts": ""
+  },
+  "ingest": {
+   "c": "A live Zoom meeting runs Caption.Ed's real-time transcript panel next to it, synced to a phone that shows the same session, 'Psychology Lecture - Feb 26'. This is the moment of capture itself, live audio turned into a live transcript.",
+   "crop": false,
+   "note": "This is a marketing graphic published by CareScribe on their own site, not a session captured by us. We flag it here for transparency but did not crop it, per the note below. Downscaled to 850px wide to meet the size limit.",
+   "src": "https://caption-ed.com/for-students/",
+   "ts": ""
+  },
+  "orient": {
+   "c": "After a session, the student lands on one screen with the video player, an Attachments panel holding uploaded slide decks, and a scrolling comment thread below the video. Recording, slides, and discussion sit in one place.",
+   "crop": false,
+   "note": "hubfs/wp-content asset 'Frame-34599-6.png'. Named commenters shown in the demo are the vendor's own marketing content, not students we captured; we did not crop the frame for that reason.",
+   "src": "https://caption-ed.com/for-students/",
+   "ts": ""
+  },
+  "return": {
+   "c": "A library list shows 4 past recordings a student can open again, including 'Low Carbon Structures Seminar' at 57 minutes and 'TED: Ideas about Architecture' at 17 minutes. Each recording stays in the library after the session ends.",
+   "crop": false,
+   "note": "hubfs/wp-content asset 'Frame-34658-1.png'. Matches the research report's quote: 'revisit a Caption.Ed recording at any time in your library'. One title names a person ('Dissertation Catchup with Joel'); we judged this a meeting label, not a student's personal data, so we did not crop it.",
+   "src": "https://caption-ed.com/for-students/",
+   "ts": ""
+  },
+  "select": {
+   "c": "A marketing panel shows an annotation feature: 'Add context to your transcript with annotations', with example tags 'Highlight key sections' and 'Use colour coding'. This is the closest evidence we found of a student choosing what matters in the material.",
+   "crop": false,
+   "note": "This is a stylized feature graphic with grayed placeholder text, not a literal screenshot. The research report states that Caption.Ed's summaries and quizzes build automatically, so this frame shows a smaller act of choice than that automatic step.",
+   "src": "https://caption-ed.com/for-students/",
+   "ts": ""
+  },
+  "switch": {
+   "c": "A playback-speed list lets the student pick 0.5x, 0.75x, 1x, 1.25x, 1.5x, or 1.75x, with 1.25x selected. One click changes speed, and one more click reverses it, the same pattern as StudyCog's Original and Easy-to-Read toggle.",
+   "crop": false,
+   "note": "hubfs/wp-content asset 'Frame-34658-3.png'.",
+   "src": "https://caption-ed.com/for-students/",
+   "ts": ""
+  }
+ },
+ "chatgpt-study-mode": {
+  "entry": {
+   "c": "The chatgpt.com home screen shows one input box and a plus icon. The screen shows no separate sign-up step for Study mode; it sits inside the normal account.",
+   "crop": false,
+   "note": "From an independent Lux AI Tools review. The presenter says Study mode works on the free plan and does not need a specific model.",
+   "src": "https://www.youtube.com/watch?v=pVzd3AaNc_4",
+   "ts": "00:01:24"
+  },
+  "feedback": {
+   "c": "After the student picks 'c) competitive', the product marks it right with the text 'Nice job — yep it's competitive!' inside the same chat message.",
+   "crop": false,
+   "note": "The reply gives praise and the correct label in one short line, with no separate score screen.",
+   "src": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "ts": "00:38"
+  },
+  "generate": {
+   "c": "The product does not just give the answer to a finance problem. It shows the NPV formula, then asks the student to calculate the first step and report the result.",
+   "crop": false,
+   "note": "The output format here is a step-by-step guided walkthrough, not a quiz or a flashcard set.",
+   "src": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "ts": "00:18"
+  },
+  "ingest": {
+   "c": "The student attaches a photo of a homework problem and types a question. A blue Study tag sits next to the message box, so the mode stays on for this attachment.",
+   "crop": false,
+   "note": "This clip is OpenAI's own 'Introducing ChatGPT Study Mode' video. Neither video we reviewed shows what happens on screen when a file fails to attach.",
+   "src": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "ts": "00:10"
+  },
+  "select": {
+   "c": "A Tools menu lists 'Study and learn' with a NEW badge, next to Create image, Think longer, Deep research, Web search, and Canvas. The student must pick it from this list.",
+   "crop": false,
+   "note": "A second video shows this same tool nested two levels deep, under a 'More' submenu, not at the top level. This means the menu position can change by account or rollout.",
+   "src": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "ts": "00:03"
+  },
+  "signal": {
+   "c": "After a correct answer, the product does not move on. It asks the student to explain their reasoning first: 'Let's double-check your reasoning.'",
+   "crop": false,
+   "note": "This follows the feedback frame in the same chat. The product adapts to a correct answer by testing the reasoning behind it, not just the final choice.",
+   "src": "https://www.youtube.com/watch?v=XDYilxy1dn8",
+   "ts": "00:42"
+  },
+  "switch": {
+   "c": "For the same car-checklist request, the product offers two versions: a 'do it yourself' walkthrough or a short version to give to a mechanic. The student picks the depth.",
+   "crop": false,
+   "note": "This is the closest evidence found for a format change. The product offers a different depth for the same content, but the video does not show a plain regenerate or reject control.",
+   "src": "https://www.youtube.com/watch?v=pVzd3AaNc_4",
+   "ts": "00:03:00"
+  }
+ },
+ "copilot-study-learn": {
+  "authorship": {
+   "c": "Asked for a thesis statement, the product refuses to write it: 'I won't write a full thesis for you, but I can help you build a strong one.' It then gives a checklist.",
+   "crop": true,
+   "note": "The crop removes the left sidebar account name. A second example at 18:46 shows the same refuse-and-coach pattern for a geometry problem, not an essay; this frame is the essay-specific instance.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "08:55"
+  },
+  "entry": {
+   "c": "The student is already signed in with a school Microsoft 365 account. The screen shows one input box and five activity tiles, with no separate sign-up step.",
+   "crop": true,
+   "note": "The crop removes the left sidebar of Microsoft 365 Copilot Chat. The sidebar showed the presenter's account name and unrelated chat titles.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "10:28"
+  },
+  "feedback": {
+   "c": "The product marks each blank in the exercise as right (green) or wrong (red). A banner tells the student 'Almost there, just a few missed...' and offers to show the answers.",
+   "crop": true,
+   "note": "The crop removes the left sidebar. The presenter says the product also explains why a wrong answer is wrong, at 24:36 to 24:39 in the transcript. This exact frame does not show that explanation text.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "25:06"
+  },
+  "generate": {
+   "c": "The product makes one flashcard at a time inside the chat, with counters for right and wrong answers. A separate tool makes flashcard sets, matching games, and fill-in-the-blank sets for teachers.",
+   "crop": true,
+   "note": "The crop removes the left sidebar. The teacher-facing 'Learning Activities' tool has its own content box and format options, and is a separate surface from this student chat.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "10:10"
+  },
+  "ingest": {
+   "c": "The student attaches a file chip named 'Mitosis and M...' and types an instruction to build flashcards from it. The video does not show what happens when a file fails to attach.",
+   "crop": true,
+   "note": "The crop removes the left sidebar, which showed an account name and chat history. This product takes files as chat attachments, not through a separate upload screen.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "22:20"
+  },
+  "orient": {
+   "c": "After a file finishes attaching, the screen shows five activity tiles and an editable prompt. The product does not pick an activity for the student; the student must choose one.",
+   "crop": true,
+   "note": "This is the market-gap frame for this product. Like NotebookLM, the screen after upload gives a flat catalog of formats and an editable text box, not one suggested action. The crop removes the left sidebar account name.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "24:10"
+  },
+  "return": {
+   "c": "This is the teacher's activity library, not the student's return screen. It lists past activities the teacher made, such as flashcard sets and matching games.",
+   "crop": false,
+   "note": "The video shows this hub only from the teacher's account. It does not show a student reopening a session or a partly finished quiz, so treat this as teacher-side evidence only.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "36:22"
+  },
+  "select": {
+   "c": "The product picks the next activity itself. Mid-conversation, it offers a 5-question quiz that the student did not ask for, with the quiz shown inline in the chat.",
+   "crop": true,
+   "note": "The crop and a white box remove the left sidebar and a line of text under the quiz that named the account. This finding contradicts the research doc's claim that this product category has no system-started activity offer.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "06:52"
+  },
+  "switch": {
+   "c": "Before it builds a matching game, the product stops to ask the student to pick a source. The student can choose their own notes or a general topic search.",
+   "crop": true,
+   "note": "The crop removes the left sidebar. This shows the student can redirect what the activity is built from, at the point of creation.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "25:37"
+  },
+  "trace": {
+   "c": "This frame does not show a source link back to a document. Asked what the vena cava is, the product asks the student what they already know before it answers.",
+   "crop": true,
+   "note": "The crop removes the left sidebar. This product's chat answers carry no citation links in the video reviewed, unlike NotebookLM. This frame shows the closest evidence found: a diagnostic question before an answer.",
+   "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
+   "ts": "25:18"
+  }
+ },
+ "everway-writing-helper": {
+  "authorship": {
+   "c": "The exported essay's second and third paragraphs read as full, fluent academic prose, for example: 'Shakespeare's works have profoundly shaped Western literature and culture through their psychological depth...' with no visible marker showing which words came from a source and which did not.",
+   "crop": false,
+   "note": "This is the same exported document as generate.png, a later page. Writing Helper builds the essay from snippets the student highlights and moves from source PDFs on the Sources and Snippets pages, then assembles them into paragraphs on the Review page. The product does not label, in the finished file, which sentences are copied text and which are the student's own words.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "0:08"
+  },
+  "feedback": {
+   "c": "The Publish checklist scores the draft on four bars: Snippets, 'Originality issues fixed', 20/20; Sources, 'Citations added', 4/4; Words, 2171/2500; Due Date, 21 days remaining. Each green check unlocks the Publish button below.",
+   "crop": false,
+   "note": "URL: writinghelper.texthelp.com/Publish. This is a completeness checklist, not per-answer feedback. It is the closest match found to 'what happens when you answer' for an essay tool with no quiz step.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "1:00"
+  },
+  "generate": {
+   "c": "The finished document, opened in Microsoft Word, reads 'By: Oliver Back' under the title and runs to 6 pages and 2349 words. Its opening paragraph matches, almost word for word, the abstract shown on the Sources page.",
+   "crop": false,
+   "note": "The name 'Oliver Back' is demo text the presenter typed on the Details screen, not a real student's name. This match between the exported essay and the source abstract is the strongest evidence in this batch that Writing Helper assembles essay text from copied source snippets. See product_notes.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "0:06"
+  },
+  "ingest": {
+   "c": "The Sources page opens a real academic PDF inside the tool: a paper with a DOI, an author bio, and an abstract, page 1 of 27. A red badge reads 'Citation incomplete'. A Highlights panel on the right starts empty.",
+   "crop": false,
+   "note": "Frame taken with ffmpeg from a yt-dlp download of 'A quick overview of WritingHelper for DSA' (Everway/Texthelp channel). The product URL bar reads writinghelper.texthelp.com/Sources, confirming this is the live product, not a mockup. Timestamp label uses minute:second format to match this batch's other video-derived frames; the true clip position is 0:43 into a 65-second video.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "43:30"
+  },
+  "orient": {
+   "c": "The first working screen after the student starts a project asks for their full name, the full project title, an optional short title, and a target word count from five tiles: 1000, 2000, 2500, 3000, or Other.",
+   "crop": false,
+   "note": "URL: writinghelper.texthelp.com/Details. The name field reads 'Oliver Back', a name the presenter typed for this demo, not a captured student's data. Writing Helper has no upload step, so this is the closest match to 'the screen after upload'.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "0:09"
+  },
+  "select": {
+   "c": "The Structure page lists sections and sub-sections the student builds with Section, Sub-Section, Task, and Note buttons, for example 'Historical Context' under 'Introduction to Shakespeare's Poetry'. The student adds and orders these blocks by hand.",
+   "crop": false,
+   "note": "URL: writinghelper.texthelp.com/Structure. Rows carry small task checkboxes, for example 'Revisit lecture content', so Structure mixes essay headings with to-do items in one list.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "0:12"
+  },
+  "switch": {
+   "c": "The Snippets page lists highlighted source text under each heading, next to an 'Originality Check' tab and a paperclip 'Snippet Editor' panel that opens on the right when a snippet is clicked, empty here with 'No snippet selected'.",
+   "crop": false,
+   "note": "URL: writinghelper.texthelp.com/Snippets. Reorder arrows above the list let the student move, edit, or remove a snippet before it reaches the essay, the closest match found for redoing or rejecting a piece of generated content.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "0:14"
+  },
+  "trace": {
+   "c": "On the Review page, a paragraph carries an inline tag reading '<CITATION>' next to a green check mark. The tag marks where a source reference belongs, but names no author, year, or page yet.",
+   "crop": false,
+   "note": "URL: writinghelper.texthelp.com/Review. In the finished Word document shown in generate.png, this same sentence carries a real citation, '(Clemen, 2016)', so the tag does resolve, but the Review screen itself shows only the placeholder, not a link to an exact page or quote.",
+   "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
+   "ts": "0:16"
+  }
+ },
+ "gemini-classroom": {
+  "authorship": {
+   "c": "Asked to help start a paper, Gemini does not draft any text. It lists three possible angles and asks: 'Which of these starting points feels most aligned with what you want to achieve with your paper?'",
+   "crop": false,
+   "note": "The three angles (The Science, The Specific Benefits, The Real-World Challenges & Solutions) come with a small link icon next to one item, which points to a cited source.",
+   "src": "https://www.youtube.com/watch?v=4ErM2corKFQ",
+   "ts": "05:55"
+  },
+  "entry": {
+   "c": "The plain Gemini chat screen greets the student by first name and shows three example prompts. The account sign-in step happens before this screen and does not appear in the video.",
+   "crop": true,
+   "note": "A black box covers the student's first name in the greeting. This clip is Google's own 'Grow with Google' marketing video for Gemini, not a Google Classroom screen recording. We could not find a video that shows the Classroom-embedded version of this feature; the WebSearch tool ran out of calls partway through this task, so this gap can only be closed by re-running the search.",
+   "src": "https://www.youtube.com/watch?v=h0KYSVam3mQ",
+   "ts": "00:44"
+  },
+  "feedback": {
+   "c": "After the student answers, the wrong choice turns red with the label 'Not quite' and a one-line reason. The correct choice turns green with the label 'Right answer' and its own explanation.",
+   "crop": false,
+   "note": "Both the wrong and the right answer show an explanation at the same time, in the same view.",
+   "src": "https://www.youtube.com/watch?v=h0KYSVam3mQ",
+   "ts": "01:22"
+  },
+  "generate": {
+   "c": "Gemini turns a summary into a 10-question quiz on command. The first question appears with four multiple-choice answer rows and a 'Show hint' control.",
+   "crop": false,
+   "note": "The quiz topic (Roman history) matches the demo notes shown at the ingest stage, so this is the same session shown end to end.",
+   "src": "https://www.youtube.com/watch?v=h0KYSVam3mQ",
+   "ts": "01:12"
+  },
+  "ingest": {
+   "c": "A file picker lets the student choose a document straight from Google Drive. The list shows recent class files by title, with one file selected and ready to attach.",
+   "crop": false,
+   "note": "The file titles on screen are the demo presenter's own placeholder notes, not a real student's coursework. The video does not show what happens when a file fails to attach.",
+   "src": "https://www.youtube.com/watch?v=h0KYSVam3mQ",
+   "ts": "00:53"
+  },
+  "orient": {
+   "c": "Right after the notes finish processing, the screen shows a full structured summary document titled 'Summary of Roman History Notes', split into numbered historical periods.",
+   "crop": false,
+   "note": "This is the most important frame in this set. Gemini turns the upload straight into one finished document, not a menu of format choices, which is the opposite pattern from the empty catalog seen in NotebookLM and Copilot Study and Learn.",
+   "src": "https://www.youtube.com/watch?v=h0KYSVam3mQ",
+   "ts": "01:03"
+  },
+  "select": {
+   "c": "A Tools menu in the chat box lists six modes side by side: Videos with Veo, Deep Research, Canvas, Images with Imagen, Guided Learning, and Deep Think. The student picks one by hand.",
+   "crop": false,
+   "note": "'Guided Learning' sits in the same flat list as unrelated creative tools, such as video and image generation. Gemini does not set 'Guided Learning' as a default or a suggested mode for study.",
+   "src": "https://www.youtube.com/watch?v=4ErM2corKFQ",
+   "ts": "00:15"
+  },
+  "signal": {
+   "c": "After the quiz, Gemini offers a new round 'with the same settings' or a new quiz 'that focuses specifically on what you found tricky.' The offer is based on which answers the student got wrong.",
+   "crop": false,
+   "note": "This is the clearest sign of performance-based adaptation found for this product: the next quiz can target the topics the student missed.",
+   "src": "https://www.youtube.com/watch?v=h0KYSVam3mQ",
+   "ts": "01:41"
+  },
+  "switch": {
+   "c": "At the end of the quiz, a score screen shows 5/10 and 50% accuracy. Below it, two cards offer to build flashcards or a study guide from the same material, plus a 'Make new quiz' button.",
+   "crop": false,
+   "note": "This shows the student can move to a different format built from the same source, without starting over from the original notes.",
+   "src": "https://www.youtube.com/watch?v=h0KYSVam3mQ",
+   "ts": "01:38"
+  }
+ },
+ "genio-notes": {
+  "entry": {
+   "c": "A new-capture menu offers two account-linked modes: 'In-Person Recording' (Microphone) and 'Remote Recording' (Screen Audio, or Screen Audio & Mic). The student's own account controls both modes, and no separate setup step appears before this choice.",
+   "crop": false,
+   "note": "This is a real product-UI screenshot inside Genio's own marketing page, filename 'web UI pics NOTES_record.png'. It is not a staged mock. Its resolution and chrome match the other in-app frames below.",
+   "src": "https://genio.co/notes",
+   "ts": ""
+  },
+  "feedback": {
+   "c": "The Quiz Me results screen marks each answered question with a red X for wrong or a green check for correct, next to the student's own chosen answer. A 'Regenerate Quiz' button sits below the marks.",
+   "crop": false,
+   "note": "hubfs asset 'Quiz me hero (1).png', the same source page as generate.png. Feedback here is a right or wrong mark, not a rubric or a list of strengths.",
+   "src": "https://genio.co/notes/quiz-me",
+   "ts": ""
+  },
+  "generate": {
+   "c": "A conversational quiz reads: 'I have 5 questions for you.' Question 1 asks about H.G. Wells' novel The Time Machine, and the correct answer is already marked green with a check as Question 2 begins to load.",
+   "crop": false,
+   "note": "This is the vendor's 'Quiz Me' product-page screenshot, filename 'Quiz me hero (1).png'. Its chrome matches the other in-app Notes screenshots.",
+   "src": "https://genio.co/notes/quiz-me",
+   "ts": ""
+  },
+  "ingest": {
+   "c": "A three-dot menu on one event offers 'Import Audio' and 'Import Slides' as the two file paths into the product, next to 'Copy Notes', 'Delete Slides', 'Send a Copy', and 'Delete Event'.",
+   "crop": false,
+   "note": "hubfs asset 'web UI pics NOTES_import slides.png'. Genio Notes accepts both live capture (entry.png) and after-the-fact file import as inputs.",
+   "src": "https://genio.co/notes",
+   "ts": ""
+  },
+  "orient": {
+   "c": "After a lecture is captured, the student lands on a tabbed view: Audio, Transcript, and Outline, with Outline active. A toolbar above shows study-tool icons, and the outline groups the content under headings such as 'Memory retention'.",
+   "crop": false,
+   "note": "hubfs asset 'web UI pics NOTES_outline.png'.",
+   "src": "https://genio.co/notes",
+   "ts": ""
+  },
+  "return": {
+   "c": "A Collections page holds a sidebar (Home, Collections, Tasks, Search, Trash) and one 'String Theory' collection with 2 saved items. This is the page a returning student lands on, separate from any single lecture.",
+   "crop": false,
+   "note": "hubfs asset 'web UI pics NOTES_collections.png'. This screen organizes lecture notes, not quiz results. See the return entry under missing below for what does not persist.",
+   "src": "https://genio.co/notes",
+   "ts": ""
+  },
+  "select": {
+   "c": "A Tasks panel lists actions the product pulled from the lecture, for example 'Check: What are the 3 dimensions of space?' and 'Watch: Bill & Ted's Excellent Adventure!', one with a due date. The student picks from this list, but the product built it.",
+   "crop": false,
+   "note": "hubfs asset 'web UI pics NOTES_tasks.png'. Unlike StudyCog's Requirements screen, this list has no order and no 'current step' marker.",
+   "src": "https://genio.co/notes",
+   "ts": ""
+  },
+  "switch": {
+   "c": "The same lecture event, with the Transcript tab active instead of Outline, shows the full text with one phrase highlighted and a floating 'Post' button. The tab bar is the switch: one click moves between forms of the same capture.",
+   "crop": false,
+   "note": "hubfs asset 'web UI pics NOTES_transcript.png'. It is the direct counterpart to orient.png, which shows the Outline tab of the same tab bar.",
+   "src": "https://genio.co/notes",
+   "ts": ""
+  }
+ },
+ "grammarly-authorship": {
+  "authorship": {
+   "c": "The Authorship Report marks each part of the essay by source: 81% typed, 14% copied, 5% unknown. A replay bar lets the reader step through how the text was built.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.grammarly.com/authorship",
+   "ts": "2026-09-09"
+  },
+  "entry": {
+   "c": "The student turns on Grammarly Authorship themselves; it is off by default. The student decides if and when to share the report.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.grammarly.com/authorship",
+   "ts": "2026-09-09"
+  },
+  "feedback": {
+   "c": "When a claim looks like specialized knowledge, Grammarly asks the student to pick a source and add a citation.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.grammarly.com/authorship",
+   "ts": "2026-09-09"
+  },
+  "generate": {
+   "c": "Clicking Create Report makes the Authorship Report; Grammarly does not generate the essay text itself.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.grammarly.com/authorship",
+   "ts": "2026-09-09"
+  },
+  "switch": {
+   "c": "Grammarly suggests a new sentence for the cover letter; the student can accept it or dismiss it.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.grammarly.com/authorship",
+   "ts": "2026-09-09"
+  },
+  "trace": {
+   "c": "Grammarly matches 17% of the document to an external source and shows its exact title and link. The student can copy the citation or dismiss the match.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.grammarly.com/authorship",
+   "ts": "2026-09-09"
+  }
+ },
+ "helperbird": {
+  "access": {
+   "c": "This is not a control screen. It is page 3 of Helperbird's own public accessibility conformance report, dated Apr 20, 2024. The report follows the WCAG edition of the VPAT, version 2.5.",
+   "crop": false,
+   "note": "Linked from the Accessibility Statement page footer at https://www.helperbird.com/accessibility-statement/. The report shows a staff member's name and work email. This is vendor contact information, not a student's data.",
+   "src": "https://docs.google.com/document/d/1SVhQ75l3unbG9sfisUVlCQ3dGIgXRixKDAGfukm3jMY/edit?usp=sharing",
+   "ts": ""
+  },
+  "authorship": {
+   "c": "Helperbird suggests single words as the student types, shown here in a Google Doc. It does not write sentences or essays. The student writes the essay. Helperbird only completes a word in progress.",
+   "crop": false,
+   "note": "The document text is placeholder script dialogue, used by the vendor as demo text. It is not a real student's writing.",
+   "src": "https://www.helperbird.com/features/word-prediction/",
+   "ts": ""
+  },
+  "generate": {
+   "c": "Helperbird makes no new activity. It changes how an existing page looks. This is the Wikipedia Honey Bee article after the Reading Comfort profile is applied: a cream background, larger text, taller lines, and narrower paragraphs.",
+   "crop": false,
+   "note": "Re-encoded with a smaller color palette to bring the file under 500KB. No content is cropped or changed.",
+   "src": "https://www.helperbird.com/features/accessibility-profiles/",
+   "ts": ""
+  },
+  "orient": {
+   "c": "Helperbird has no upload step. A student opens the extension and sees this first screen: a list of more than 30 separate toggles, one per setting.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.helperbird.com/help/how-to-use-accessibility-profiles-in-helperbird/",
+   "ts": ""
+  },
+  "select": {
+   "c": "The student picks one profile from a list of eight. The profiles are Dyslexia, ADHD and Focus, Low Vision, Contrast and Color, Reading Comfort, Motor Accessibility, Autism and Sensory, and Motion Sensitivity. Helperbird describes this as: \"Start with one of eight profiles for reading, focus, contrast, and movement, then adjust the settings to suit you.\"",
+   "crop": false,
+   "note": "Image at native resolution, 1536x1136 pixels. Not upscaled.",
+   "src": "https://www.helperbird.com/help/how-to-use-accessibility-profiles-in-helperbird/",
+   "ts": ""
+  }
+ },
+ "jamworks": {
+  "entry": {
+   "c": "A standalone app widget greets the signed-in account by name and shows one button: 'Start recording'. Below it sit 'Go to My Jamworks Account' and 'Change Account' links, so the same widget also switches which account controls the session.",
+   "crop": false,
+   "note": "Frame taken with ffmpeg from a yt-dlp download of V9 (The Accessibility Guy, 'Jamworks AI Notetaking', 15 Aug 2025). The presenter states a commercial referral relationship on camera; see product_notes below and REPORT.md. The greeting names the presenter's own demo account, not a third party.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "2:32"
+  },
+  "feedback": {
+   "c": "The student answers 'True', and the assistant replies: 'Correct! Abby FineReader can indeed be used to edit both text and images in a PDF document.' The next question starts in the same turn, with no separate results screen.",
+   "crop": false,
+   "note": "The chat avatar shows initials 'TG', the presenter's own demo-account initials, not a third party's data.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "2:20"
+  },
+  "generate": {
+   "c": "Quiz Me runs as a conversation, not a form. The assistant asks: '1. True or False: Abby FineReader can be used to edit both text and images in a PDF document.'",
+   "crop": false,
+   "note": "The research report quotes this exchange from narration alone, at V9 timestamps 1:48 to 2:14, with no matching frame. This frame comes fresh from the same public video.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "2:13"
+  },
+  "ingest": {
+   "c": "An 'Upload New Recording' modal accepts one file, here 'Exploring AI Tools for Ma....mp4', with a title field and Upload and Cancel buttons. This is the file-upload path into Jamworks, alongside live in-app recording shown in entry.png.",
+   "crop": false,
+   "note": "Frame taken with ffmpeg from the same V9 download.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "0:48"
+  },
+  "orient": {
+   "c": "The Recordings dashboard is the screen a student sees on opening the app: a sidebar of All records, Sets, and Trash, and two existing recording tiles. Nothing here is new since the last visit until the student acts.",
+   "crop": false,
+   "note": "A small support bubble in the corner shows a photo and first name, 'Lewis', with an onboarding checklist prompt. This is Jamworks' own in-app support message shown to every user, not a captured student's data, so we did not crop it.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "0:40"
+  },
+  "return": {
+   "c": "The same dashboard shown in orient.png now holds 3 tiles instead of 2, the newly uploaded recording added next to the earlier two. The library grows with each session for a student to reopen later.",
+   "crop": false,
+   "note": "The same support-bubble note in orient.png applies here; we did not crop it for the same reason.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "1:35"
+  },
+  "select": {
+   "c": "A right-hand panel titled 'Jam Assistant' lists seven ways to re-express the same recording: Quiz Me, Simplify, Creative Story, Analogy, Emoji Quiz, Definitions, and Memory Aids, plus a free-text question box. The student picks one mode here.",
+   "crop": false,
+   "note": "The research report calls this a representation menu over the same content, not a study-technique picker. This frame shows the menu before any of the seven modes runs.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "2:02"
+  },
+  "switch": {
+   "c": "A tab bar above the video reads Highlights, Key Points, Transcripts, Summary, Slides, and Notes. Key Points is active here, showing auto-built notes under a heading, 'LAUNCHING ABBY FINEREADER', with a bulleted list below it.",
+   "crop": false,
+   "note": "One click on a tab re-presents the same recording in a different generated form, the Jamworks match to StudyCog's Original and Easy-to-Read toggle.",
+   "src": "https://www.youtube.com/watch?v=WHA69leYQss",
+   "ts": "1:45"
+  }
+ },
+ "jenni-ai": {
+  "authorship": {
+   "c": "The student types one line, \"an essay about diversity in education,\" and clicks Start Writing. Jenni then drafts the full essay from that prompt.",
+   "crop": false,
+   "note": "",
+   "src": "https://jenni.ai/ai-essay-writer",
+   "ts": "2026-09-09"
+  },
+  "generate": {
+   "c": "Jenni also writes literature reviews: it lists sources on the left and answers chat questions with in-text citations.",
+   "crop": false,
+   "note": "",
+   "src": "https://jenni.ai/literature-review-generator",
+   "ts": "2026-09-09"
+  },
+  "ingest": {
+   "c": "A web page, like this published Nature Aging article, is one source Jenni's web clipper can capture.",
+   "crop": false,
+   "note": "",
+   "src": "https://jenni.ai/web-clipper",
+   "ts": "2026-09-09"
+  },
+  "orient": {
+   "c": "After generation, the student sees a full essay with headings, and a toolbar to edit or cite text.",
+   "crop": false,
+   "note": "",
+   "src": "https://jenni.ai/ai-essay-writer",
+   "ts": "2026-09-09"
+  },
+  "return": {
+   "c": "The same document list lets a student open past work: four earlier documents sit next to a search box.",
+   "crop": false,
+   "note": "Same image as select.png, shown for a different question.",
+   "src": "https://jenni.ai/ai-essay-writer",
+   "ts": "2026-09-09"
+  },
+  "select": {
+   "c": "The student searches for a source and clicks Add citation, or opens the saved document list on the left.",
+   "crop": false,
+   "note": "",
+   "src": "https://jenni.ai/ai-essay-writer",
+   "ts": "2026-09-09"
+  },
+  "signal": {
+   "c": "Chat citation filters let the student set publish year, impact factor, citation count, and whether to include preprints. Jenni's answers follow these settings, not an automatic profile.",
+   "crop": false,
+   "note": "",
+   "src": "https://jenni.ai/changelog",
+   "ts": "2026-09-09"
+  },
+  "switch": {
+   "c": "Selecting text opens AI Commands to edit, improve, or regenerate it; undo and redo sit next to the toolbar.",
+   "crop": false,
+   "note": "Same image as orient.png, shown for a different question.",
+   "src": "https://jenni.ai/ai-essay-writer",
+   "ts": "2026-09-09"
+  },
+  "trace": {
+   "c": "Source Quality flags a source cited only once in four years and shows the exact page number cited. The student can keep the source, remove it, or find a replacement.",
+   "crop": true,
+   "note": "Cropped to remove the account owner's name shown at the top of the panel.",
+   "src": "https://jenni.ai/changelog",
+   "ts": "2026-09-09"
+  }
+ },
+ "khanmigo": {
+  "generate": {
+   "c": "After the teacher picks 7th grade, Khanmigo returns \"Brutus' funeral speech - 7th grade Revision\" as a rewritten text. A note above the text tells the teacher to check the rewrite and to share both versions with students.",
+   "crop": true,
+   "note": "Blacked out the real account name in the top-right nav corner.",
+   "src": "https://www.youtube.com/watch?v=RoXzbOMi6xM",
+   "ts": "3:58"
+  },
+  "signal": {
+   "c": "The teacher's Leveler tool opens a grade list from 1st grade to College, to set a new reading level for a text. A teacher sets this value, not the student and not a test score.",
+   "crop": true,
+   "note": "Blacked out the real account name in the top-right nav corner.",
+   "src": "https://www.youtube.com/watch?v=RoXzbOMi6xM",
+   "ts": "3:55"
+  }
+ },
+ "knowt": {
+  "entry": {
+   "c": "A teacher's class dashboard shows an invite code (\"1r6g9x\") and a Copy class link button, under tabs for Main, Class Material, People, and Settings. The teacher, not the student, creates the class and controls who can join it.",
+   "crop": false,
+   "note": "This is a clean screen recording, not the booth-camera footage used for the other Knowt frames. No personal data is visible.",
+   "src": "https://www.youtube.com/watch?v=RoXzbOMi6xM",
+   "ts": "4:00"
+  },
+  "feedback": {
+   "c": "In the \"Call with Kai\" voice tutor, a live transcript shows the exchange: the user says \"I'm a Spanish teacher,\" and Kai answers with an unrelated photosynthesis fact and question. Kai's reply does not match what the user said.",
+   "crop": false,
+   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "ts": "6:25"
+  },
+  "generate": {
+   "c": "Step 2 of the upload wizard, \"Select Output,\" lists four formats: Chat Tutor, Assessment, Notes, and Flashcards. A checklist next to Flashcards names what comes with it: flashcard learn modes, a live game, 1:1 tutoring, podcasts, and a practice test.",
+   "crop": false,
+   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "ts": "2:15"
+  },
+  "orient": {
+   "c": "Right after upload, Knowt shows a mascot and the text \"Kai is working it out. Your flashcards will be ready in just a second. Generating flashcard #14.\" This is the wait screen, not the finished result.",
+   "crop": false,
+   "note": "The frame is a camera recording of a conference-booth monitor, so the image quality is lower than a screen recording. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "ts": "3:05"
+  },
+  "select": {
+   "c": "The \"Photosynthesis Review\" hub lists eight finished formats: Call with Kai, Learn, Practice Test, Spaced Repetition, Match, Flashcards, Knowt Play, and a podcast still generating. The student picks which one to open, not Knowt.",
+   "crop": false,
+   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "ts": "5:00"
+  },
+  "switch": {
+   "c": "Before Knowt saves a flashcard set, an AI side panel offers \"Regenerate,\" \"Create more,\" and \"Create 1 new flashcard on...\" next to a \"Tell Kai how to make your flashcards better\" box. The student can redo the set here, before it saves.",
+   "crop": false,
+   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "ts": "3:10"
+  }
+ },
+ "lernabl": {
+  "access": {
+   "c": "A separate Accessibility page holds four groups: browser zoom instructions, seven color Themes including Dark, five Fonts including Open Dyslexic, and a Text-to-Speech voice picker set here to 'Microsoft George, English (United Kingdom)'.",
+   "crop": false,
+   "note": "Frame taken with ffmpeg from the same V2 download. The research report notes this page sits apart from onboarding, reached only through the Accessibility icon in the top bar.",
+   "src": "https://www.youtube.com/watch?v=yNhOxK-2GVc",
+   "ts": "35:18"
+  },
+  "entry": {
+   "c": "The sign-in screen offers email and password, or Google or Microsoft sign-in, plus a 'Sign up now' link. A modal later asks for a license key, so the account and the license sit apart from each other.",
+   "crop": false,
+   "note": "Frame taken with ffmpeg from a yt-dlp download of V2 (Aventido, 'Deep Dive Session for Lernabl', recorded around 22 Jan 2026). Matches the research report's account of the licence-key modal at V2 11:00 to 11:27.",
+   "src": "https://www.youtube.com/watch?v=yNhOxK-2GVc",
+   "ts": "11:00"
+  },
+  "feedback": {
+   "c": "The mock-exam result screen shows a rosette icon, 'Score 2 / 5', a 40% ring, and one line of feedback: 'You need to revise more.' A duration bar reads 00:00:55 of 00:15:00 allowed.",
+   "crop": false,
+   "note": "The research report names this frame F8, 'a results screen that scolds and then dead-ends'. On a retake in V2, the same presenter gets the identical score and says on camera: 'I need to revise more. Yes, good advice,' a dry read of feedback that gives him nothing to act on.",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "45:45"
+  },
+  "generate": {
+   "c": "For the topic 'The heart', Auto-Generate fills a definition, a longer Study Notes paragraph, and two heart illustrations, all from the topic name alone. No source document exists behind this text.",
+   "crop": false,
+   "note": "This is the AI auto-generate feature named in the research report's summary of V1. It writes new study material from a topic name, not from anything the student uploaded.",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "25:52"
+  },
+  "ingest": {
+   "c": "Lernabl has no file-upload step. A student types a Topic name, then fills Key Terms, Definitions, Study Notes, Images, and Web Links by hand, three blank rows shown, or clicks Auto-Generate to fill some fields.",
+   "crop": false,
+   "note": "Frame taken with ffmpeg from a yt-dlp download of V1 (ADCET, 'Prepare for Exams your way with Lernabl!', 10 Jul 2025). The research report states plainly that slide or document import 'does not exist yet', a gap the presenter names on camera at V1 54:02.",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "20:10"
+  },
+  "orient": {
+   "c": "The home screen has three numbered steps: pick an exam from a dropdown, pick an optional focus from seven tiles with All selected by default, then pick a study method from a carousel of about eleven cards.",
+   "crop": false,
+   "note": "This screen has no view of what the student has stored: no source list, no coverage count, no gap flag for a topic with no notes yet.",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "17:45"
+  },
+  "return": {
+   "c": "The 'Choose Your Exam...' dropdown on the home screen now lists a second saved exam, 'Human anatomy', next to the first one, 'Rivers of the world'. Past exams stay ready to reopen on a later visit.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "28:28"
+  },
+  "select": {
+   "c": "With focus set to 'Comprehension', the method carousel narrows from about eleven cards to three: Cornell Notes, Fill in the Blanks, and Text to Speech. The tiles change, but the screen gives no reason for the narrower list.",
+   "crop": false,
+   "note": "The full catalog stays one click away: clicking 'All' brings back all eleven methods. The student can pick more than one focus tile at once.",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "29:22"
+  },
+  "switch": {
+   "c": "The Fill in the Blanks activity offers a 'Change Hidden Words' button next to 'Reveal Hidden Words'. One click swaps which five words are blanked in the same passage, without leaving the activity.",
+   "crop": false,
+   "note": "A 'Select the Word Mode' toggle also sets the difficulty: on shows five word options next to the blanks, off asks for free recall with no options given.",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "30:57"
+  },
+  "trace": {
+   "c": "The mock-exam breakdown labels each question by topic, for example 'Question 2 (Topic: The Water Cycle)', next to the student's answer, the correct answer, and a CORRECT or INCORRECT mark. No question links to an exact sentence or page.",
+   "crop": false,
+   "note": "Lernabl has no ingested source document to link back to. This label is the closest thing to a trace: it names a topic card, not a quote or a page number, unlike StudyCog's 'Source from document' panel.",
+   "src": "https://www.youtube.com/watch?v=yIYlEFr6oK4",
+   "ts": "46:05"
+  }
+ },
+ "magicschool-iep": {
+  "generate": {
+   "c": "The tool writes a full draft IEP: measurable goals for reading, writing, and math, plus a list of accommodations and modifications. The student's name is replaced with the placeholder \"[Student Name].\"",
+   "crop": false,
+   "note": "Frame from the same third-party demo video as the ingest frame. A footer line in the tool reads: \"Always review content for accuracy and bias, use your professional judgment and comply with school policies.\"",
+   "src": "https://www.youtube.com/watch?v=7sM7rxKo_Cw",
+   "ts": "2:30"
+  },
+  "ingest": {
+   "c": "A teacher types the input by hand. There is no file to upload. The form asks for grade level, disability category, and a written description of the student's behaviors, needs, and strengths.",
+   "crop": false,
+   "note": "Frame taken from a third-party demo video, \"IEP Generator MagicSchoolAI\" by the channel Special Education Technology, posted 2025-02-05. This is not a MagicSchool vendor video. WebSearch was exhausted this session. A fetchable YouTube search-results page was used instead to find it, per the search-limit workaround.",
+   "src": "https://www.youtube.com/watch?v=7sM7rxKo_Cw",
+   "ts": "0:40"
+  },
+  "orient": {
+   "c": "This is a marketing tile on MagicSchool's own homepage, not the tool itself. The vendor's alt text reads: \"IEP Generator: Generate a draft of an IEP customized to a students' needs.\"",
+   "crop": false,
+   "note": "This is only a catalogue icon. The MagicSchool site gives no dedicated page for the IEP Generator. The path /tools/iep-generator falls back to a generic page. The path /tools returns a 404 page. The sitemap lists neither path.",
+   "src": "https://www.magicschool.ai/",
+   "ts": ""
+  },
+  "switch": {
+   "c": "After the draft is made, the teacher can select Edit Prompt to change the input and make the draft again. A Back control and a Share control sit next to it.",
+   "crop": false,
+   "note": "Frame from the same third-party demo video as the ingest frame. The video does not show what Edit Prompt changes, only that the control exists.",
+   "src": "https://www.youtube.com/watch?v=7sM7rxKo_Cw",
+   "ts": "2:00"
+  }
+ },
+ "mindview": {
+  "access": {
+   "c": "This is not a control screen. It is one certification badge on the hub page: a Digital Accessibility Centre (DAC) badge. The hub page shows nine other certification badges next to it, including WCAG, VPAT Compliant, and 508 Compliant.",
+   "crop": false,
+   "note": "Rasterized from the vendor's SVG badge file with rsvg-convert. No content is added or removed.",
+   "src": "https://www.matchware.com/dsa",
+   "ts": ""
+  },
+  "generate": {
+   "c": "MindView turns a mind map into a written recommendation for an assessor's report. This stock photo shows an example mind map, titled \"Using mind maps to teach critical-thinking skills.\"",
+   "crop": false,
+   "note": "The laptop photo is a generic stock image. It is not a screenshot of the MindView software interface. Re-encoded with a smaller color palette to bring the file under 500KB.",
+   "src": "https://www.matchware.com/dsa-personas",
+   "ts": ""
+  },
+  "orient": {
+   "c": "This is the header image on MindView's DSA Assessors' Hub. The vendor's alt text reads: \"Support individuals with learning difference.\" The photo shows an assessor's workspace, with a small view of the MindView editor on one laptop.",
+   "crop": false,
+   "note": "This is a marketing header photo of an office, not a screenshot of the MindView software running on its own.",
+   "src": "https://www.matchware.com/dsa",
+   "ts": ""
+  },
+  "select": {
+   "c": "This page is for an assessor, not a student. The assessor picks a persona close to the student's profile. Aaliyah has Dyslexia, Short Working Memory, and a Slower Reading Pace.",
+   "crop": false,
+   "note": "This image is a stock photo avatar, not a real person. The vendor's alt text names it 'Simone', but the page labels the same persona 'Aaliyah'. This mismatch is the vendor's own error, kept here as found. Not upscaled from its native 126x126 size.",
+   "src": "https://www.matchware.com/dsa-personas",
+   "ts": ""
+  }
+ },
+ "notebooklm": {
+  "entry": {
+   "c": "A new notebook has zero sources and one 'Add sources' button. The screen shows no account setup step, no goal question, and no prior-knowledge question.",
+   "crop": false,
+   "note": "Frame from Kevin Stratvert's 'How to Use Google NotebookLM (Full Tutorial)'. All content on screen (a cookie launch plan) is the presenter's own demo material, not a real student's work.",
+   "src": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
+   "ts": "01:30"
+  },
+  "feedback": {
+   "c": "The product marks a correct quiz answer green and shows the text 'That's right!' with a two-sentence reason. An Explain button gives more detail, and a Next button moves on.",
+   "crop": false,
+   "note": "The quiz content ('Learning Theory Quiz') comes from the reviewer's own uploaded sources, not from a real student's coursework.",
+   "src": "https://www.youtube.com/watch?v=LBQz1KmFOUc",
+   "ts": "15:17"
+  },
+  "generate": {
+   "c": "Two jobs run at the same time as named progress rows: a video overview and a mind map. The student can keep reading the source text while both run.",
+   "crop": false,
+   "note": "The reviewer approves of this on screen: 'you don't have to wait for one of them to finish... you can still be exploring.'",
+   "src": "https://www.youtube.com/watch?v=LBQz1KmFOUc",
+   "ts": "09:50"
+  },
+  "ingest": {
+   "c": "Eight source rows show a green checkmark after import. Two URL rows show a pink highlight and an info icon instead, with no explanation next to them.",
+   "crop": false,
+   "note": "From Justin Sung's independent NotebookLM review. He does not mention the pink rows on screen; the ingest failure is visible on screen but unremarked.",
+   "src": "https://www.youtube.com/watch?v=LBQz1KmFOUc",
+   "ts": "12:30"
+  },
+  "orient": {
+   "c": "Right after five sources finish importing, the chat pane shows a short summary of the material. The Studio panel next to it stays empty, and the product suggests no first activity.",
+   "crop": false,
+   "note": "This is the market-gap frame. Orientation is a summary plus an empty catalog, not one suggested first action.",
+   "src": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
+   "ts": "02:41"
+  },
+  "select": {
+   "c": "The student picks the activity. The Studio panel shows nine format tiles (Audio, Slide Deck, Video, Mind Map, Reports, Flashcards, Quiz, Infographic, Data Table) in one flat grid.",
+   "crop": false,
+   "note": "No tile is marked as recommended or set as a default. This matches the 'catalog, no product-picked first action' pattern in the research matrix.",
+   "src": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
+   "ts": "03:40"
+  },
+  "signal": {
+   "c": "The 'Configure chat' dialog offers three styles: Default, Learning guide, and Custom. Default is pre-picked, with the label 'Best for general purpose research and brainstorming tasks.'",
+   "crop": false,
+   "note": "NotebookLM adapts only to settings the student sets by hand: source choice, this dialog, and per-activity prompts. It does not adapt to observed performance. The more effortful 'Learning guide' mode is opt-in, not the default.",
+   "src": "https://www.youtube.com/watch?v=LBQz1KmFOUc",
+   "ts": "38:35"
+  },
+  "switch": {
+   "c": "A generated audio overview plays with 'Good discussion' and 'Bad discussion' buttons next to the transcript. These buttons let the student reject or regenerate an activity that misses the mark.",
+   "crop": false,
+   "note": "This frame also shows the source panel, where the same pink failed-ingest rows still appear, and a Data Table view of the same content as an alternate format.",
+   "src": "https://www.youtube.com/watch?v=LBQz1KmFOUc",
+   "ts": "14:27"
+  },
+  "trace": {
+   "c": "A chat answer carries small numbered citation marks next to specific claims. The Source Guide pane on the left stays open and shows the source bullets each number points to.",
+   "crop": false,
+   "note": "This confirms citations exist and open a source pane. We could not confirm the reported behavior of a highlighted destination line after a click in this tutorial's pace. A second review (Justin Sung, 12:18) reports that click-through 'often doesn't really link up correctly' on messier PDFs, so this feature's reliability changes with source quality.",
+   "src": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
+   "ts": "03:40"
+  }
+ },
+ "packback-writing-lab": {
+  "access": {
+   "c": "Packback's VPAT lists the assistive tools it tested: JAWS, NVDA, VoiceOver, TalkBack, and Dragon. Packback commits to fixing all medium and high issues by the end of 2026.",
+   "crop": false,
+   "note": "Rendered from page 1 of the published VPAT PDF: https://packback.co/app/uploads/2026/07/Packback2026VPAT-UpdateJune2026.pdf",
+   "src": "https://packback.co/accessibility-at-packback/",
+   "ts": "2026-09-09"
+  },
+  "authorship": {
+   "c": "The Lab Assistant flags sentence fragments and suggests one fix; the student clicks Accept or Try another. Packback says it teaches the student to write, and does not write the essay for them.",
+   "crop": true,
+   "note": "Cropped from a larger screenshot to isolate the Lab Assistant suggestion box.",
+   "src": "https://www.packback.co/platform/writing-lab/",
+   "ts": "2026-09-09"
+  },
+  "feedback": {
+   "c": "Flow & Structure lists 2 suggestions and 2 praises, and links each one to the exact sentence.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.packback.co/platform/writing-lab/",
+   "ts": "2026-09-09"
+  },
+  "generate": {
+   "c": "The Lab Assistant panel lists suggestion counts by category and offers a chat, not a generated essay.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.packback.co/platform/writing-lab/",
+   "ts": "2026-09-09"
+  },
+  "orient": {
+   "c": "After upload, the student sees a Feedback Summary with five categories: word count, flow, formatting, grammar, and research.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.packback.co/platform/writing-lab/",
+   "ts": "2026-09-09"
+  },
+  "return": {
+   "c": "The Writing Process Report sums up 6 sessions: time spent planning, drafting, revising, and reflecting. It also shows an Originality Fingerprint: 90% unique, medium AI risk.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.packback.co/platform/originality/",
+   "ts": "2026-09-09"
+  },
+  "signal": {
+   "c": "The teacher sets the rubric: word count range, required sources, and whether to block short submissions. Packback's AI grading assistant checks the draft against these teacher-set rules.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.packback.co/platform/writing-lab/",
+   "ts": "2026-09-09"
+  },
+  "trace": {
+   "c": "Clicking View Highlights under a suggestion jumps to the exact sentence it is about.",
+   "crop": false,
+   "note": "Same image as feedback.png, shown for a different question.",
+   "src": "https://www.packback.co/platform/writing-lab/",
+   "ts": "2026-09-09"
+  }
+ },
+ "quizlet": {
+  "feedback": {
+   "c": "After the check-in, Quizlet shows a score and a decision: \"You got 11 correct out of 12. Great! Since you're already familiar with this set, the Learning Assistant will skip you ahead so you can reach your goals faster.\" The feedback names a sequencing change, not only a score.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Qk7Tqf5OP6M",
+   "ts": "1:40"
+  },
+  "generate": {
+   "c": "The Learning Assistant makes a two-minute check-in of 12 multiple-choice questions from the set. Quizlet says this check-in lets it \"personalize your study path\".",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Qk7Tqf5OP6M",
+   "ts": "1:20"
+  },
+  "ingest": {
+   "c": "Magic Notes accepts pasted text, a file from the computer, or a Google Doc. A warning tells the student: \"This product is enhanced by AI and may provide incorrect or problematic content. Do not enter personal data.\"",
+   "crop": true,
+   "note": "Blacked out a real account-avatar photo in the top-right nav corner. This photo appears on every screen in this recording.",
+   "src": "https://www.youtube.com/watch?v=PsfS6pYZwJY",
+   "ts": "0:24"
+  },
+  "orient": {
+   "c": "The result page shows a Summary tab already filled in. The Outline and Flashcards tabs still show loading spinners, because Magic Notes builds each format on its own.",
+   "crop": true,
+   "note": "Blacked out the attribution line naming the real uploader's Quizlet username, their avatar photo, and the nav-bar avatar photo top-right.",
+   "src": "https://www.youtube.com/watch?v=PsfS6pYZwJY",
+   "ts": "0:33"
+  },
+  "select": {
+   "c": "The student picks a goal: Basic familiarity, Solid understanding, Complete mastery, or Other. Quizlet's Learning Assistant then picks the study path and the pace, not the student.",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-right. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=Qk7Tqf5OP6M",
+   "ts": "0:40"
+  },
+  "signal": {
+   "c": "A live Learn session shows three counters: Remaining, Familiar, and Known well. Quizlet moves each card between these buckets based on the student's last answer, not a stated preference.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Qk7Tqf5OP6M",
+   "ts": "1:56"
+  }
+ },
+ "remnote": {
+  "feedback": {
+   "c": "After the student answers a flashcard, RemNote shows a \"Near Misses\" list that explains two related, wrong concepts. Below it, the student picks Forgot, Partially recalled, Recalled with effort, or Easily recalled, each tied to a different review interval (1 min, 12 hours, 24 hours, 4 days).",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-left. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=wWG0EXJJQQE",
+   "ts": "3:04"
+  },
+  "generate": {
+   "c": "While the student reads a summary, a \"Test Your Knowledge\" panel lists four free-response questions next to the text. RemNote makes reading, flashcards, and quiz questions from the same source.",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-left. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=wWG0EXJJQQE",
+   "ts": "2:08"
+  },
+  "ingest": {
+   "c": "The Source field on a document takes a pasted URL or an uploaded PDF. This is the only ingest choice RemNote shows: a link or a file, not pasted text.",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-left. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=-pWFt1G9dss",
+   "ts": "0:50"
+  },
+  "orient": {
+   "c": "After the PDF opens, Learn PDF mode asks: \"How well do you know this content?\" The student picks a level, then can click Generate Learning Materials.",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-left. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=wWG0EXJJQQE",
+   "ts": "0:48"
+  },
+  "select": {
+   "c": "RemNote highlights one box as \"Next Step: Read\" with Read Summary and Read PDF buttons. Separate Flashcards and Quiz buttons sit below it, so the product picks a default path but the student can pick another.",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-left. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=wWG0EXJJQQE",
+   "ts": "1:04"
+  },
+  "signal": {
+   "c": "The Mastery Tracker tab shows Overall Mastery at 0%, plus counts for Sections Read, Flashcards, and Quiz, broken down per topic. RemNote adapts its Next Step to this performance data, not to a stated goal.",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-left. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=wWG0EXJJQQE",
+   "ts": "1:12"
+  },
+  "switch": {
+   "c": "The Review Results screen shows a score of 1/5 and offers three next actions: Resume Test, New practice quiz, or a generated \"Focused Summary on Missed Quizzes\". The student, not RemNote, picks which one to run.",
+   "crop": false,
+   "note": "The presenter's own webcam bubble is visible bottom-left. No student data is shown.",
+   "src": "https://www.youtube.com/watch?v=wWG0EXJJQQE",
+   "ts": "3:52"
+  }
+ },
+ "studiosity": {
+  "feedback": {
+   "c": "The Feedback Summary opens with a note thanking the student and explaining that feedback is split into categories.",
+   "crop": true,
+   "note": "Cropped from a larger annotated-essay screenshot to show only the feedback panel.",
+   "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
+   "ts": "2026-09-09"
+  },
+  "ingest": {
+   "c": "The student adds the task instructions as a PDF; this box sits next to the essay upload.",
+   "crop": false,
+   "note": "",
+   "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
+   "ts": "2026-09-09"
+  },
+  "orient": {
+   "c": "After upload, the student sees the marked-up essay next to a Feedback Summary and a Task Coverage panel.",
+   "crop": false,
+   "note": "",
+   "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
+   "ts": "2026-09-09"
+  },
+  "return": {
+   "c": "On return, the dashboard greets the student by name and shows a checklist: log in, tour, profile, submit, connect.",
+   "crop": true,
+   "note": "Cropped to remove the presenter's video overlay and caption bar, keeping only the product screen.",
+   "src": "https://support.studiosity.com/en/articles/489263-writing-feedback-how-it-works",
+   "ts": "Early in an embedded walkthrough clip; the dashboard is static while a presenter narrates."
+  },
+  "signal": {
+   "c": "Feedback follows the task brief the student uploaded: it quotes the exact requirement next to matching text. Studiosity adapts to this brief, not to a diagnosis or teacher setting.",
+   "crop": false,
+   "note": "Same image as trace.png, shown for a different question.",
+   "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
+   "ts": "2026-09-09"
+  },
+  "trace": {
+   "c": "Task Coverage quotes the exact sentence the student wrote for each task requirement, next to the requirement's own text.",
+   "crop": false,
+   "note": "",
+   "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
+   "ts": "2026-09-09"
+  }
+ },
+ "studycog": {
+  "access": {
+   "c": "One panel, opened with Shift+S, holds three groups of controls: a text-to-speech voice picker and speed, display settings for font, spacing, and color, and reading tools with a Bionic Reading toggle and a Reading Ruler.",
+   "crop": false,
+   "note": "",
+   "src": "https://studycog.co.uk/api/tour-image/accessibility.webp",
+   "ts": ""
+  },
+  "authorship": {
+   "c": "The same Writing Coach screen shown in feedback.png answers the authorship question. Every suggestion is a question, not written replacement text. StudyCog's own FAQ states the product is 'specifically designed NOT to write content for you'.",
+   "crop": false,
+   "note": "This file repeats feedback.png because the fixed stage list needs one file per stage.",
+   "src": "https://studycog.co.uk/api/tour-image/writing.webp",
+   "ts": ""
+  },
+  "feedback": {
+   "c": "Writing Coach marks a draft 'Needs Work' and lists 3 strengths and 5 areas to improve. Each area is a question, not a rewrite, for example 'What key empirical studies have investigated working memory...'.",
+   "crop": false,
+   "note": "An 'Add Task' button turns one piece of feedback into a tracked to-do.",
+   "src": "https://studycog.co.uk/api/tour-image/writing.webp",
+   "ts": ""
+  },
+  "generate": {
+   "c": "The AI Tools menu lists six formats a student can generate from one document: Summarize (checked), Simplify Language, Explore Themes, Back to Original, Test Understanding, and Create Podcast. The open summary carries inline source tags, for example '(Abstract)', '(Introduction)', and '(p. 1)'.",
+   "crop": false,
+   "note": "This is the reading-side menu the task brief calls a plain catalog of formats. The student picks a format here. The product does not recommend one.",
+   "src": "https://studycog.co.uk/api/tour-image/ai-tools.webp",
+   "ts": ""
+  },
+  "ingest": {
+   "c": "One screenshot card reads 'Self-Monitoring, 1 image, 0 words' next to a working card that reads '1 image, 106 words'. The 0-word card looks the same as a healthy one, so a student cannot tell that text extraction failed.",
+   "crop": false,
+   "note": "Downloaded with yt-dlp. The frame comes from ffmpeg. A second frame at 0:39 in the same video shows the message 'Screenshots uploaded successfully' while the page still reads 'Text extraction in progress...'. The product reports success before the file finishes processing.",
+   "src": "https://www.youtube.com/watch?v=n6vv44eGLTM",
+   "ts": "1:03"
+  },
+  "orient": {
+   "c": "The dashboard shows six fixed tiles: My Library, Assignments, My Tasks, My Notes, Find Research, and Reading Speed. Nothing on this screen shows what the student uploaded or how much of it the product processed.",
+   "crop": false,
+   "note": "This is the vendor's own product-tour screenshot, at 1920 by 1080 pixels. It matches the dashboard in the StudyCog research report, section 4.3.",
+   "src": "https://studycog.co.uk/api/tour-image/dashboard.webp",
+   "ts": ""
+  },
+  "return": {
+   "c": "On a return visit, each of 3 projects shows a stage name such as 'Planning', a step count such as 'Step 2 of 5', a progress bar, and a Continue button. The session resumes mid-pipeline instead of restarting.",
+   "crop": false,
+   "note": "",
+   "src": "https://studycog.co.uk/api/tour-image/assignments.webp",
+   "ts": ""
+  },
+  "select": {
+   "c": "A rail of five fixed steps sits above the Requirements screen: Brief Intake, Requirements, Sources & Reading, Plan, Writing Coach. The product sets this order, not the student. Requirements lists the question, word count, deadline, and criteria pulled from the brief.",
+   "crop": false,
+   "note": "This is one of two frames the task brief asked us to capture together. The other frame, the AI Tools menu on the reading side, sits under generate.png.",
+   "src": "https://studycog.co.uk/api/tour-image/requirements.webp",
+   "ts": ""
+  },
+  "switch": {
+   "c": "A toggle at the top of the reader switches between Original and Easy-to-Read with one click, and the switch reverses just as fast. Changing study approach, for example from summary to quiz, opens a fresh menu and keeps no state from the last choice.",
+   "crop": false,
+   "note": "",
+   "src": "https://studycog.co.uk/api/tour-image/reader.webp",
+   "ts": ""
+  },
+  "trace": {
+   "c": "A quiz question shows a panel called 'Source from document' that quotes the exact sentence behind the question, next to a 'See in text' button. This is the only product in the batch that links a generated question back to an exact point in the source.",
+   "crop": false,
+   "note": "Downloaded with yt-dlp. The frame comes from ffmpeg. A second frame at 3:48 in the same video, saved as trace-reader-popover-extra.png, shows the reader's own 'See in Original (p.1)' button on a text selection.",
+   "src": "https://www.youtube.com/watch?v=zML-QdH_0To",
+   "ts": "3:15"
+  }
+ },
+ "thesify": {
+  "authorship": {
+   "c": "Thesify's comparison table says it \"explains every suggestion so you stay in control\" and \"assists, never writes for you.\"",
+   "crop": false,
+   "note": "",
+   "src": "https://www.thesify.ai/",
+   "ts": "2026-09-09"
+  },
+  "feedback": {
+   "c": "Section by Section Feedback marks each part with a dot: green for Title & Abstract, orange for Introduction.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.thesify.ai/",
+   "ts": "2026-09-09"
+  },
+  "generate": {
+   "c": "Asked about future work, Thesify's chat writes a structured list of research directions, not a full essay.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.thesify.ai/",
+   "ts": "2026-09-09"
+  },
+  "ingest": {
+   "c": "The student drags in a draft PDF; Thesify then returns strengths and weaknesses for the essay.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.thesify.ai/",
+   "ts": "2026-09-09"
+  },
+  "orient": {
+   "c": "After upload, the student sees their paper next to a Digest panel: Summary, Keywords, Main claims, and Conclusion.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.thesify.ai/",
+   "ts": "2026-09-09"
+  },
+  "select": {
+   "c": "The student picks: name a journal already chosen, or let Thesify suggest one by match score. Suggestions show impact factor and a link to each journal.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.thesify.ai/",
+   "ts": "2026-09-09"
+  }
+ },
+ "turnitin-clarity": {
+  "authorship": {
+   "c": "Asked to write the introduction, Clarity's AI chat refuses and asks planning questions instead. It tells the student the introduction is their job, not the chatbot's.",
+   "crop": true,
+   "note": "Cropped to remove the student's name, course title, and instructor's name shown in the original header.",
+   "src": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "ts": "2026-09-09"
+  },
+  "entry": {
+   "c": "The teacher turns on AI chat and sets which help types it can give: planning, examples, revisions, and proofreading. The student cannot turn this control on alone.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "ts": "2026-09-09"
+  },
+  "feedback": {
+   "c": "Clarity's Writing Report lists what changed: typed words, pasted words, flagged pastes, and a summary of AI use. The teacher sees this report; the student does not.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "ts": "2026-09-09"
+  },
+  "orient": {
+   "c": "After a submission, the student sees linked assignments (outline, bibliography, draft, final essay) and the brief for the next one.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "ts": "2026-09-09"
+  },
+  "trace": {
+   "c": "Clicking a flagged, pasted passage shows its exact source link and lets the teacher play back that part of the writing session.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.turnitin.com/products/feedback-studio/clarity",
+   "ts": "2026-09-09"
+  }
+ }
+};
+
 var captureCounts = {};
 
 function el(tag, cls, text) {
@@ -2297,6 +3546,21 @@ function buildFrame(pid, sid) {
     captureCounts[pid] = (captureCounts[pid] || 0) + 1;
     var node = document.getElementById("capture-status");
     if (node && state.product === pid) node.textContent = captureCounts[pid] + " of " + STAGES.length + " frames captured";
+    var meta = (FRAME_CAPTIONS[pid] || {})[sid];
+    if (!meta || box.querySelector("figcaption")) return;
+    var fc = document.createElement("figcaption");
+    fc.className = "frame-cap";
+    fc.appendChild(el("p", "fc-text", meta.c));
+    var line = el("p", "fc-meta");
+    if (meta.src) {
+      line.appendChild(link(meta.src, meta.ts ? "Source at " + meta.ts : "Source", "fc-src"));
+    }
+    if (meta.crop) {
+      line.appendChild(el("span", "fc-crop", "masked to remove personal data"));
+    }
+    if (meta.note) line.appendChild(el("span", "fc-note", meta.note));
+    if (line.childNodes.length) fc.appendChild(line);
+    box.appendChild(fc);
   });
   img.src = path;
   return box;

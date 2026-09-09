@@ -865,6 +865,30 @@ table.matrix tbody tr:hover th, table.matrix tbody tr:hover td { background: var
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
+
+/* --- stage groups: the twelve read as four --- */
+.stage-group { margin: 30px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+.stage-group:first-child { margin-top: 4px; }
+.sg-label { font: 600 0.78rem/1.2 "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .1em; text-transform: uppercase;
+            color: var(--accent); margin: 0; }
+.sg-blurb { font-size: 0.86rem; color: var(--ink-3); margin: 4px 0 0; max-width: 62ch; }
+th.mg { font: 600 0.66rem/1.2 "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase;
+        color: var(--accent); text-align: left; padding: 2px 6px 6px; border-bottom: 1px solid var(--rule);
+        white-space: nowrap; }
+th.mg-corner { border: 0; }
+.spine-groups {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(92px, 1fr));
+  gap: 3px;
+  min-width: 1110px;
+  margin-bottom: 5px;
+}
+.sg-tab {
+  font: 600 0.6rem/1.2 "DM Mono", ui-monospace, Menlo, monospace;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--accent);
+  padding: 0 0 3px 1px; border-bottom: 2px solid var(--accent-soft);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 </style>
 </head>
 <body>
@@ -943,6 +967,22 @@ var STAGES = [
   { id: "signal",     name: "What it adapts to",           gloss: "Stated preference, observed performance, teacher, diagnosis, or nothing." },
   { id: "authorship", name: "Who writes the essay",        gloss: "Where the product draws the line on the submitted text." }
 ];
+
+/* The twelve stages read as four groups. A group is a question the student asks
+   in order: can I get my material in, what do I get, how do I study it, does it fit me. */
+var STAGE_GROUPS = [
+  { id: "setup",  label: "Getting your material in", blurb: "Who opens the account, and what the product accepts.",
+    stages: ["entry", "ingest"] },
+  { id: "make",   label: "What it gives you back",   blurb: "What appears after the upload, who chooses, and what comes out.",
+    stages: ["orient", "select", "generate"] },
+  { id: "study",  label: "Studying with it",         blurb: "The loop the student repeats: answer, redo, check the source, come back.",
+    stages: ["feedback", "switch", "trace", "return"] },
+  { id: "fit",    label: "Fit and limits",           blurb: "What a disabled student can change, what the product adapts to, and where it stops.",
+    stages: ["access", "signal", "authorship"] }
+];
+var GROUP_OF = {};
+STAGE_GROUPS.forEach(function (g) { g.stages.forEach(function (id) { GROUP_OF[id] = g; }); });
+function groupStarts(id) { var g = GROUP_OF[id]; return g && g.stages[0] === id ? g : null; }
 
 var PRIORITY = ["orient", "select", "generate", "feedback", "return"];
 
@@ -2083,6 +2123,15 @@ function buildSpine(p) {
   host.innerHTML = "";
   var wrap = el("div", "spine-wrap");
   var scroll = el("div", "spine-scroll");
+  var glabels = el("div", "spine-groups");
+  glabels.setAttribute("aria-hidden", "true");
+  STAGE_GROUPS.forEach(function (g) {
+    var lab = el("span", "sg-tab", g.label);
+    lab.style.gridColumn = "span " + g.stages.length;
+    glabels.appendChild(lab);
+  });
+  scroll.appendChild(glabels);
+
   var row = el("div", "spine");
   row.setAttribute("role", "list");
 
@@ -2170,6 +2219,13 @@ function buildJourney() {
   var wrap = document.getElementById("stages");
   wrap.innerHTML = "";
   STAGES.forEach(function (st, i) {
+    var gs = groupStarts(st.id);
+    if (gs) {
+      var gh = el("div", "stage-group");
+      gh.appendChild(el("h2", "sg-label", gs.label));
+      gh.appendChild(el("p", "sg-blurb", gs.blurb));
+      wrap.appendChild(gh);
+    }
     var cell = cellOf(p, st.id);
     var card = el("details", "stage");
     card.id = "stage-" + st.id;
@@ -2251,11 +2307,17 @@ function buildFrame(pid, sid) {
 function buildStageSelect() {
   var sel = document.getElementById("stage-select");
   sel.innerHTML = "";
-  STAGES.forEach(function (st, i) {
-    var o = document.createElement("option");
-    o.value = st.id;
-    o.textContent = String(i + 1).padStart(2, "0") + "  " + st.name;
-    sel.appendChild(o);
+  STAGE_GROUPS.forEach(function (g) {
+    var og = document.createElement("optgroup");
+    og.label = g.label;
+    g.stages.forEach(function (id) {
+      var st = stageById[id];
+      var o = document.createElement("option");
+      o.value = id;
+      o.textContent = String(STAGES.indexOf(st) + 1).padStart(2, "0") + "  " + st.name;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
   });
   sel.value = state.cmpStage;
   sel.addEventListener("change", function () { go({ view: "stage", cmpStage: sel.value }); });
@@ -2412,6 +2474,16 @@ function buildMatrix() {
     th.title = st.gloss;
     hr.appendChild(th);
   });
+  var gr = document.createElement("tr");
+  gr.appendChild(el("th", "mg-corner", ""));
+  STAGE_GROUPS.forEach(function (g) {
+    var gth = el("th", "mg");
+    gth.scope = "colgroup";
+    gth.colSpan = g.stages.length;
+    gth.appendChild(document.createTextNode(g.label));
+    gr.appendChild(gth);
+  });
+  thead.appendChild(gr);
   thead.appendChild(hr);
   table.appendChild(thead);
 

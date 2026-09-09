@@ -1405,6 +1405,10 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 /* ---------- the stage spine: twelve stages, always visible ---------- */
 
 .s-spine {
+  position: sticky;
+  top: 52px;
+  z-index: 30;
+  background: var(--paper);
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   border: 1px solid var(--rule);
@@ -1722,13 +1726,47 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 .lb-eyebrow { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--ink-2); }
 .lb-eyebrow, .lb-count { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
 
-/* ---------- the prototype switcher. Not part of the design under review. ---------- */
+/* ---------- the reader, above the contact sheet ---------- */
 
+.s-reader {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--rule-strong);
+  background: var(--surface);
+  margin: 4px 0 26px;
+}
+.s-reader-hd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.s-reader-nm { font-family: Newsreader, Georgia, serif; font-size: 18px; font-weight: 600; }
+.s-reader-hd .s-tools { margin-left: auto; display: flex; gap: 6px; }
+/* .s-view is absolute, thus the mount must carry the height itself. */
+.s-reader .s-stagearea { height: min(62vh, 660px); flex: none; }
+.s-reader-ft { padding: 11px 12px 13px; display: grid; gap: 7px; border-top: 1px solid var(--rule); }
+.s-reader-claim { margin: 0; font-size: 14.5px; line-height: 1.45; max-width: 84ch; }
+.s-reader-cap { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-2); max-width: 84ch; }
+.s-reader-hint {
+  margin: 0;
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.s-card[aria-current="true"] .s-plate { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
 
 @media (max-width: 1180px) {
-  .s-bench-body { grid-template-columns: 214px minmax(0, 1fr); }
-  .s-panel { width: 262px; }
-  .s-seg-nm { display: none; }
+  /* The spine is the whole answer to "too many clicks", thus it keeps its
+     names. It scrolls sideways rather than losing what each segment says. */
+  .s-spine { overflow-x: auto; }
+  .s-spine--flat { grid-auto-flow: column; grid-auto-columns: minmax(104px, 1fr); }
+}
+@media (max-width: 700px) {
+  .s-reader .s-stagearea { height: min(52vh, 420px); }
+  .s-reader-hd { padding: 8px 10px; }
 }
 
 
@@ -7013,6 +7051,9 @@ document.addEventListener("mouseup", function () {
   PAN = null;
 });
 
+/* The reader keeps the zoom the student chose. A reset on every step throws
+   away the 2:1 they just set, thus the zoom lives outside the control. */
+var ZOOM = "fit";
 function zoomControls(view, img) {
   var wrap = el("div", "x-tools-z");
   var defs = [
@@ -7032,6 +7073,7 @@ function zoomControls(view, img) {
       img.style.height = "";
     }
     btns.forEach(function (b) { b.setAttribute("aria-pressed", b._z === z ? "true" : "false"); });
+    ZOOM = z;
   }
   defs.forEach(function (d) {
     var b = el("button", "x-btn", d[1]);
@@ -7043,7 +7085,8 @@ function zoomControls(view, img) {
     btns.push(b);
   });
   view._setZoom = set;
-  set("fit");
+  if (img.complete) set(ZOOM);
+  else img.addEventListener("load", function () { set(ZOOM); });
   view.addEventListener("mousedown", function (ev) {
     if (!view.classList.contains("zoomed")) return;
     PAN = { v: view, x: ev.clientX, y: ev.clientY, sl: view.scrollLeft, st: view.scrollTop };
@@ -7309,7 +7352,7 @@ renderLightbox = function () {
     pad2(stageNum(sid)) + "  " + st.name + " \u2014 " + pr.name;
   document.querySelector(".lb-hint").textContent =
     "Left and right arrow keys move between screens. Escape closes. Zoom in, then drag the frame to move it.";
-  if (lbStage._setZoom) lbStage._setZoom("fit");
+  if (lbStage._setZoom) lbStage._setZoom(ZOOM);
 };
 
 render();
@@ -7491,6 +7534,98 @@ function evTally(sid) {
 
 /* ================= layout 1: the Wall ================= */
 
+function blankBox(p, sid, cov) {
+  var box = el("div", "s-blank" + (cov === "gap" ? " s-blank--gap" : ""));
+  if (cov === "gap") {
+    box.appendChild(el("div", "s-blank-h", "No frame yet"));
+    box.appendChild(el("div", "s-blank-p",
+      "The reports describe this stage for " + p.name + ". Nobody captured a screenshot yet."));
+    box.appendChild(el("div", "s-blank-path", frameSrc(p.id, sid)));
+    box.appendChild(el("div", "s-blank-p", "Add a PNG 1280px wide at that path and it will appear here."));
+  } else {
+    box.appendChild(el("div", "s-blank-h", "Nothing established"));
+    box.appendChild(el("div", "s-blank-p",
+      "Public sources gave us nothing about " + stageById[sid].name.toLowerCase() +
+      " for " + p.name + ". Read this as a gap in our knowledge, not as proof that the product lacks the stage."));
+  }
+  return box;
+}
+function stepStage(d) {
+  var i = STAGES.indexOf(stageById[state.cmpStage]);
+  var j = Math.min(STAGES.length - 1, Math.max(0, i + d));
+  if (j !== i) go({ view: "stage", cmpStage: STAGES[j].id });
+}
+function stepProduct(d) {
+  var sid = state.cmpStage;
+  var order = stageOrder(sid).map(function (x) { return x.id; });
+  var i = order.indexOf(curProduct(sid));
+  var j = (i + d + order.length) % order.length;
+  pickProduct(order[j]);
+}
+
+/* The reading surface. One frame at usable size, above the contact sheet.
+   The blind review measured the sheet alone at a median 26 percent of the
+   size the frame was captured at, thus the sheet reads but does not show. */
+function stageReader(sid) {
+  var pid = curProduct(sid);
+  var pr = byId[pid];
+  var cov = coverOf(pr, sid);
+  var st = stageById[sid];
+  var wrap = el("div", "s-reader");
+
+  var hd = el("div", "s-reader-hd");
+  var nm = el("span", "s-reader-nm");
+  var a = document.createElement("a");
+  a.href = "#/" + pid + "/" + sid;
+  a.textContent = pr.name;
+  nm.appendChild(a);
+  hd.appendChild(nm);
+  hd.appendChild(chip(cellOf(pr, sid).e));
+  if (pr.dsa) hd.appendChild(el("span", "s-flag on", "DSA"));
+  var tools = el("div", "s-tools");
+  hd.appendChild(tools);
+  var pv = el("button", "s-btn", "\u2039 Product");
+  pv.type = "button";
+  pv.title = "The previous product at this stage. The left arrow key does the same.";
+  pv.addEventListener("click", function () { stepProduct(-1); });
+  var nx = el("button", "s-btn", "Product \u203a");
+  nx.type = "button";
+  nx.title = "The next product at this stage. The right arrow key does the same.";
+  nx.addEventListener("click", function () { stepProduct(1); });
+  hd.appendChild(pv);
+  hd.appendChild(nx);
+  wrap.appendChild(hd);
+
+  var area = el("div", "s-stagearea");
+  var view = el("div", "s-view");
+  if (cov === "shot") {
+    var img = document.createElement("img");
+    img.alt = pr.name + ", " + st.name;
+    img.src = frameSrc(pid, sid);
+    view.appendChild(img);
+    tools.appendChild(zoomControls(view, img));
+  } else {
+    view.appendChild(blankBox(pr, sid, cov));
+  }
+  area.appendChild(view);
+  wrap.appendChild(area);
+
+  var foot = el("div", "s-reader-ft");
+  foot.appendChild(el("p", "s-reader-claim", claimOf(cellOf(pr, sid))));
+  var meta = metaOf(pid, sid);
+  if (meta && meta.c) foot.appendChild(el("p", "s-reader-cap", meta.c));
+  var det = el("details", "s-prov");
+  det.appendChild(el("summary", null, "Full record"));
+  var body = el("div", "s-prov-body");
+  sRecord(body, pr, sid);
+  det.appendChild(body);
+  foot.appendChild(det);
+  foot.appendChild(el("p", "s-reader-hint",
+    "Left and right arrow keys move product. Up and down arrow keys move stage."));
+  wrap.appendChild(foot);
+  return wrap;
+}
+
 function layWall(host, sid) {
   host.innerHTML = "";
   var st = stageById[sid];
@@ -7517,6 +7652,8 @@ function layWall(host, sid) {
   wall.appendChild(el("p", "tally-key", EV_ORDER.filter(function (e) { return counts[e]; })
     .map(function (e) { return counts[e] + " " + EV_LABEL[e]; }).join("  ·  ") + " of " + PRODUCTS.length + " products"));
   if (EVIDENCE_NOTES[sid]) wall.appendChild(el("p", "caveat", EVIDENCE_NOTES[sid]));
+
+  wall.appendChild(stageReader(sid));
 
   /* band 1 and band 2 are plates. Band 3 is a compact register. */
   ["shot", "gap"].forEach(function (band) {
@@ -7555,15 +7692,14 @@ function layWall(host, sid) {
 function wallCard(p, sid, band) {
   var cell = cellOf(p, sid);
   var card = el("div", "s-card");
+  if (p.id === curProduct(sid)) card.setAttribute("aria-current", "true");
   var shot = el("button", "s-shot");
   shot.type = "button";
-  shot.setAttribute("aria-label", "Open " + p.name + " at " + stageById[sid].name + " in the loupe");
+  shot.setAttribute("aria-label", "Read " + p.name + " at " + stageById[sid].name + " above");
   shot.appendChild(sPlate(p.id, sid, "s-plate--grid"));
   if (band !== "shot") { shot.disabled = true; shot.style.cursor = "default"; }
-  shot.addEventListener("click", function () {
-    var list = shotOrder(sid).map(function (x) { return x.id; });
-    openStageLoupe(sid, list, list.indexOf(p.id));
-  });
+  /* Selecting a plate loads it into the reader. No modal on the default path. */
+  shot.addEventListener("click", function () { pickProduct(p.id); });
   card.appendChild(shot);
 
   var cap = el("div", "s-cap");
@@ -7636,7 +7772,7 @@ renderLightbox = function () {
   if (meta.note) mrow.appendChild(el("span", "fc-note", meta.note));
   document.querySelector(".lb-hint").textContent =
     "Left and right arrow keys move to the next product at this stage. Escape closes. Zoom in, then drag the frame.";
-  if (lbStage._setZoom) lbStage._setZoom("fit");
+  if (lbStage._setZoom) lbStage._setZoom(ZOOM);
 };
 
 var _closeLightbox = closeLightbox;
@@ -7647,6 +7783,19 @@ closeLightbox = function () { LB.axis = null; _closeLightbox(); };
 var wallHost = el("div", "s-lay");
 wallHost.id = "slay1";
 document.getElementById("view-stage").appendChild(wallHost);
+
+document.addEventListener("keydown", function (ev) {
+  if (LB.open || state.view !== "stage") return;
+  var t = ev.target;
+  if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) return;
+  if (ev.shiftKey || ev.metaKey || ev.ctrlKey || ev.altKey) return;
+  var horiz = ev.key === "ArrowLeft" || ev.key === "ArrowRight";
+  var vert = ev.key === "ArrowUp" || ev.key === "ArrowDown";
+  if (!horiz && !vert) return;
+  ev.preventDefault();
+  var d = (ev.key === "ArrowRight" || ev.key === "ArrowDown") ? 1 : -1;
+  if (horiz) stepProduct(d); else stepStage(d);
+});
 
 buildCompare = function () {
   var sid = state.cmpStage;

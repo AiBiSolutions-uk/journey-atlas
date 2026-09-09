@@ -1890,14 +1890,14 @@ html[data-view="stage"] .main { padding-bottom: 110px; }
 ------------------------------------------------------------------ */
 
 var STAGES = [
-  { id: "entry",      name: "Onboarding",              gloss: "Who sets up the account, and who controls it." },
-  { id: "ingest",     name: "Ingestion",         gloss: "Which files it accepts, and what happens when one fails." },
+  { id: "entry",      name: "Provisioning",            gloss: "Who buys the licence, who opens the account, and who controls it." },
+  { id: "ingest",     name: "Import",                  gloss: "Which files it accepts, and what happens when one fails." },
   { id: "select",     name: "Task selection",        gloss: "What the learner sees once the material is in, and who picks the next activity." },
-  { id: "generate",   name: "Generation",               gloss: "Which activity formats come out." },
+  { id: "generate",   name: "Activity formats",         gloss: "Which activity formats come out." },
   { id: "feedback",   name: "Feedback", gloss: "What the student gets back." },
-  { id: "switch",     name: "Regeneration",            gloss: "How the student makes it again, changes the format, or throws it away." },
-  { id: "trace",      name: "Source traceability",          gloss: "Does the activity link back to the exact place in the lecture or the reading." },
-  { id: "return",     name: "Re-engagement",           gloss: "What a second session looks like." },
+  { id: "switch",     name: "Control and recovery",     gloss: "How the student makes it again, changes the format, or throws it away." },
+  { id: "trace",      name: "Citation and grounding",   gloss: "Does the activity link back to the exact place in the lecture or the reading." },
+  { id: "return",     name: "Resume and review",        gloss: "What a second session looks like." },
   { id: "access",     name: "Accessibility",      gloss: "What a disabled student can change, and any audited claim." },
   { id: "signal",     name: "Personalisation",           gloss: "Stated preference, observed performance, teacher, diagnosis, or nothing." },
   { id: "authorship", name: "Authorship",        gloss: "Where the product draws the line on the submitted text." }
@@ -1906,13 +1906,13 @@ var STAGES = [
 /* The stages read as four groups. A group is a question the student asks
    in order: can I get my material in, what do I get, how do I study it, does it fit me. */
 var STAGE_GROUPS = [
-  { id: "setup",  label: "Onboarding and ingestion", blurb: "Who opens the account, and what the product accepts.",
+  { id: "setup",  label: "Getting set up", blurb: "Who opens the account, and what the product accepts.",
     stages: ["entry", "ingest"] },
-  { id: "make",   label: "Selection and generation",        blurb: "What appears when the upload finishes, who chooses the activity, and which formats come out.",
+  { id: "make",   label: "Deciding what to do", blurb: "What appears when the upload finishes, who chooses the activity, and which formats come out.",
     stages: ["select", "generate"] },
-  { id: "study",  label: "Study loop", blurb: "The loop the student repeats: answer a question, get it wrong, make the activity again, check the source, and return the next day.",
+  { id: "study",  label: "The study loop", blurb: "The loop the student repeats: answer a question, get it wrong, make the activity again, check the source, and return the next day.",
     stages: ["feedback", "switch", "trace", "return"] },
-  { id: "fit",    label: "Accessibility and integrity",           blurb: "What a disabled student can change, what the product adapts to, and where it stops.",
+  { id: "fit",    label: "Fit and integrity", blurb: "What a disabled student can change, what the product adapts to, and where it stops.",
     stages: ["access", "signal", "authorship"] }
 ];
 var GROUP_OF = {};
@@ -6472,7 +6472,7 @@ function buildSpine(p) {
 
   STAGES.forEach(function (st, i) {
     var cell = cellOf(p, st.id);
-    var b = el("button", "sp" + (st.id === "orient" ? " pivot" : "") + (st.id === "orient" && cell.e === "not-found" ? " gap" : ""));
+    var b = el("button", "sp" + (st.id === "select" ? " pivot" : "") + (st.id === "select" && cell.e === "not-found" ? " gap" : ""));
     b.type = "button";
     b.setAttribute("role", "listitem");
     b.setAttribute("aria-label", st.name + ", " + EV_LABEL[cell.e]);
@@ -6781,7 +6781,7 @@ function buildBand() {
 
   STAGES.forEach(function (st, i) {
     var counts = stageCounts(st.id);
-    var col = el("div", "band-col" + (st.id === "orient" ? " gap" : ""));
+    var col = el("div", "band-col" + (st.id === "select" ? " gap" : ""));
     var stack = el("div", "band-stack");
     stack.setAttribute("role", "img");
     stack.setAttribute("aria-label", st.name + ": " + EV_ORDER.map(function (e) { return counts[e] + " " + EV_LABEL[e]; }).join(", "));
@@ -6795,7 +6795,7 @@ function buildBand() {
     var lab = el("div", "band-lab");
     lab.appendChild(el("span", "n mono", String(i + 1).padStart(2, "0") + " "));
     lab.appendChild(el("b", null, st.name));
-    if (st.id === "orient") lab.appendChild(el("span", "gap-lab", "the gap"));
+    if (st.id === "select") lab.appendChild(el("span", "gap-lab", "the gap"));
     col.appendChild(lab);
     band.appendChild(col);
   });
@@ -6803,9 +6803,9 @@ function buildBand() {
   scroll.appendChild(band);
   host.appendChild(scroll);
 
-  var oc = stageCounts("orient");
+  var oc = stageCounts("select");
   var read = el("p", "band-read");
-  read.appendChild(document.createTextNode("Stage 03 is the screen a student sees the moment a file finishes processing. Almost every product answers it with "));
+  read.appendChild(document.createTextNode("Stage 03 is the screen a student sees the moment a file finishes processing, and who picks what happens next. Almost every product answers it with "));
   read.appendChild(el("b", null, "a format catalogue or a blank"));
   read.appendChild(document.createTextNode(". " + oc["not-found"] + " of " + PRODUCTS.length + " products give no public account of it at all. We saw no first-run screen for any product that needs a sign-in. Read not found as not found in public documentation, never as proof of absence."));
   host.appendChild(read);
@@ -6833,7 +6833,7 @@ function buildMatrix() {
   var hr = document.createElement("tr");
   hr.appendChild(el("th", null, "Product"));
   STAGES.forEach(function (st, i) {
-    var th = el("th", st.id === "orient" ? "gapcol" : null);
+    var th = el("th", st.id === "select" ? "gapcol" : null);
     th.scope = "col";
     th.appendChild(el("span", "cn", String(i + 1).padStart(2, "0")));
     th.appendChild(document.createTextNode(st.name));
@@ -6863,7 +6863,7 @@ function buildMatrix() {
     tr.appendChild(th);
     STAGES.forEach(function (st) {
       var c = cellOf(p, st.id);
-      var td = el("td", st.id === "orient" ? "gapcol" : null);
+      var td = el("td", st.id === "select" ? "gapcol" : null);
       var b = el("button", "cell-btn");
       b.type = "button";
       b.title = p.name + " — " + st.name + ": " + EV_LABEL[c.e] + ". " + claimOf(c);

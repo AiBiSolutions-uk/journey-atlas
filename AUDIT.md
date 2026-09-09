@@ -134,31 +134,33 @@ second black bar in `podsie/select`, an editorial yellow arrow in
 The taxonomy reviewer judged 8 of 12 display names wrong. The stage ids never
 change. Two reviewers reached "Adaptation signal" for stage 11 independently.
 
-| Now | Recommended | Reason |
+| Now | Applied | Reason |
 |---|---|---|
-| Onboarding | Provisioning | 21 of 30 cells are licensing and admin control |
-| Ingestion | Import | Ingestion is data-engineering vocabulary |
-| Orientation | Overview | "Orientation" collides with course induction |
-| Task selection | Learner control | Four cells answer "the educator" |
-| Generation | Activity formats | Names the mechanism, not the output |
-| Feedback | Feedback | No change |
-| Regeneration | Control and recovery | Regeneration is 1 of the 4 things filed here |
-| Source traceability | Citation and grounding | Mixes three different questions |
-| Re-engagement | Resume and review | Growth-marketing term for session continuity |
-| Accessibility | Accessibility | No change |
-| Personalisation | Adaptation signal | Only 4 of 18 frames show self-directed change |
-| Authorship | Authorship | No change |
+| Onboarding | **Provisioning** | 21 of 30 cells are licensing and admin control |
+| Ingestion | **Import** | Ingestion is data-engineering vocabulary |
+| Task selection | Task selection, no change | Merged with Orientation. The reviewer's "Learner control" was rejected |
+| Generation | **Activity formats** | Names the mechanism, not the output |
+| Feedback | Feedback, no change | |
+| Regeneration | **Control and recovery** | Regeneration is 1 of the 4 things filed here |
+| Source traceability | **Citation and grounding** | Mixes three different questions |
+| Re-engagement | **Resume and review** | Growth-marketing term for session continuity |
+| Accessibility | Accessibility, no change | |
+| Personalisation | Personalisation, no change | "Adaptation signal" was rejected |
+| Authorship | Authorship, no change | |
 
-Group labels: **Getting set up** (entry, ingest), **Deciding what to do**
-(orient, select), **The study loop** (generate, feedback, switch, return),
-**Fit and integrity** (trace, access, signal, authorship).
+All six renames were applied on 2026-09-09. The ids are frozen, thus every
+link that existed before the rename still resolves.
+
+Group labels, all applied: **Getting set up** (entry, ingest), **Deciding what
+to do** (select, generate), **The study loop** (feedback, switch, trace, return),
+**Fit and integrity** (access, signal, authorship).
 
 Orientation and Task selection overlap most. Seven products describe the same
 screen in both columns. StudyFetch describes it three times.
 
-Authorship is nearly empty: 18 of 30 are "none found", and 12 of those are
-boilerplate for products that are not writing tools. Those must read "not
-applicable", not "none found".
+Authorship was nearly empty: 18 of 30 read "none found", and 14 of those were
+boilerplate for products that are not writing tools. Those now read "not
+applicable".
 
 ## What was applied, 2026-09-09
 

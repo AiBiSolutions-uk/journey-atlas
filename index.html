@@ -1372,6 +1372,366 @@ html[data-view="journey"] .cat-blurb { display: none; }
 .lb-eyebrow, .lb-count { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
 
 
+
+/* ==================================================================
+   PROTOTYPE — three Stage compare layouts. Throwaway code.
+   One stage, thirty products. The same three devices as the journey
+   redesign carry across all three arrangements.
+
+   the plate   a screenshot in a sunk mount, hairline frame, square
+               corners, an evidence bar on the top edge, a plate number.
+               The mount never scales a frame past its captured size.
+   the loupe   Fit / 1:1 / 2:1 with drag to pan. Here it pages sideways
+               across products at one fixed stage.
+   the record  the stage text. Provenance folds behind one toggle.
+
+   Coverage is honest. Three plate states, and they never look alike:
+     shot   a frame exists
+     gap    the record exists but no frame is captured yet
+     none   the source reports never covered this stage for this product
+   ================================================================== */
+
+html[data-view="stage"] .rail { display: none; }
+html[data-view="stage"] .shell { grid-template-columns: minmax(0, 1fr); }
+html[data-view="stage"] .view-title,
+html[data-view="stage"] #view-stage > .section-intro,
+html[data-view="stage"] #view-stage > .controls { display: none; }
+
+html[data-view="stage"] .main { padding-bottom: 110px; }
+
+.s-lay { height: 100%; }
+.s-lay[hidden] { display: none; }
+
+/* ---------- the stage spine: twelve stages, always visible ---------- */
+
+.s-spine {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  flex: none;
+}
+.s-spine--flat { border-left: 0; border-right: 0; border-top: 0; }
+.s-seg {
+  all: unset; box-sizing: border-box; cursor: pointer; min-width: 0;
+  padding: 6px 8px 7px; border-right: 1px solid var(--rule);
+  display: grid; gap: 3px; align-content: start;
+}
+.s-seg:last-child { border-right: 0; }
+.s-seg:hover { background: var(--surface-2); }
+.s-seg:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.s-seg-n {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; color: var(--ink-3);
+}
+.s-seg-nm { font-size: 12px; line-height: 1.2; color: var(--ink-2); }
+.s-seg-bar { height: 4px; background: var(--sunk); border: 1px solid var(--rule); }
+.s-seg-fill { height: 100%; background: var(--accent); display: block; }
+.s-seg-cov {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px; color: var(--ink-3);
+}
+.s-seg[aria-current="true"] { background: var(--accent-soft); }
+.s-seg[aria-current="true"] .s-seg-nm { color: var(--ink); font-weight: 700; }
+.s-seg[aria-current="true"] .s-seg-n,
+.s-seg[aria-current="true"] .s-seg-cov { color: var(--accent); }
+.s-group-strip {
+  display: grid; grid-template-columns: 2fr 3fr 4fr 3fr;
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px; color: var(--ink-3);
+}
+.s-group-strip span { padding: 4px 8px; border-right: 1px solid var(--rule); }
+.s-group-strip span:last-child { border-right: 0; }
+
+/* ---------- the plate, in stage compare dress ---------- */
+
+.s-plate {
+  margin: 0; display: flex; flex-direction: column; min-width: 0;
+  border: 1px solid var(--rule); background: var(--surface);
+}
+.s-ev { height: 3px; flex: none; }
+.s-mount {
+  position: relative; background: var(--sunk);
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.s-mount img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+.s-plate--grid .s-mount { aspect-ratio: 16 / 9; }
+.s-num {
+  position: absolute; left: 0; bottom: 0;
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; line-height: 1; padding: 4px 6px;
+  color: var(--accent-ink); background: var(--accent);
+}
+/* gap: the record exists, the screenshot does not. Hatched, and it names the path. */
+.s-mount--gap {
+  border: 1px dashed var(--rule-strong);
+  background: repeating-linear-gradient(135deg, transparent 0 7px, var(--sunk) 7px 14px);
+  flex-direction: column; gap: 4px; text-align: center; padding: 10px;
+}
+/* none: the source reports never covered this stage. Flat, quiet, one rule. */
+.s-mount--none {
+  background: var(--surface-2);
+  flex-direction: column; gap: 4px; text-align: center; padding: 10px;
+}
+.s-mount--none::before {
+  content: ""; position: absolute; left: 12%; right: 12%; top: 50%;
+  border-top: 1px solid var(--rule-strong);
+}
+.s-none-l { font-size: 11.5px; color: var(--ink-3); position: relative; background: var(--surface-2); padding: 0 6px; }
+.s-gap-l { font-size: 11.5px; color: var(--ink-3); }
+.s-gap-p {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px; color: var(--ink-2); word-break: break-all;
+}
+
+/* ---------- layout 1, the Wall ---------- */
+
+.s-wall { max-width: 1640px; }
+.s-head { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 4px 16px; margin-top: 14px; }
+.s-title {
+  font-family: Newsreader, Georgia, serif; font-size: 30px; font-weight: 600;
+  letter-spacing: -.015em; margin: 0; line-height: 1.1;
+}
+.s-title i { font-style: normal; color: var(--ink-3); font-size: 20px; margin-right: 8px; }
+.s-tick {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px; color: var(--ink-3); margin-left: auto; white-space: nowrap;
+}
+.s-gloss { font-size: 15px; line-height: 1.55; color: var(--ink-2); max-width: 78ch; margin: 8px 0 0; }
+.s-bar {
+  display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap;
+  border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule);
+  padding: 8px 0; margin-top: 14px;
+}
+.s-bandhead { font-family: Newsreader, Georgia, serif; font-size: 18px; font-weight: 600; margin: 20px 0 0; }
+.s-bandsub { font-size: 12.5px; color: var(--ink-3); margin: 2px 0 0; }
+.s-sheet {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px; margin-top: 12px; align-items: start;
+}
+.s-sheet--tight { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+.s-card { display: block; min-width: 0; }
+.s-shot { all: unset; display: block; cursor: zoom-in; }
+.s-shot:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.s-shot:hover .s-mount { filter: brightness(1.03); }
+.s-cap { padding: 8px 9px 9px; display: grid; gap: 3px; }
+.s-cap-top { display: flex; align-items: baseline; gap: 8px; }
+.s-cap-nm {
+  font-family: Newsreader, Georgia, serif; font-size: 15.5px; font-weight: 600; line-height: 1.2;
+}
+.s-cap-nm a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
+.s-cap-nm a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.s-cap-claim { font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
+.s-cap-foot { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-top: 3px; }
+.s-flag {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px; letter-spacing: .04em; color: var(--ink-3);
+  border: 1px solid var(--rule); border-radius: 2px; padding: 1px 5px;
+}
+.s-flag.on { color: var(--accent); border-color: var(--accent); }
+.s-reg {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0 18px; margin-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.s-reg-row {
+  display: grid; grid-template-columns: 3px minmax(0, 1fr) auto; gap: 9px;
+  align-items: start; padding: 7px 0; border-bottom: 1px solid var(--rule); font-size: 13px;
+}
+.s-reg-row a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
+.s-reg-row a:hover { color: var(--accent); }
+.s-reg-ev { width: 3px; height: 100%; min-height: 20px; align-self: stretch; }
+.s-reg-box { display: grid; gap: 1px; min-width: 0; }
+.s-reg-claim { font-size: 11.5px; line-height: 1.35; color: var(--ink-3); }
+
+/* ---------- layout 2, the Bench ---------- */
+
+.s-bench { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.s-bench-body { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 268px minmax(0, 1fr); }
+.s-index {
+  border-right: 1px solid var(--rule); background: var(--surface-2);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.s-index-hd {
+  padding: 9px 12px; border-bottom: 1px solid var(--rule);
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+}
+.s-index-hd b { font-family: Newsreader, Georgia, serif; font-size: 15px; font-weight: 600; }
+.s-index-hd span {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; color: var(--ink-3);
+}
+.s-index-list { overflow-y: auto; overscroll-behavior: contain; padding: 4px 0 40px; min-height: 0; flex: 1 1 auto; }
+.s-ig {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px; color: var(--ink-3); padding: 11px 12px 4px;
+}
+.s-prow {
+  all: unset; box-sizing: border-box; display: grid;
+  grid-template-columns: 52px 3px minmax(0, 1fr); align-items: center; gap: 8px;
+  width: 100%; padding: 5px 12px 5px 9px; cursor: pointer;
+  border-left: 3px solid transparent;
+}
+.s-prow:hover { background: var(--surface); }
+.s-prow:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.s-prow[aria-current="true"] { background: var(--surface); border-left-color: var(--accent); }
+.s-prow[aria-current="true"] .s-prow-nm { color: var(--ink); font-weight: 700; }
+.s-prow-t {
+  width: 52px; height: 30px; background: var(--sunk); border: 1px solid var(--rule);
+  display: block; object-fit: cover; object-position: top left;
+}
+.s-prow-t--gap { background: repeating-linear-gradient(135deg, transparent 0 5px, var(--sunk) 5px 10px); border-style: dashed; }
+.s-prow-t--none {
+  background: var(--surface-2);
+  background-image: linear-gradient(to bottom right, transparent calc(50% - 1px), var(--rule-strong) calc(50% - 1px), var(--rule-strong) calc(50% + 1px), transparent calc(50% + 1px));
+}
+.s-prow-ev { width: 3px; height: 20px; }
+.s-prow-nm { font-size: 13px; line-height: 1.25; color: var(--ink-2); }
+
+.s-surface { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.s-sbar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: none;
+  padding: 8px 15px; border-bottom: 1px solid var(--rule); background: var(--surface);
+}
+.s-sbar h2 { font-family: Newsreader, Georgia, serif; font-size: 18px; font-weight: 600; margin: 0; }
+.s-sbar-n {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px; color: var(--ink-3);
+}
+.s-tools { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.s-btn {
+  font: inherit; font-size: 12px; padding: 3px 9px; cursor: pointer;
+  background: transparent; color: var(--ink-2);
+  border: 1px solid var(--rule); border-radius: 3px; white-space: nowrap;
+}
+.s-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.s-btn:disabled { opacity: .35; cursor: default; }
+.s-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.s-tools-z { display: flex; gap: 5px; }
+
+.s-work { flex: 1 1 auto; min-height: 0; background: var(--sunk); position: relative; }
+.s-view {
+  position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain;
+  display: flex; align-items: center; justify-content: center; padding: 14px;
+}
+.s-view.grab { cursor: grab; }
+.s-view.grabbing { cursor: grabbing; }
+.s-view img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+.s-view.zoomed { align-items: flex-start; justify-content: flex-start; }
+.s-view.zoomed img { max-width: none; max-height: none; margin: auto; }
+.s-blank { display: grid; gap: 6px; text-align: center; justify-items: center; max-width: 46ch; }
+.s-blank-h { font-family: Newsreader, Georgia, serif; font-size: 19px; font-weight: 600; color: var(--ink-2); }
+.s-blank-p { font-size: 13px; color: var(--ink-3); line-height: 1.5; }
+.s-blank-path {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px; color: var(--ink-2); border: 1px dashed var(--rule-strong); padding: 4px 8px;
+}
+.s-blank { padding: 26px 30px; border: 1px solid var(--rule); background: var(--surface); }
+.s-blank--gap { border-style: dashed; border-color: var(--rule-strong);
+  background: repeating-linear-gradient(135deg, var(--surface) 0 8px, var(--surface-2) 8px 16px); }
+
+.s-record {
+  flex: none; max-height: 40%; overflow-y: auto; overscroll-behavior: contain;
+  border-top: 1px solid var(--rule); background: var(--surface); padding: 12px 15px 48px;
+}
+
+/* ---------- layout 3, the Sweep ---------- */
+
+.s-sweep { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.s-sweep-hd {
+  flex: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 6px 14px; border-bottom: 1px solid var(--rule); background: var(--surface);
+}
+.s-pick {
+  font: inherit; font-size: 13px; padding: 3px 6px; background: var(--paper);
+  color: var(--ink); border: 1px solid var(--rule); border-radius: 3px; max-width: 300px;
+}
+.s-lab {
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; color: var(--ink-3);
+}
+.s-sweep-body { flex: 1 1 auto; min-height: 0; display: flex; }
+.s-stagearea { flex: 1 1 auto; min-width: 0; position: relative; background: var(--sunk); }
+.s-panel {
+  flex: none; width: 340px; border-left: 1px solid var(--rule); background: var(--surface);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.s-panel-hd { padding: 11px 14px 9px; border-bottom: 1px solid var(--rule); display: grid; gap: 5px; }
+.s-panel-hd h2 { font-family: Newsreader, Georgia, serif; font-size: 19px; font-weight: 600; margin: 0; line-height: 1.15; }
+.s-panel-body { overflow-y: auto; overscroll-behavior: contain; padding: 11px 14px 40px; min-height: 0; }
+.s-panel.shut { width: 44px; }
+.s-panel.shut .s-panel-hd, .s-panel.shut .s-panel-body { display: none; }
+.s-tab {
+  all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 6px; text-align: center;
+  font-size: 11px; color: var(--ink-2); border-bottom: 1px solid var(--rule);
+}
+.s-tab:hover { color: var(--accent); }
+.s-tab:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.s-panel.shut .s-tab { writing-mode: vertical-rl; border-bottom: 0; padding: 14px 6px; }
+
+.s-strip {
+  flex: none; display: flex; gap: 6px; align-items: stretch;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  padding: 7px 12px 9px; border-top: 1px solid var(--rule); background: var(--surface);
+}
+.s-tile {
+  all: unset; box-sizing: border-box; cursor: pointer; flex: none; width: 116px;
+  display: grid; gap: 3px; padding: 3px; border: 1px solid transparent;
+}
+.s-tile:hover { background: var(--surface-2); }
+.s-tile:focus-visible { outline: 2px solid var(--focus); outline-offset: -1px; }
+.s-tile[aria-current="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.s-tile-m {
+  height: 62px; background: var(--sunk); border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
+}
+.s-tile-m img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.s-tile-m--gap { border-style: dashed; border-color: var(--rule-strong);
+  background: repeating-linear-gradient(135deg, transparent 0 6px, var(--sunk) 6px 12px); }
+.s-tile-m--none { background: var(--surface-2); }
+.s-tile-m--none::before { content: ""; position: absolute; left: 20%; right: 20%; top: 50%; border-top: 1px solid var(--rule-strong); }
+.s-tile-nm { font-size: 11px; line-height: 1.2; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.s-tile[aria-current="true"] .s-tile-nm { color: var(--ink); font-weight: 700; }
+.s-tile-ev { height: 3px; }
+
+/* ---------- the record, shared by all three ---------- */
+
+.s-rgloss { margin: 0 0 6px; font-size: 12.5px; color: var(--ink-3); }
+.s-rtext { margin: 0 0 10px; font-size: 14.5px; line-height: 1.55; color: var(--ink); max-width: 76ch; }
+.s-rquote {
+  margin: 0 0 10px; padding-left: 12px; border-left: 2px solid var(--rule-strong);
+  font-family: Newsreader, Georgia, serif; font-size: 15px; line-height: 1.45;
+  color: var(--ink-2); max-width: 66ch;
+}
+.s-rcap { margin: 0 0 8px; font-size: 13px; line-height: 1.5; color: var(--ink-2); max-width: 76ch; }
+.s-rsrcs { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 8px; }
+.s-prov { font-size: 12px; color: var(--ink-3); }
+.s-prov > summary { cursor: pointer; color: var(--ink-2); }
+.s-prov > summary:hover { color: var(--accent); }
+.s-prov-body { padding: 6px 0 0 14px; display: grid; gap: 4px; max-width: 76ch; }
+
+/* ---------- the loupe, added to the existing lightbox ---------- */
+
+.lb-stage { overflow: auto; overscroll-behavior: contain; }
+.lb-stage.zoomed { align-items: flex-start; justify-content: flex-start; }
+.lb-stage.zoomed img { max-width: none; max-height: none; margin: auto; }
+.lb-stage.grab { cursor: grab; }
+.lb-stage.grabbing { cursor: grabbing; }
+.lb-zoom { display: flex; gap: 5px; margin-left: 14px; }
+.lb-eyebrow { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--ink-2); }
+.lb-eyebrow, .lb-count { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* ---------- the prototype switcher. Not part of the design under review. ---------- */
+
+
+@media (max-width: 1180px) {
+  .s-bench-body { grid-template-columns: 214px minmax(0, 1fr); }
+  .s-panel { width: 262px; }
+  .s-seg-nm { display: none; }
+}
+
+
 </style>
 </head>
 <body>
@@ -6950,6 +7310,349 @@ renderLightbox = function () {
   document.querySelector(".lb-hint").textContent =
     "Left and right arrow keys move between screens. Escape closes. Zoom in, then drag the frame to move it.";
   if (lbStage._setZoom) lbStage._setZoom("fit");
+};
+
+render();
+
+/* ==================================================================
+   THE WALL — stage compare. One stage, thirty products, one sheet.
+
+   A twelve-segment spine on top carries each stage, its coverage bar and
+   its count. Below it every product appears as a plate, in coverage
+   order: captured first, described second, nothing established last.
+   #/stage/<stage-id> stays the contract and resolves on first load.
+   ================================================================== */
+
+
+
+/* Three coverage states, and they never look alike.
+   shot  a frame exists.
+   gap   the reports cover this stage, but nobody captured a screenshot yet.
+   none  the reports never covered this stage for this product. */
+function coverOf(p, sid) {
+  if (hasFrame(p.id, sid)) return "shot";
+  if (!p.stages[sid]) return "none";
+  return cellOf(p, sid).e === "not-found" ? "none" : "gap";
+}
+function coverCount(sid) {
+  var n = { shot: 0, gap: 0, none: 0 };
+  PRODUCTS.forEach(function (p) { n[coverOf(p, sid)]++; });
+  return n;
+}
+var BAND_LABEL = {
+  shot: "Frame captured",
+  gap:  "Described, no frame yet",
+  none: "Nothing established"
+};
+var BAND_BLURB = {
+  shot: "A screenshot exists. Select it to open the loupe.",
+  gap:  "The reports describe this stage, but nobody captured a screenshot yet. This is a gap in our capture work.",
+  none: "Public sources gave us nothing for this stage. This is a gap in our knowledge, not proof that the product lacks the stage."
+};
+/* Products for one stage, in reading order: frames first, then gaps, then the rest. */
+function bandOf(sid, band) {
+  var rows = PRODUCTS.filter(function (p) { return coverOf(p, sid) === band; });
+  rows.sort(function (a, b) {
+    var d = EV_ORDER.indexOf(cellOf(a, sid).e) - EV_ORDER.indexOf(cellOf(b, sid).e);
+    return d || a.name.localeCompare(b.name);
+  });
+  return rows;
+}
+function stageOrder(sid) {
+  return bandOf(sid, "shot").concat(bandOf(sid, "gap"), bandOf(sid, "none"));
+}
+function shotOrder(sid) { return bandOf(sid, "shot"); }
+
+function curProduct(sid) {
+  if (state.cmpProduct && byId[state.cmpProduct]) return state.cmpProduct;
+  var o = stageOrder(sid);
+  return o.length ? o[0].id : PRODUCTS[0].id;
+}
+function pickProduct(pid) { state.cmpProduct = pid; buildCompare(); writeHash(); }
+
+/* Deep link. #/stage/<stage-id> stays the contract and resolves on first load.
+   Layouts 2 and 3 add an optional product, thus #/stage/access/studycog also works. */
+var _readHash = readHash;
+readHash = function () {
+  _readHash();
+  var parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+  if (parts[0] === "stage" && parts[2] && byId[parts[2]]) state.cmpProduct = parts[2];
+};
+
+/* ---------- the plate ---------- */
+
+function sPlate(pid, sid, cls) {
+  var p = byId[pid];
+  var fig = el("figure", "s-plate" + (cls ? " " + cls : ""));
+  var cell = cellOf(p, sid);
+  fig.appendChild(el("div", "s-ev seg-" + cell.e));
+  var mount = el("div", "s-mount");
+  var cov = coverOf(p, sid);
+  if (cov === "shot") {
+    var img = document.createElement("img");
+    img.loading = "lazy";
+    img.alt = p.name + ", " + stageById[sid].name;
+    img.src = frameSrc(pid, sid);
+    mount.appendChild(img);
+    mount.appendChild(el("span", "s-num", pad2(stageNum(sid))));
+  } else if (cov === "gap") {
+    mount.className = "s-mount s-mount--gap";
+    mount.appendChild(el("div", "s-gap-l", "No frame yet"));
+    mount.appendChild(el("div", "s-gap-p", frameSrc(pid, sid)));
+    mount.appendChild(el("div", "s-gap-l", "Add a PNG 1280px wide at this path."));
+  } else {
+    mount.className = "s-mount s-mount--none";
+    mount.appendChild(el("div", "s-none-l", "Nothing established"));
+  }
+  fig.appendChild(mount);
+  return fig;
+}
+
+/* ---------- the record ---------- */
+
+function sRecord(host, p, sid) {
+  var st = stageById[sid];
+  var cell = cellOf(p, sid);
+  var meta = metaOf(p.id, sid);
+  var cov = coverOf(p, sid);
+  host.appendChild(el("p", "s-rgloss", st.gloss));
+  host.appendChild(el("p", "s-rtext", cell.t));
+  if (cell.quote) host.appendChild(el("p", "s-rquote", "“" + cell.quote + "”"));
+  if (meta && meta.c) host.appendChild(el("p", "s-rcap", meta.c));
+  if (cov === "gap") {
+    host.appendChild(el("p", "s-rcap",
+      "No screenshot exists for this stage yet, thus the text above comes from the source reports alone."));
+  }
+  if (cell.src && cell.src.length) {
+    var sd = el("div", "s-rsrcs");
+    cell.src.forEach(function (x) { sd.appendChild(link(x.url, x.label, "src")); });
+    host.appendChild(sd);
+  }
+  if (meta && (meta.src || meta.note || meta.crop)) {
+    var d = el("details", "s-prov");
+    d.appendChild(el("summary", null, "Where this screenshot came from"));
+    var b = el("div", "s-prov-body");
+    if (meta.src) {
+      var r = el("div");
+      r.appendChild(link(meta.src, meta.ts ? "Source, seen " + meta.ts : "Source", "fc-src"));
+      b.appendChild(r);
+    }
+    if (meta.crop) b.appendChild(el("div", null, "This frame is masked to remove personal data."));
+    if (meta.note) b.appendChild(el("div", null, meta.note));
+    d.appendChild(b);
+    host.appendChild(d);
+  }
+  var go1 = el("div", "s-rsrcs");
+  go1.appendChild(link("#/" + p.id + "/" + sid, "Open the full journey for " + p.name, "src"));
+  host.appendChild(go1);
+}
+
+/* ---------- the stage spine, shared by all three ---------- */
+
+function stageSpine(sid, flat) {
+  var wrap = el("div", "s-spine" + (flat ? " s-spine--flat" : ""));
+  STAGES.forEach(function (st, i) {
+    var n = coverCount(st.id);
+    var b = el("button", "s-seg");
+    b.type = "button";
+    if (st.id === sid) b.setAttribute("aria-current", "true");
+    b.title = st.name + ". " + n.shot + " of " + PRODUCTS.length + " products have a frame.";
+    b.appendChild(el("span", "s-seg-n", pad2(i + 1)));
+    b.appendChild(el("span", "s-seg-nm", st.name));
+    var bar = el("span", "s-seg-bar");
+    var fill = el("span", "s-seg-fill");
+    fill.style.width = Math.round(n.shot / PRODUCTS.length * 100) + "%";
+    bar.appendChild(fill);
+    b.appendChild(bar);
+    b.appendChild(el("span", "s-seg-cov", n.shot + "/" + PRODUCTS.length));
+    b.addEventListener("click", function () { go({ view: "stage", cmpStage: st.id }); });
+    wrap.appendChild(b);
+  });
+  return wrap;
+}
+function groupStrip() {
+  var s = el("div", "s-group-strip");
+  STAGE_GROUPS.forEach(function (g) { s.appendChild(el("span", null, g.label)); });
+  return s;
+}
+function evTally(sid) {
+  var counts = stageCounts(sid);
+  var t = el("div", "tally");
+  t.setAttribute("role", "img");
+  t.setAttribute("aria-label", EV_ORDER.map(function (e) { return counts[e] + " " + EV_LABEL[e]; }).join(", "));
+  EV_ORDER.forEach(function (e) {
+    if (!counts[e]) return;
+    var seg = el("span", "seg-" + e);
+    seg.style.width = (counts[e] / PRODUCTS.length * 100) + "%";
+    t.appendChild(seg);
+  });
+  return t;
+}
+
+/* ================= layout 1: the Wall ================= */
+
+function layWall(host, sid) {
+  host.innerHTML = "";
+  var st = stageById[sid];
+  var n = coverCount(sid);
+  var wall = el("div", "s-wall");
+
+  wall.appendChild(stageSpine(sid, false));
+  wall.appendChild(groupStrip());
+
+  var head = el("div", "s-head");
+  var h1 = el("h1", "s-title");
+  h1.appendChild(el("i", null, pad2(stageNum(sid))));
+  h1.appendChild(document.createTextNode(st.name));
+  head.appendChild(h1);
+  head.appendChild(el("span", "s-tick",
+    n.shot + " frames  ·  " + n.gap + " described  ·  " + n.none + " nothing established"));
+  wall.appendChild(head);
+  wall.appendChild(el("p", "s-gloss", st.gloss));
+
+  var bar = el("div", "s-bar");
+  bar.appendChild(evTally(sid));
+  wall.appendChild(bar);
+  var counts = stageCounts(sid);
+  wall.appendChild(el("p", "tally-key", EV_ORDER.filter(function (e) { return counts[e]; })
+    .map(function (e) { return counts[e] + " " + EV_LABEL[e]; }).join("  ·  ") + " of " + PRODUCTS.length + " products"));
+  if (EVIDENCE_NOTES[sid]) wall.appendChild(el("p", "caveat", EVIDENCE_NOTES[sid]));
+
+  /* band 1 and band 2 are plates. Band 3 is a compact register. */
+  ["shot", "gap"].forEach(function (band) {
+    var rows = bandOf(sid, band);
+    if (!rows.length) return;
+    wall.appendChild(el("h2", "s-bandhead", BAND_LABEL[band] + "  ·  " + rows.length));
+    wall.appendChild(el("p", "s-bandsub", BAND_BLURB[band]));
+    var sheet = el("div", "s-sheet" + (band === "gap" ? " s-sheet--tight" : ""));
+    rows.forEach(function (p) { sheet.appendChild(wallCard(p, sid, band)); });
+    wall.appendChild(sheet);
+  });
+
+  var rest = bandOf(sid, "none");
+  if (rest.length) {
+    wall.appendChild(el("h2", "s-bandhead", BAND_LABEL.none + "  ·  " + rest.length));
+    wall.appendChild(el("p", "s-bandsub", BAND_BLURB.none));
+    var reg = el("div", "s-reg");
+    rest.forEach(function (p) {
+      var r = el("div", "s-reg-row");
+      r.appendChild(el("span", "s-reg-ev seg-" + cellOf(p, sid).e));
+      var box = el("span", "s-reg-box");
+      var a = document.createElement("a");
+      a.href = "#/" + p.id + "/" + sid;
+      a.textContent = p.name;
+      box.appendChild(a);
+      box.appendChild(el("span", "s-reg-claim", claimOf(cellOf(p, sid))));
+      r.appendChild(box);
+      r.appendChild(el("span", "s-flag" + (p.dsa ? " on" : ""), p.dsa ? "DSA" : "—"));
+      reg.appendChild(r);
+    });
+    wall.appendChild(reg);
+  }
+  host.appendChild(wall);
+}
+
+function wallCard(p, sid, band) {
+  var cell = cellOf(p, sid);
+  var card = el("div", "s-card");
+  var shot = el("button", "s-shot");
+  shot.type = "button";
+  shot.setAttribute("aria-label", "Open " + p.name + " at " + stageById[sid].name + " in the loupe");
+  shot.appendChild(sPlate(p.id, sid, "s-plate--grid"));
+  if (band !== "shot") { shot.disabled = true; shot.style.cursor = "default"; }
+  shot.addEventListener("click", function () {
+    var list = shotOrder(sid).map(function (x) { return x.id; });
+    openStageLoupe(sid, list, list.indexOf(p.id));
+  });
+  card.appendChild(shot);
+
+  var cap = el("div", "s-cap");
+  var top = el("div", "s-cap-top");
+  var nm = el("span", "s-cap-nm");
+  var a = document.createElement("a");
+  a.href = "#/" + p.id + "/" + sid;
+  a.textContent = p.name;
+  nm.appendChild(a);
+  top.appendChild(nm);
+  cap.appendChild(top);
+  cap.appendChild(el("div", "s-cap-claim", claimOf(cell)));
+  var foot = el("div", "s-cap-foot");
+  foot.appendChild(chip(cell.e));
+  if (p.dsa) foot.appendChild(el("span", "s-flag on", "DSA"));
+  cap.appendChild(foot);
+  var d = el("details", "s-prov");
+  d.appendChild(el("summary", null, "Full record"));
+  var body = el("div", "s-prov-body");
+  sRecord(body, p, sid);
+  d.appendChild(body);
+  cap.appendChild(d);
+  card.appendChild(cap);
+  return card;
+}
+
+/* ================= layout 2: the Bench ================= */
+
+
+
+/* ================= layout 3: the Sweep ================= */
+
+
+/* ================= paging ================= */
+
+
+/* ================= the loupe, paging across products ================= */
+
+function openStageLoupe(sid, pidList, i) {
+  if (!pidList.length) return;
+  LB.axis = "stage";
+  LB.sid = sid;
+  LB.list = pidList;
+  LB.i = Math.max(0, Math.min(i, pidList.length - 1));
+  LB.open = true;
+  LB.lastFocus = document.activeElement;
+  document.getElementById("lightbox").hidden = false;
+  document.body.classList.add("lb-open");
+  renderLightbox();
+  document.getElementById("lb-close").focus();
+}
+
+var _renderLightbox = renderLightbox;
+renderLightbox = function () {
+  if (LB.axis !== "stage") { _renderLightbox(); return; }
+  var pid = LB.list[LB.i];
+  var p = byId[pid];
+  var st = stageById[LB.sid];
+  document.getElementById("lb-img").src = frameSrc(pid, LB.sid);
+  document.getElementById("lb-img").alt = p.name + " — " + st.name;
+  document.getElementById("lb-eyebrow").textContent =
+    pad2(stageNum(LB.sid)) + "  " + st.name + " — " + p.name;
+  document.getElementById("lb-count").textContent = (LB.i + 1) + " of " + LB.list.length;
+  var meta = metaOf(pid, LB.sid) || {};
+  document.getElementById("lb-cap").textContent = meta.c || claimOf(cellOf(p, LB.sid));
+  var mrow = document.getElementById("lb-meta");
+  mrow.innerHTML = "";
+  if (meta.src) mrow.appendChild(link(meta.src, meta.ts ? "Source at " + meta.ts : "Source", "fc-src"));
+  if (meta.crop) mrow.appendChild(el("span", "fc-crop", "masked to remove personal data"));
+  if (meta.note) mrow.appendChild(el("span", "fc-note", meta.note));
+  document.querySelector(".lb-hint").textContent =
+    "Left and right arrow keys move to the next product at this stage. Escape closes. Zoom in, then drag the frame.";
+  if (lbStage._setZoom) lbStage._setZoom("fit");
+};
+
+var _closeLightbox = closeLightbox;
+closeLightbox = function () { LB.axis = null; _closeLightbox(); };
+
+/* ---------- wiring ---------- */
+
+var wallHost = el("div", "s-lay");
+wallHost.id = "slay1";
+document.getElementById("view-stage").appendChild(wallHost);
+
+buildCompare = function () {
+  var sid = state.cmpStage;
+  document.getElementById("stage-select").value = sid;
+  document.getElementById("cmp").innerHTML = "";
+  layWall(wallHost, sid);
 };
 
 render();

@@ -44,6 +44,9 @@
   --ev-not-found-fg: #A32639;
   --ev-not-found-bg: #FADEE2;
   --ev-not-found-bd: #EFB2BC;
+  --ev-n-a-fg: #6E6A66;
+  --ev-n-a-bg: #F0EEEB;
+  --ev-n-a-bd: #D8D4CF;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -75,6 +78,9 @@
     --ev-not-found-fg: #F19CAA;
     --ev-not-found-bg: #33161C;
     --ev-not-found-bd: #602A34;
+    --ev-n-a-fg: #9C978F;
+    --ev-n-a-bg: #232120;
+    --ev-n-a-bd: #3A3734;
   }
 }
 :root[data-theme="dark"] {
@@ -106,6 +112,9 @@
   --ev-not-found-fg: #F19CAA;
   --ev-not-found-bg: #33161C;
   --ev-not-found-bd: #602A34;
+  --ev-n-a-fg: #9C978F;
+  --ev-n-a-bg: #232120;
+  --ev-n-a-bd: #3A3734;
 }
 
 * { box-sizing: border-box; }
@@ -491,6 +500,9 @@ a.pill:hover { border-color: var(--accent); color: var(--accent); }
 .ev-documented { color: var(--ev-documented-fg); background: var(--ev-documented-bg); border-color: var(--ev-documented-bd); }
 .ev-vendor-claim { color: var(--ev-vendor-claim-fg); background: var(--ev-vendor-claim-bg); border-color: var(--ev-vendor-claim-bd); }
 .ev-not-found { color: var(--ev-not-found-fg); background: var(--ev-not-found-bg); border-color: var(--ev-not-found-bd); }
+/* The question does not arise for this product. That is not a gap in our
+   work, thus the tag stays neutral. */
+.ev-n-a { color: var(--ev-n-a-fg); background: var(--ev-n-a-bg); border-color: var(--ev-n-a-bd); }
 /* We looked and found nothing. That is a weaker statement than "none found",
    thus it does not carry the red of an absent record. */
 .chip.ev-looked { color: var(--ink-2); background: var(--surface-2); border-color: var(--rule-strong); }
@@ -498,6 +510,7 @@ a.pill:hover { border-color: var(--accent); color: var(--accent); }
 .seg-documented { background: var(--ev-documented-fg); }
 .seg-vendor-claim { background: var(--ev-vendor-claim-fg); }
 .seg-not-found { background: var(--ev-not-found-fg); }
+.seg-n-a { background: var(--ev-n-a-fg); }
 
 /* ---- price strip: the first thing after the summary ---- */
 
@@ -3159,7 +3172,7 @@ var PRIORITY = ["orient", "select", "generate", "feedback", "return"];
 /* The tag grades the CLAIM, never the picture. "none found" means we found no
    such control in public sources, thus a screenshot of that screen can sit
    beside it without contradiction. */
-var EV_LABEL = { "observed": "seen in use", "documented": "in vendor docs", "vendor-claim": "vendor says", "not-found": "none found" };
+var EV_LABEL = { "observed": "seen in use", "documented": "in vendor docs", "vendor-claim": "vendor says", "not-found": "none found", "n-a": "not applicable" };
 
 /* Which products a UK student can currently get through Disabled Students' Allowance,
    how each one reaches them, and how strong the evidence for that route is. */
@@ -3171,8 +3184,8 @@ var DSA_NOTES = {
   "lernabl": { e: "not-found", t: "UNCONFIRMED. The DSA route was supplied by our own team, not by a vendor page. The assessors page describes no DSA distribution directly, and no supplier listing was located. Confirm before any decision rests on it." },
   "everway-writing-helper": { e: "observed", t: "Everway's own DSA page describes the distribution route explicitly. The student imports research PDFs; no trainer pre-configuration of the account is documented." }
 };
-var EV_CODE  = { "observed": "OBS", "documented": "DOC", "vendor-claim": "VEN", "not-found": "—" };
-var EV_ORDER = ["observed", "documented", "vendor-claim", "not-found"];
+var EV_CODE  = { "observed": "OBS", "documented": "DOC", "vendor-claim": "VEN", "not-found": "—", "n-a": "N/A" };
+var EV_ORDER = ["observed", "documented", "vendor-claim", "not-found", "n-a"];
 
 var TRACK_LABEL = { revision: "Source-to-revision journeys", essay: "Essay-support journeys", boundary: "Boundary cases that look comparable and are not" };
 /* ---- categories: what kind of product each comparator is ---- */
@@ -3373,7 +3386,7 @@ var PRODUCTS = [
   dsa: true,
   summary: "A UK DSA-distributed accessible research platform that ingests the student's own PDFs and Word files and produces read-aloud, reformatted reading, summaries, themes, a podcast, a quiz and a five-stage assignment pipeline over one library. It is the closest single comparator located to date, and it corrects three conclusions of the 50-product survey.",
   stages: {
-    entry: { c: "A 16-character licence code from the supplier, or an emailed activation link.", e: "documented", t: "A 16-character licence code from the supplier, or an emailed activation link. There is no needs intake, no support-needs questionnaire and no configuration wizard; the only per-licence pre-configuration found is an admin flag that seeds demo content.", quote: "You do not need to change any settings to start using StudyCog. The defaults work well for most students.", src: [s("StudyCog", "https://studycog.co.uk/")] },
+    entry: { c: "A 16-character licence code from the supplier, or an emailed activation link.", e: "documented", t: "A 16-character licence code from the supplier, or an emailed activation link. No needs intake, no support-needs questionnaire and no configuration wizard was found. The only per-licence pre-configuration found is an admin flag that seeds demo content.", quote: "You do not need to change any settings to start using StudyCog. The defaults work well for most students.", src: [s("StudyCog", "https://studycog.co.uk/")] },
     ingest: { c: "PDF, Office and OCR'd images to 100MB, in a named Processing Centre.", e: "observed", t: "PDF, DOC, DOCX, RTF, ODT, TXT and MD to 100MB; screenshots and handwritten notes as PNG, JPG, HEIC and WebP to 20MB with OCR. Processing runs in a named Processing Centre at the bottom of the screen rather than a blocking spinner, and failure states are named in words with a route out of each. Video also shows a card reading “1 image • 0 words” that never updates, indistinguishable from genuinely blank content.", quote: "The document appears to be empty or couldn't be processed." },
     orient: { c: "A six-tile dashboard: My Library, Assignments, My Tasks, My Notes, Find Research, Reading Speed.", e: "observed", t: "A six-tile dashboard: My Library, Assignments, My Tasks, My Notes, Find Research, Reading Speed. Nothing on it refers to the content of anything the student uploaded. Opening a processed document shows a fixed three-line “Before you read” caveat, not a per-document report of what that file actually yielded." },
     select: { c: "The split is the most consequential finding in the report.", e: "observed", t: "The split is the most consequential finding in the report. The reading side is a menu: the AI Tools dropdown holds Summarise, Simplify Language, Explore Themes, Back to Original, Test Understanding and Create Podcast, and nothing is recommended or sequenced. The essay side is a real five-stage sequence with a “Step 3 of 5” counter and a Continue button." },
@@ -3407,7 +3420,7 @@ var PRODUCTS = [
     return: { c: "Progress persists within a notebook.", e: "observed", t: "Progress persists within a notebook. There is no cross-notebook dashboard and no spaced repetition.", quote: "Gemini Notebook will remember your progress, and you can pick up where you left off if you leave and return" },
     access: { c: "A third-party-audited VPAT exists. We did not extract its per-criterion ratings.", e: "documented", t: "A third-party-audited VPAT exists, but its per-criterion ratings could not be extracted during this research, so the actual conformance position is unknown.", src: [s("NotebookLM ACR", "https://services.google.com/fh/files/misc/google_notebooklm_vpat.pdf")] },
     signal: { c: "No adaptation signal was located.", e: "not-found", t: "No adaptation signal was located. There is no prior-knowledge check, no preference intake and no learning-styles claim. Everything that changes behaviour is explicit configuration: which sources you tick, the focus areas you type, response length, and a Default / Learning guide / Custom chat style." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located in the reports, because the product does not position itself against essay writing." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3442,7 +3455,7 @@ var PRODUCTS = [
   dsa: false,
   summary: "A conversational study surface with no screens to speak of, turned on per conversation or by Edu workspace configuration. It is the case where the whole journey collapses into a chat thread, and the structured independent testing found it reframes rather than diagnoses.",
   stages: {
-    entry: { c: "Turned on per conversation, or by admin configuration in some Edu workspaces.", e: "documented", t: "Turned on per conversation through the slash menu, and applied by admin configuration in some Edu workspaces. The help centre refused unauthenticated fetches during this research.", src: [s("Study mode FAQ", "https://help.openai.com/en/articles/11780217-chatgpt-study-mode-faq")] },
+    entry: { c: "Turned on per conversation, or by admin configuration in some Edu workspaces.", e: "vendor-claim", t: "Turned on per conversation through the slash menu, and applied by admin configuration in some Edu workspaces. The help centre refused unauthenticated fetches during this research, thus the admin half rests on secondary reporting.", src: [s("Study mode FAQ", "https://help.openai.com/en/articles/11780217-chatgpt-study-mode-faq")] },
     ingest: { c: "Notes, syllabus or a photo attach, but file types and limits are unestablished.", e: "not-found", t: "Class notes, a syllabus or a photo can be attached, but the accepted file types, size limits and failure behaviour for this surface could not be established." },
     orient: { c: "There is no overview screen at all.", e: "documented", t: "There is no overview screen at all. The journey is conversational from the first message, so nothing exists to orient the student to what was uploaded." },
     select: { c: "The system starts Socratic questioning. The student asks for formats in natural language.", e: "documented", t: "The system initiates Socratic questioning; formats are requested in natural language rather than picked from a menu." },
@@ -3497,9 +3510,9 @@ var PRODUCTS = [
     switch: { c: "Retake or regenerate the questions. The format is fixed to multiple choice.", e: "observed", t: "Retake the quiz or generate a new set of questions, and choose whether to include slides or PDFs before generating. The format is fixed to multiple choice." },
     trace: { c: "Notes and summaries link to moments in the recording.", e: "documented", t: "Notes and summaries link to moments in the recording. Slide or page granularity was not found." },
     return: { c: "The return journey is explicitly severed.", e: "observed", t: "The return journey is explicitly severed, which makes Genio the clearest counter-example to durable practice state in the DSA segment.", quote: "We don't store your AI data, so your results will only be available during the study session. If you leave the app, you will have to generate a new quiz", src: [s("Quiz Me", "https://genio.co/notes/quiz-me")] },
-    access: { c: "WCAG 2.1 and 2.2 AA verified by Level Access, April 2026. No text-to-speech.", e: "observed", t: "Full WCAG 2.1 and 2.2 Level AA compliance verified by third-party auditor Level Access as of April 2026, with 400% zoom and reflow and JAWS, VoiceOver and TalkBack testing. Candid gaps: no text-to-speech, no dedicated high-contrast mode, and no built-in font or font-size control.", src: [s("Accessibility and Glean", "https://help.genio.co/article/24-accessibility-and-glean")] },
+    access: { c: "WCAG 2.1 and 2.2 AA verified by Level Access, April 2026. No text-to-speech.", e: "documented", t: "Full WCAG 2.1 and 2.2 Level AA compliance verified by third-party auditor Level Access as of April 2026, with 400% zoom and reflow and JAWS, VoiceOver and TalkBack testing. Candid gaps: no text-to-speech, no dedicated high-contrast mode, and no built-in font or font-size control.", src: [s("Accessibility, Glean help centre", "https://help.genio.co/article/24-accessibility-and-glean")] },
     signal: { c: "Framed around access barriers, naming working memory, processing and motor barriers.", e: "documented", t: "Framed around access barriers, naming working memory, processing and motor barriers. No learning-styles claim, and nothing observed feeds performance back into what is offered." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3522,7 +3535,7 @@ var PRODUCTS = [
     return: { c: "No resume behaviour or progress persistence is documented.", e: "not-found", t: "No resume behaviour or progress persistence is documented." },
     access: { c: "Claims full WCAG 2.2 AA with a weekly internal automated audit.", e: "documented", t: "Claims full WCAG 2.2 AA with a weekly internal automated audit. The statement was last reviewed 1 June 2026. No third-party auditor is named." },
     signal: { c: "Not documented.", e: "not-found", t: "Nothing was found that describes what the product adapts to. No learning-styles claim was found either." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3545,7 +3558,7 @@ var PRODUCTS = [
     return: { c: "A recording can be revisited at any time in the library.", e: "observed", t: "A recording can be revisited at any time in the library. Progress tracking across sessions was not found.", quote: "revisit a Caption.Ed recording at any time in your library" },
     access: { c: "WCAG 2.2 as guiding principles, no conformance level, last updated June 2024.", e: "documented", t: "The statement uses WCAG 2.2 as guiding principles without claiming a conformance level, and was last updated 14 June 2024. Light, dark and sepia themes, playback speed and a custom dictionary are provided.", src: [s("Accessibility statement", "https://caption-ed.com/accessibilitystatement/")] },
     signal: { c: "No adaptation signal is documented.", e: "not-found", t: "No adaptation signal is documented." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3568,7 +3581,7 @@ var PRODUCTS = [
     return: { c: "There is no resume.", e: "observed", t: "There is no resume. What exists is Saved Sessions, an explicit save-on-completion archive grouped by method, from which ticked cards export to a Word revision pool. The video also shows test rubbish and undated entries in that same birds-eye view.", quote: "Your Saved Sessions are a central hub where all the content you've studied using different methods of Lernabl comes together" },
     access: { c: "Font, theme, dark mode and text-to-speech. No conformance level, auditor or date.", e: "documented", t: "Font and theme preferences, dark mode and text-to-speech, reached from an Accessibility menu item rather than onboarding. No conformance level, auditor or date was located." },
     signal: { c: "Stated preference only, never observed performance.", e: "observed", t: "Stated preference only, never observed performance. Optional focus areas filter the method carousel; study preferences capture session length and time of day; mock-exam parameters set difficulty. The assessor guidance maps methods to disability-related impacts, which is a vendor rationale rather than evidence, and the vendor's multi-sensory framing sits close to learning-styles reasoning." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3591,7 +3604,7 @@ var PRODUCTS = [
     return: { c: "A spaced repetition mode exists for flashcard sets.", e: "observed", t: "A spaced repetition mode exists for flashcard sets." },
     access: { c: "We found no accessibility statement, VPAT or WCAG claim.", e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located." },
     signal: { c: "No adaptation signal is documented beyond the settings the student picks in the wizard.", e: "not-found", t: "No adaptation signal is documented beyond the settings the student picks in the wizard." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3614,7 +3627,7 @@ var PRODUCTS = [
     return: { c: "The strongest return story in the consumer segment, confined to one format.", e: "observed", t: "The strongest return story in the consumer segment, and the clearest case of sequencing confined to one format.", quote: "Set your exam date and we'll tell you exactly what to study each day" },
     access: { c: "We found no accessibility statement, VPAT or WCAG claim.", e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located." },
     signal: { c: "Observed review performance through the spaced-repetition scheduler, plus a stated exam date.", e: "observed", t: "Observed review performance through the spaced-repetition scheduler, plus a stated exam date. It never crosses into another format." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3626,7 +3639,7 @@ var PRODUCTS = [
   dsa: false,
   summary: "The mass-market study-set product, and the one that states our trainer-prepared route is impossible in its own model. Its Learn mode is the other example of sequencing that lives inside a single format.",
   stages: {
-    entry: { c: "Consumer sign-up, and the clearest documented refusal of third-party account control found anywhere.", e: "documented", t: "Consumer sign-up, and the clearest documented refusal of third-party account control found anywhere. Teachers may only invite students to a Class or set an Assignment. The help centre refused unauthenticated fetches during this research.", quote: "each Quizlet account is for individual use only and cannot be created or managed by teachers or schools", src: [s("Classes", "https://help.quizlet.com/hc/en-us/articles/360031259591")] },
+    entry: { c: "Consumer sign-up, and a plain refusal of third-party account control.", e: "documented", t: "Consumer sign-up, and a plain refusal of third-party account control. Teachers can only invite students to a Class or set an Assignment. The quote below comes from a cached copy of the Classes help article. The live help centre refused unauthenticated fetches during this research.", quote: "each Quizlet account is for individual use only and cannot be created or managed by teachers or schools", src: [s("Classes", "https://help.quizlet.com/hc/en-us/articles/360031259591")] },
     ingest: { c: "Two PDF, DOCX or PPTX files of 25MB each, plus pasted text and Drive.", e: "documented", t: "Up to two PDF, DOCX or PPTX files of 25MB each, plus pasted text and Google Drive. Failed-ingestion handling was not found." },
     orient: { c: "A study guide is the post-upload artefact.", e: "documented", t: "A study guide is the post-upload artefact. Nothing was found that reports what the upload yielded or what it missed." },
     select: { c: "The student chooses a study mode.", e: "documented", t: "The student chooses a study mode. Nothing recommends which mode to use." },
@@ -3637,7 +3650,7 @@ var PRODUCTS = [
     return: { c: "Progress persists within a set.", e: "documented", t: "Progress persists within a set." },
     access: { c: "We found no accessibility statement, VPAT or WCAG claim in reachable sources.", e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located in reachable sources." },
     signal: { c: "Observed performance within Learn, confined to that one format.", e: "documented", t: "Observed performance within Learn, confined to that one format." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3706,7 +3719,7 @@ var PRODUCTS = [
     return: { c: "What a second session looks like for the learner is not documented.", e: "not-found", t: "What a second session looks like for the learner is not documented." },
     access: { c: "Partially conformant to WCAG 2.2 AA, with action plans for four criteria.", e: "documented", t: "A candid partial-conformance statement: partially conformant to WCAG 2.2 AA with action plans for the remaining four criteria. Coloured overlays for dyslexia and Irlen, high-contrast and colourblind schemes, and subtitles with variable speed. Built-in read-aloud is a roadmap item, not shipped.", src: [s("Accessibility", "https://support.century.tech/support/solutions/articles/44002663276")] },
     signal: { c: "Diagnostic placement, teacher-confirmed, plus ongoing performance and misconception data.", e: "documented", t: "Diagnostic placement, teacher-confirmed, plus ongoing performance and misconception data. No learning-styles taxonomy was found, but the recommended-path tooltip uses the phrase \u201chow you learn best\u201d." },
-    authorship: { c: "A revision-track product.", e: "not-found", t: "A revision-track product. No authorship boundary statement was located." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 
@@ -3789,7 +3802,7 @@ var PRODUCTS = [
   dsa: false,
   summary: "A passive process record that colour-codes each sentence by where it came from and leaves disclosure entirely with the student. It solves authorship by visible process rather than by refusing to generate, and its own product line generates freely elsewhere.",
   stages: {
-    entry: { c: "Works inside Google Docs, Word, the Grammarly Editor and Canvas.", e: "documented", t: "Works inside Google Docs, Word, the Grammarly Editor and Canvas. No third-party configuration of a student account is documented; the Grammarly for Education admin console returned 404 on every path tried." },
+    entry: { c: "Works inside Google Docs, Word, the Grammarly Editor and Canvas.", e: "not-found", t: "Works inside Google Docs, Word, the Grammarly Editor and Canvas. The Grammarly for Education admin console returned 404 on every path tried, thus we found nothing that describes third-party configuration of a student account. A failed fetch is not a record." },
     ingest: { c: "No source ingestion stage exists.", e: "not-found", t: "No source ingestion stage exists. Authorship records how text arrived in the document, not what the student read." },
     orient: { c: "Passive by design.", e: "documented", t: "Passive by design. There is no orientation screen at all." },
     select: { c: "Nothing is selected.", e: "documented", t: "Nothing is selected. The record runs continuously in the background." },
@@ -3835,7 +3848,7 @@ var PRODUCTS = [
   dsa: false,
   summary: "A composition environment bolted to the institution's existing integrity stack, where AI use is made observable rather than banned. Every product surface refused unauthenticated access, so the whole entry is documentation-derived.",
   stages: {
-    entry: { c: "A paid add-on to Feedback Studio, inside the institution's LMS.", e: "documented", t: "A paid add-on to Feedback Studio, inside the institution's LMS. The product page, blog and guides all returned 403 during this research." },
+    entry: { c: "A paid add-on to Feedback Studio, inside the institution's LMS.", e: "vendor-claim", t: "A paid add-on to Feedback Studio, inside the institution's LMS. The product page, the blog and the guides all returned 403 during this research, thus nothing first-party was read." },
     ingest: { c: "Assignment instructions and rubrics are in place around the draft.", e: "documented", t: "Assignment instructions and rubrics are in place around the draft. A student source library was not found." },
     orient: { c: "A one-stop composition experience with the instructions and rubric present.", e: "documented", t: "A one-stop composition experience with the instructions and rubric present. No screen detail is published." },
     select: { c: "An educator toggle rather than a student choice.", e: "documented", t: "The AI assistant is available when enabled by an educator, so what the student can reach is an educator toggle rather than a choice." },
@@ -3940,7 +3953,7 @@ var PRODUCTS = [
     return: { c: "No progress state exists to return to.", e: "not-found", t: "No progress state exists to return to." },
     access: { c: "Accessibility is the product: alternative formats exist to make course content usable.", e: "documented", t: "Accessibility is the product: alternative formats exist to make course content usable. Conformance detail for the Ally interface itself was not extracted." },
     signal: { c: "No student profile, no personalisation and no adaptation signal.", e: "not-found", t: "No student profile, no personalisation and no adaptation signal." },
-    authorship: { c: "Not a writing product.", e: "not-found", t: "Not a writing product. No authorship boundary statement applies." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3963,7 +3976,7 @@ var PRODUCTS = [
     return: { c: "Settings persist as the student's profile across pages.", e: "documented", t: "Settings persist as the student's profile across pages." },
     access: { c: "Accessibility is the product: reading, focus, contrast and movement profiles, with per-setting adjustment.", e: "observed", t: "Accessibility is the product: reading, focus, contrast and movement profiles, with per-setting adjustment. Helperbird publishes a conformance report for the extension, VPAT 2.5 against WCAG 2.1, dated April 2024. The report is self-performed by a member of Helperbird staff, and it states that this was the first time the company did one." },
     signal: { c: "Student-chosen preset, then student adjustment.", e: "observed", t: "Student-chosen preset, then student adjustment. A stated preference, not a diagnosis." },
-    authorship: { c: "Not a writing-support product in the sense the map means.", e: "not-found", t: "Not a writing-support product in the sense the map means. No authorship boundary statement applies." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -3986,7 +3999,7 @@ var PRODUCTS = [
     return: { c: "The tailored portal persists across sessions.", e: "documented", t: "The tailored portal persists across sessions." },
     access: { c: "No conformance claim, auditor or date was located.", e: "not-found", t: "No conformance claim, auditor or date was located." },
     signal: { c: "Preferred learning style, alongside disability, course, location and recommended assistive technology.", e: "observed", t: "Preferred learning style, alongside disability, course, location and recommended assistive technology. Learning style is the one signal in this whole survey the independent evidence rules out as a design basis." },
-    authorship: { c: "Not a writing product.", e: "not-found", t: "Not a writing product. No authorship boundary statement applies." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -4032,7 +4045,7 @@ var PRODUCTS = [
     return: { c: "The personal review deck is the return path, and it is scheduled.", e: "documented", t: "The personal review deck is the return path, and it is scheduled rather than chosen." },
     access: { c: "We found no accessibility statement, VPAT or WCAG claim.", e: "not-found", t: "No accessibility statement, VPAT or WCAG claim could be located." },
     signal: { c: "Knowledge component discovery and logistic knowledge tracing: observed performance across a course.", e: "documented", t: "Named on its own research page: LLM-based knowledge component discovery and logistic knowledge tracing, so observed performance across a course.", src: [s("NSF research", "https://podsie.org/nsf-research")] },
-    authorship: { c: "Not a writing product.", e: "not-found", t: "Not a writing product. No authorship boundary statement applies." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 },
 {
@@ -4055,7 +4068,7 @@ var PRODUCTS = [
     return: { c: "No student-facing return journey exists.", e: "not-found", t: "No student-facing return journey exists." },
     access: { c: "No conformance claim, auditor or date was located.", e: "not-found", t: "No conformance claim, auditor or date was located." },
     signal: { c: "The teacher's inputs, reviewed by the teacher.", e: "documented", t: "The teacher's inputs, reviewed by the teacher. Nothing reaches a student's account, which is exactly why it is a boundary case rather than a comparator." },
-    authorship: { c: "Not a student writing product.", e: "not-found", t: "Not a student writing product. No authorship boundary statement applies." }
+    authorship: { c: "Not a writing product. The authorship line is not a question it answers.", e: "n-a", t: "This product makes revision material, not text that a student submits. The authorship boundary is a question for writing products, thus it does not arise here. We did not search for a boundary statement." }
   }
 }
 ];
@@ -4182,7 +4195,7 @@ var MERGED_SELECT = {
 "magicschool-iep": "There is no student-facing surface, thus no orientation screen and no activity selection exist."
 };
 
-var EV_RANK = { "not-found": 0, "vendor-claim": 1, "documented": 2, "observed": 3 };
+var EV_RANK = { "n-a": 0, "not-found": 0, "vendor-claim": 1, "documented": 2, "observed": 3 };
 PRODUCTS.forEach(function (p) {
   var o = p.stages.orient, sel = p.stages.select;
   if (!o && !sel) return;
@@ -4334,7 +4347,7 @@ var FRAME_CAPTIONS = {
   "feedback": {
    "c": "After grading, the student opens Cadmus and sees a grade and a link to view the full feedback.",
    "crop": false,
-   "note": "",
+   "note": "This is the same picture as the return frame.",
    "src": "https://cadmus.io/video-tutorials/",
    "ts": "2026-09-09"
   },
@@ -4348,7 +4361,7 @@ var FRAME_CAPTIONS = {
   "return": {
    "c": "A returning student sees the same screen: their grade and a button to view feedback in full.",
    "crop": false,
-   "note": "Same image as feedback.png, shown for a different question.",
+   "note": "Same image as feedback.png, shown for a different question. This is the same picture as the feedback frame.",
    "src": "https://cadmus.io/video-tutorials/",
    "ts": "2026-09-09"
   },
@@ -4434,21 +4447,21 @@ var FRAME_CAPTIONS = {
    "ts": "2:20"
   },
   "generate": {
-   "c": "This nugget makes a self-marking question, \"What is the value of the ten thousands digit in 367,891?\", with a text box next to a slideshow of instructions. Century calls this unit of video, slideshow, and question a nugget.",
+   "c": "A self-marking question, \"What is the value of the ten thousands digit in 367,891?\", with a free-text box and a right rail of Learning Material, Diagnostic Instructions and Slideshow. Century calls this unit of video, slideshow and question a nugget. The word is not on this screen.",
    "crop": false,
    "note": "",
    "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
    "ts": "1:29"
   },
   "ingest": {
-   "c": "A teacher builds an assignment by choosing a title, a type, a subject, and a level. No field takes an uploaded file, and Century's help page says its GENai worksheet tool also \"does not accept custom source material uploads.\"",
-   "crop": false,
+   "c": "A teacher builds an assignment by choosing a title, a type, a subject, and a level. The modal continues below the frame edge, thus this picture cannot show that no field takes a file. Century's help page says its GENai worksheet tool \"does not accept custom source material uploads.\"",
+   "crop": true,
    "note": "Support page for the no-upload policy: https://support.century.tech/support/solutions/articles/44002529913",
    "src": "https://www.youtube.com/watch?v=Kw51fMEGdcM",
    "ts": "1:24"
   },
   "orient": {
-   "c": "After a diagnostic ends, a loading screen reads \"Analysing Global content analysis\" and \"Optimising Global behavioural analytics.\" This is the wait screen before Century shows a recommended path, not the finished result.",
+   "c": "A loading screen headed \"Reese's Recommended Path\" reads \"Analysing Global content analysis\" and \"Optimising Global behavioural analytics.\" This is the wait screen before Century shows the path, not the finished result. What comes before this screen is not visible in the frame.",
    "crop": false,
    "note": "",
    "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
@@ -4682,9 +4695,9 @@ var FRAME_CAPTIONS = {
   "ingest": {
    "c": "The Sources page opens a real academic PDF inside the tool: a paper with a DOI, an author bio, and an abstract, page 1 of 27. A red badge reads 'Citation incomplete'. A Highlights panel on the right starts empty.",
    "crop": false,
-   "note": "Frame taken with ffmpeg from a yt-dlp download of 'A quick overview of WritingHelper for DSA' (Everway/Texthelp channel). The product URL bar reads writinghelper.texthelp.com/Sources, confirming this is the live product, not a mockup. Timestamp label uses minute:second format to match this batch's other video-derived frames; the true clip position is 0:43 into a 65-second video.",
+   "note": "Frame taken with ffmpeg from a yt-dlp download of 'A quick overview of WritingHelper for DSA' (Everway/Texthelp channel). The product URL bar reads writinghelper.texthelp.com/Sources, thus this is the live product and not a mockup.",
    "src": "https://www.youtube.com/watch?v=MC_Tvd-p3xg",
-   "ts": "43:30"
+   "ts": "0:43"
   },
   "orient": {
    "c": "The first working screen after the student starts a project asks for their full name, the full project title, an optional short title, and a target word count from five tiles: 1000, 2000, 2500, 3000, or Other.",
@@ -4761,7 +4774,7 @@ var FRAME_CAPTIONS = {
   "select": {
    "c": "A Tools menu in the chat box lists six modes side by side: Videos with Veo, Deep Research, Canvas, Images with Imagen, Guided Learning, and Deep Think. The student picks one by hand.",
    "crop": false,
-   "note": "'Guided Learning' sits in the same flat list as unrelated creative tools, such as video and image generation. Gemini does not set 'Guided Learning' as a default or a suggested mode for study.",
+   "note": "'Guided Learning' sits in the same flat list as unrelated creative tools, such as video and image generation. Gemini does not set 'Guided Learning' as a default or a suggested mode for study. The yellow arrow over Guided Learning was drawn by the author of the video. It is not part of the product. This is the consumer Gemini app, not a Classroom surface: Veo and Imagen are the tell.",
    "src": "https://www.youtube.com/watch?v=4ErM2corKFQ",
    "ts": "00:15"
   },
@@ -4782,16 +4795,16 @@ var FRAME_CAPTIONS = {
  },
  "genio-notes": {
   "entry": {
-   "c": "A new-capture menu offers two account-linked modes: 'In-Person Recording' (Microphone) and 'Remote Recording' (Screen Audio, or Screen Audio & Mic). The student's own account controls both modes, and no separate setup step appears before this choice.",
+   "c": "A new-capture menu offers two modes: 'In-Person Recording' (Microphone) and 'Remote Recording' (Screen Audio, or Screen Audio & Mic). This is a capture control, not an account-setup screen. Nothing on screen shows who owns the account.",
    "crop": false,
    "note": "This is a real product-UI screenshot inside Genio's own marketing page, filename 'web UI pics NOTES_record.png'. It is not a staged mock. Its resolution and chrome match the other in-app frames below.",
    "src": "https://genio.co/notes",
    "ts": ""
   },
   "feedback": {
-   "c": "The Quiz Me results screen marks each answered question with a red X for wrong or a green check for correct, next to the student's own chosen answer. A 'Regenerate Quiz' button sits below the marks.",
+   "c": "The Quiz Me results screen marks each answered question with a red X for wrong or a green check for correct, next to the student's own chosen answer. A 'Regenerate Quiz' button sits at the top right of the header.",
    "crop": false,
-   "note": "hubfs asset 'Quiz me hero (1).png', the same source page as generate.png. Feedback here is a right or wrong mark, not a rubric or a list of strengths.",
+   "note": "hubfs asset 'Quiz me hero (1).png'. This is a different asset from the one used for generate.png. Feedback here is a right or wrong mark, not a rubric or a list of strengths.",
    "src": "https://genio.co/notes/quiz-me",
    "ts": ""
   },
@@ -4803,7 +4816,7 @@ var FRAME_CAPTIONS = {
    "ts": ""
   },
   "ingest": {
-   "c": "A three-dot menu on one event offers 'Import Audio' and 'Import Slides' as the two file paths into the product, next to 'Copy Notes', 'Delete Slides', 'Send a Copy', and 'Delete Event'.",
+   "c": "A three-dot menu on one event offers 'Import Audio' and 'Import Slides' as the two file paths into the product, next to 'Copy Notes', 'Delete Slides', 'Send a Copy', 'Add to Collection', and 'Delete Event'.",
    "crop": false,
    "note": "hubfs asset 'web UI pics NOTES_import slides.png'. Genio Notes accepts both live capture (entry.png) and after-the-fact file import as inputs.",
    "src": "https://genio.co/notes",
@@ -4817,7 +4830,7 @@ var FRAME_CAPTIONS = {
    "ts": ""
   },
   "return": {
-   "c": "A Collections page holds a sidebar (Home, Collections, Tasks, Search, Trash) and one 'String Theory' collection with 2 saved items. This is the page a returning student lands on, separate from any single lecture.",
+   "c": "A Collections page holds a sidebar (Home, Collections, Tasks, Search, Trash) and one full 'String Theory' collection card with 2 saved items, plus a second card cut off at the right edge. This is the page a returning student lands on, separate from any single lecture.",
    "crop": false,
    "note": "hubfs asset 'web UI pics NOTES_collections.png'. This screen organizes lecture notes, not quiz results. See the return entry under missing below for what does not persist.",
    "src": "https://genio.co/notes",
@@ -4940,9 +4953,9 @@ var FRAME_CAPTIONS = {
    "ts": "12:23"
   },
   "select": {
-   "c": "The student picks one profile from a list of eight. The profiles are Dyslexia, ADHD and Focus, Low Vision, Contrast and Color, Reading Comfort, Motor Accessibility, Autism and Sensory, and Motion Sensitivity. Helperbird describes this as: \"Start with one of eight profiles for reading, focus, contrast, and movement, then adjust the settings to suit you.\"",
+   "c": "The student picks one profile from a list of eight. The profiles are Dyslexia, ADHD and Focus, Low Vision, Contrast and Color, Reading Comfort, Motor Accessibility, Autism and Sensory, and Motion Sensitivity. The subtitle on screen reads: \"A starting point you can change afterwards. Applying one replaces your current reading settings.\"",
    "crop": false,
-   "note": "Image at native resolution, 1536x1136 pixels. Not upscaled.",
+   "note": "Image at native resolution, 1280x946 pixels. Not upscaled.",
    "src": "https://www.helperbird.com/help/how-to-use-accessibility-profiles-in-helperbird/",
    "ts": ""
   },
@@ -5006,8 +5019,8 @@ var FRAME_CAPTIONS = {
   },
   "select": {
    "c": "A right-hand panel titled 'Jam Assistant' lists seven ways to re-express the same recording: Quiz Me, Simplify, Creative Story, Analogy, Emoji Quiz, Definitions, and Memory Aids, plus a free-text question box. The student picks one mode here.",
-   "crop": false,
-   "note": "The research report calls this a representation menu over the same content, not a study-technique picker. This frame shows the menu before any of the seven modes runs.",
+   "crop": true,
+   "note": "The research report calls this a representation menu over the same content, not a study-technique picker. This frame shows the menu before any of the seven modes runs. A black rectangle covers the lower left of the page area. It hides a third-party name.",
    "src": "https://www.youtube.com/watch?v=WHA69leYQss",
    "ts": "2:02"
   },
@@ -5044,21 +5057,21 @@ var FRAME_CAPTIONS = {
   "orient": {
    "c": "After generation, the student sees a full essay with headings, and a toolbar to edit or cite text.",
    "crop": false,
-   "note": "",
+   "note": "This is the same picture as the switch frame.",
    "src": "https://jenni.ai/ai-essay-writer",
    "ts": "2026-09-09"
   },
   "return": {
    "c": "The same document list lets a student open past work: four earlier documents sit next to a search box.",
    "crop": false,
-   "note": "Same image as select.png, shown for a different question.",
+   "note": "Same image as select.png, shown for a different question. This is the same picture as the select frame.",
    "src": "https://jenni.ai/ai-essay-writer",
    "ts": "2026-09-09"
   },
   "select": {
    "c": "The student searches for a source and clicks Add citation, or opens the saved document list on the left.",
    "crop": false,
-   "note": "",
+   "note": "This is the same picture as the return frame.",
    "src": "https://jenni.ai/ai-essay-writer",
    "ts": "2026-09-09"
   },
@@ -5072,7 +5085,7 @@ var FRAME_CAPTIONS = {
   "switch": {
    "c": "Selecting text opens AI Commands to edit, improve, or regenerate it; undo and redo sit next to the toolbar.",
    "crop": false,
-   "note": "Same image as orient.png, shown for a different question.",
+   "note": "Same image as orient.png, shown for a different question. This is the same picture as the orient frame.",
    "src": "https://jenni.ai/ai-essay-writer",
    "ts": "2026-09-09"
   },
@@ -5137,7 +5150,7 @@ var FRAME_CAPTIONS = {
   "select": {
    "c": "The Activities sidebar lists Khanmigo tasks such as debate, chat with a historical figure and craft a story. Khanmigo offers five story genres as buttons.",
    "crop": false,
-   "note": "",
+   "note": "The top left of the frame reads 'Teacher Dashboard', thus this is a teacher looking at the student activity, not a captured student session. A banner tells the student that the conversation is recorded and viewable by the teacher.",
    "src": "https://www.youtube.com/watch?v=rnIgnS8Susg",
    "ts": "17:00"
   },
@@ -5174,49 +5187,49 @@ var FRAME_CAPTIONS = {
   "feedback": {
    "c": "In the \"Call with Kai\" voice tutor, a live transcript shows the exchange: the user says \"I'm a Spanish teacher,\" and Kai answers with an unrelated photosynthesis fact and question. Kai's reply does not match what the user said.",
    "crop": false,
-   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "note": "The frame is a camera recording of a conference-booth monitor. The shot is not cropped to the monitor, thus the presenter and part of the room stay in frame. No student data is visible, only the presenter.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "6:25"
   },
   "generate": {
    "c": "Step 2 of the upload wizard, \"Select Output,\" lists four formats: Chat Tutor, Assessment, Notes, and Flashcards. A checklist next to Flashcards names what comes with it: flashcard learn modes, a live game, 1:1 tutoring, podcasts, and a practice test.",
    "crop": false,
-   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "note": "The frame is a camera recording of a conference-booth monitor. The shot is not cropped to the monitor, thus the presenter and part of the room stay in frame. No student data is visible, only the presenter. This is the same picture as the ingest frame.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "2:15"
   },
   "ingest": {
    "c": "Step 1 of the upload wizard, \"Upload File,\" shows a progress bar next to the word \"Loading.\" Step 2, \"Select Output,\" sits right below it, so Knowt only moves on after a file finishes loading.",
    "crop": false,
-   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter. This is the same screenshot used for generate.png; it shows the step above the one that frame focuses on.",
+   "note": "The frame is a camera recording of a conference-booth monitor. The shot is not cropped to the monitor, thus the presenter and part of the room stay in frame. No student data is visible, only the presenter. This is the same screenshot used for generate.png; it shows the step above the one that frame focuses on. This is the same picture as the generate frame.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "2:15"
   },
   "orient": {
    "c": "Right after upload, Knowt shows a mascot and the text \"Kai is working it out. Your flashcards will be ready in just a second. Generating flashcard #14.\" This is the wait screen, not the finished result.",
    "crop": false,
-   "note": "The frame is a camera recording of a conference-booth monitor, so the image quality is lower than a screen recording. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "note": "The frame is a camera recording of a conference-booth monitor, so the image quality is lower than a screen recording. The shot is not cropped to the monitor, thus the presenter and part of the room stay in frame. No student data is visible, only the presenter.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "3:05"
   },
   "select": {
    "c": "The \"Photosynthesis Review\" hub lists eight finished formats: Call with Kai, Learn, Practice Test, Spaced Repetition, Match, Flashcards, Knowt Play, and a podcast still generating. The student picks which one to open, not Knowt.",
    "crop": false,
-   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "note": "The frame is a camera recording of a conference-booth monitor. The shot is not cropped to the monitor, thus the presenter and part of the room stay in frame. No student data is visible, only the presenter.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "5:00"
   },
   "signal": {
    "c": "Step 3, \"Enter Settings,\" asks the student to set a language, a flashcard count, a style, and \"What pages would you like?\" Knowt adapts the output to these stated choices, not to a score or a teacher.",
    "crop": false,
-   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "note": "The frame is a camera recording of a conference-booth monitor. The shot is not cropped to the monitor, thus the presenter and part of the room stay in frame. No student data is visible, only the presenter.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "2:45"
   },
   "switch": {
    "c": "Before Knowt saves a flashcard set, an AI side panel offers \"Regenerate,\" \"Create more,\" and \"Create 1 new flashcard on...\" next to a \"Tell Kai how to make your flashcards better\" box. The student can redo the set here, before it saves.",
    "crop": false,
-   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "note": "The frame is a camera recording of a conference-booth monitor. The shot is not cropped to the monitor, thus the presenter and part of the room stay in frame. No student data is visible, only the presenter. This one frame is cropped to the monitor, because the presenter stood clear of the screen.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "3:10"
   }
@@ -5304,7 +5317,7 @@ var FRAME_CAPTIONS = {
   "authorship": {
    "c": "The IEP Generator titles its output Student IEP Draft - Review closely before implementation. A line under the message box tells the teacher to review content for accuracy and bias and to use professional judgment.",
    "crop": false,
-   "note": "",
+   "note": "This is the same screen as the signal frame, scrolled up by about one screen.",
    "src": "https://www.youtube.com/watch?v=rYzL_PrfiCk",
    "ts": "05:42"
   },
@@ -5358,9 +5371,9 @@ var FRAME_CAPTIONS = {
    "ts": "08:45"
   },
   "signal": {
-   "c": "The generated IEP states present levels of performance. The text names a reading fluency rate below grade level, decoding difficulty, slow processing and listening comprehension as a strength.",
+   "c": "This is the middle of the generated IEP: 'Student Needs and Impact of Disability', then 'Goals and Objectives' with a measurable reading-fluency goal, then a line that tells the teacher to review the draft. The present-levels text that the record describes is one screen above this one.",
    "crop": false,
-   "note": "",
+   "note": "This is the same screen as the authorship frame, scrolled down by about one screen and captured 10 seconds later.",
    "src": "https://www.youtube.com/watch?v=rYzL_PrfiCk",
    "ts": "05:52"
   },
@@ -5504,7 +5517,7 @@ var FRAME_CAPTIONS = {
   "select": {
    "c": "The student picks the activity. The Studio panel shows nine format tiles (Audio, Slide Deck, Video, Mind Map, Reports, Flashcards, Quiz, Infographic, Data Table) in one flat grid.",
    "crop": false,
-   "note": "No tile is marked as recommended or set as a default. This matches the 'catalog, no product-picked first action' pattern in the research matrix.",
+   "note": "No tile is marked as recommended or set as a default. This matches the 'catalog, no product-picked first action' pattern in the research matrix. This is the same picture as the trace frame.",
    "src": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
    "ts": "03:40"
   },
@@ -5525,7 +5538,7 @@ var FRAME_CAPTIONS = {
   "trace": {
    "c": "A chat answer carries small numbered citation marks next to specific claims. The Source Guide pane on the left stays open and shows the source bullets each number points to.",
    "crop": false,
-   "note": "This confirms citations exist and open a source pane. We could not confirm the reported behavior of a highlighted destination line after a click in this tutorial's pace. A second review (Justin Sung, 12:18) reports that click-through 'often doesn't really link up correctly' on messier PDFs, so this feature's reliability changes with source quality.",
+   "note": "This confirms citations exist and open a source pane. We could not confirm the reported behavior of a highlighted destination line after a click in this tutorial's pace. A second review (Justin Sung, 12:18) reports that click-through 'often doesn't really link up correctly' on messier PDFs, so this feature's reliability changes with source quality. This is the same picture as the select frame.",
    "src": "https://www.youtube.com/watch?v=uSVBfyHBiDU",
    "ts": "03:40"
   }
@@ -5548,7 +5561,7 @@ var FRAME_CAPTIONS = {
   "feedback": {
    "c": "Flow & Structure lists 2 suggestions and 2 praises, and links each one to the exact sentence.",
    "crop": false,
-   "note": "",
+   "note": "This is the same picture as the trace frame.",
    "src": "https://www.packback.co/platform/writing-lab/",
    "ts": "2026-09-09"
   },
@@ -5583,7 +5596,7 @@ var FRAME_CAPTIONS = {
   "trace": {
    "c": "Clicking View Highlights under a suggestion jumps to the exact sentence it is about.",
    "crop": false,
-   "note": "Same image as feedback.png, shown for a different question.",
+   "note": "Same image as feedback.png, shown for a different question. This is the same picture as the feedback frame.",
    "src": "https://www.packback.co/platform/writing-lab/",
    "ts": "2026-09-09"
   }
@@ -5597,9 +5610,9 @@ var FRAME_CAPTIONS = {
    "ts": "1:28"
   },
   "select": {
-   "c": "A student's Home page lists only two teacher-made items, \"Computer Systems - Set 2\" and \"Computer Systems - Set 1,\" each with a Begin Assignment button. The teacher pushes the assignment. The student only picks when to begin it.",
+   "c": "A student's Home page holds three cards. Two are teacher-made, \"Computer Systems - Set 2\" and \"Computer Systems - Set 1,\" each with a Begin Assignment button. The third is the Personal Deck Practice card, and it is empty: 0 XP, 0 of 0 completed, 'No questions due at this time' and a greyed Start Study Session button. The teacher pushes the assignment. The student only picks when to begin it.",
    "crop": true,
-   "note": "Blacked out the real logged-in student's name and avatar in the top-right nav corner.",
+   "note": "Blacked out the real logged-in student's name and avatar in the top-right nav corner. A second black bar runs along the lower left edge, over the same logged-in name.",
    "src": "https://www.youtube.com/watch?v=QYrTv07wNEo",
    "ts": "2:05"
   },
@@ -5715,9 +5728,9 @@ var FRAME_CAPTIONS = {
    "ts": "2026-09-09"
   },
   "ingest": {
-   "c": "The student adds the task instructions as a PDF; this box sits next to the essay upload.",
-   "crop": false,
-   "note": "",
+   "c": "The student adds the task instructions as a PDF. One file is attached to the box.",
+   "crop": true,
+   "note": "The frame is cropped to this one card. The essay upload that the record describes is outside it.",
    "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
    "ts": "2026-09-09"
   },
@@ -5738,14 +5751,14 @@ var FRAME_CAPTIONS = {
   "signal": {
    "c": "Feedback follows the task brief the student uploaded: it quotes the exact requirement next to matching text. Studiosity adapts to this brief, not to a diagnosis or teacher setting.",
    "crop": false,
-   "note": "Same image as trace.png, shown for a different question.",
+   "note": "Same image as trace.png, shown for a different question. This is the same picture as the trace frame.",
    "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
    "ts": "2026-09-09"
   },
   "trace": {
    "c": "Task Coverage quotes the exact sentence the student wrote for each task requirement, next to the requirement's own text.",
    "crop": false,
-   "note": "",
+   "note": "This is the same picture as the signal frame.",
    "src": "https://support.studiosity.com/en/articles/14012571-upload-your-task-requirements-to-get-more-detailed-feedback",
    "ts": "2026-09-09"
   }
@@ -5761,14 +5774,14 @@ var FRAME_CAPTIONS = {
   "authorship": {
    "c": "The same Writing Coach screen shown in feedback.png answers the authorship question. Every suggestion is a question, not written replacement text. StudyCog's own FAQ states the product is 'specifically designed NOT to write content for you'.",
    "crop": false,
-   "note": "This file repeats feedback.png because the fixed stage list needs one file per stage.",
+   "note": "This file repeats feedback.png because the fixed stage list needs one file per stage. This is the same picture as the feedback frame.",
    "src": "https://studycog.co.uk/api/tour-image/writing.webp",
    "ts": ""
   },
   "feedback": {
    "c": "Writing Coach marks a draft 'Needs Work' and lists 3 strengths and 5 areas to improve. Each area is a question, not a rewrite, for example 'What key empirical studies have investigated working memory...'.",
    "crop": false,
-   "note": "An 'Add Task' button turns one piece of feedback into a tracked to-do.",
+   "note": "An 'Add Task' button turns one piece of feedback into a tracked to-do. This is the same picture as the authorship frame.",
    "src": "https://studycog.co.uk/api/tour-image/writing.webp",
    "ts": ""
   },
@@ -5874,8 +5887,8 @@ var FRAME_CAPTIONS = {
   },
   "select": {
    "c": "The upload dialog asks which set features to generate. The student picks Flashcards, Match Game, Practice Tests, Tutor Me or QuizFetch and gives a skill level.",
-   "crop": false,
-   "note": "",
+   "crop": true,
+   "note": "The page behind the dialog is blurred. The blur is ours.",
    "src": "https://youtu.be/38nO-jQyT7w",
    "ts": "03:12"
   },
@@ -5935,14 +5948,14 @@ var FRAME_CAPTIONS = {
   "authorship": {
    "c": "Asked to write the introduction, Clarity's AI chat refuses and asks planning questions instead. It tells the student the introduction is their job, not the chatbot's.",
    "crop": true,
-   "note": "Cropped to remove the student's name, course title, and instructor's name shown in the original header.",
+   "note": "Cropped to remove the student's name, course title, and instructor's name shown in the original header. This is a vendor composite. The chat text and the document beside it come from different examples.",
    "src": "https://www.turnitin.com/products/feedback-studio/clarity",
    "ts": "2026-09-09"
   },
   "entry": {
    "c": "The teacher turns on AI chat and sets which help types it can give: planning, examples, revisions, and proofreading. The student cannot turn this control on alone.",
    "crop": false,
-   "note": "",
+   "note": "This is the same picture as the signal frame.",
    "src": "https://www.turnitin.com/products/feedback-studio/clarity",
    "ts": "2026-09-09"
   },
@@ -5963,7 +5976,7 @@ var FRAME_CAPTIONS = {
   "signal": {
    "c": "Clarity's AI chat follows settings the teacher picked: response length and which help types are active. It does not adapt to the student.",
    "crop": false,
-   "note": "Same image as entry.png, shown for a different question.",
+   "note": "Same image as entry.png, shown for a different question. This is the same picture as the entry frame.",
    "src": "https://www.turnitin.com/products/feedback-studio/clarity",
    "ts": "2026-09-09"
   },
@@ -6119,7 +6132,6 @@ var FRAMES = {
   "return"
  ],
  "jenni-ai": [
-  "ingest",
   "orient",
   "select",
   "generate",
@@ -6508,10 +6520,13 @@ function buildFrame(pid, sid) {
        capture, or a stage we could not find in the product at all. */
     var prod = byId[pid];
     var cell = prod && prod.stages ? prod.stages[sid] : null;
+    var na = cell && cell.e === "n-a";
     var none = cell && cell.e === "not-found";
-    box.classList.add(none ? "empty-none" : "empty-todo");
-    box.appendChild(el("div", "fl", none ? "Nothing to show" : "No picture yet"));
-    box.appendChild(el("div", "fp2", none
+    box.classList.add(none || na ? "empty-none" : "empty-todo");
+    box.appendChild(el("div", "fl", na ? "Does not apply" : none ? "Nothing to show" : "No picture yet"));
+    box.appendChild(el("div", "fp2", na
+      ? "This stage is not a question this product answers. Read the text above."
+      : none
       ? "We did not find this stage in the product. Read the text above."
       : "The stage is documented, but we hold no screenshot of it."));
   });
@@ -6669,7 +6684,7 @@ function buildStageSelect() {
 }
 
 function stageCounts(sid) {
-  var counts = { "observed": 0, "documented": 0, "vendor-claim": 0, "not-found": 0 };
+  var counts = { "observed": 0, "documented": 0, "vendor-claim": 0, "not-found": 0, "n-a": 0 };
   PRODUCTS.forEach(function (p) { counts[cellOf(p, sid).e]++; });
   return counts;
 }
@@ -7194,10 +7209,13 @@ function plate(pid, sid, cls, onZoom) {
     mount.appendChild(el("span", "x-num", pad2(stageNum(sid))));
   } else {
     /* Two honest states. A gap in our capture is not an absent stage. */
-    var none = cell.e === "not-found";
+    var na = cell.e === "n-a";
+    var none = cell.e === "not-found" || na;
     mount = el("div", "x-mount x-mount--none " + (none ? "x-mount--absent" : "x-mount--todo"));
-    mount.appendChild(el("div", "x-none-l", none ? "Nothing to show" : "No picture yet"));
-    mount.appendChild(el("div", "x-none-p", none
+    mount.appendChild(el("div", "x-none-l", na ? "Does not apply" : none ? "Nothing to show" : "No picture yet"));
+    mount.appendChild(el("div", "x-none-p", na
+      ? "This stage is not a question this product answers."
+      : none
       ? "We did not find this stage in the product."
       : "The stage is documented, but we hold no screenshot."));
   }
@@ -7448,7 +7466,8 @@ render();
 function coverOf(p, sid) {
   if (hasFrame(p.id, sid)) return "shot";
   if (!p.stages[sid]) return "none";
-  return cellOf(p, sid).e === "not-found" ? "none" : "gap";
+  var ev = cellOf(p, sid).e;
+  return (ev === "not-found" || ev === "n-a") ? "none" : "gap";
 }
 function coverCount(sid) {
   var n = { shot: 0, gap: 0, none: 0 };
@@ -7889,6 +7908,7 @@ render();
       <div class="legend-item"><span class="chip ev-documented">in vendor docs</span><span>The vendor states it in their own help centre, policy or guide.</span></div>
       <div class="legend-item"><span class="chip ev-vendor-claim">vendor says</span><span>A marketing assertion with no independent support.</span></div>
       <div class="legend-item"><span class="chip ev-not-found">none found</span><span>We found no such thing in public sources. This is a gap in our knowledge, not proof of absence.</span></div>
+        <div class="legend-item"><span class="chip ev-n-a">not applicable</span><span>The stage is not a question this product answers. We did not search, thus this is not a gap.</span></div>
     </div>
     <p class="caveat">StudyCog was missed by the first 50-product survey because studycog.co.uk is a client-rendered SPA that serves crawlers a short placeholder instead of the page (<a href="https://github.com/AiBiSolutions-uk/bubblewrap/issues/25">issue&nbsp;25</a>). Read every <b>not found</b> on this page as &ldquo;not found in public documentation&rdquo;, never as &ldquo;the product does not do this&rdquo;.</p>
     <p class="colophon">Each stage row opens to the full record, its verbatim quote and its sources. The link ids never change. Link to any of it: <span class="mono">#/studycog</span> for a journey, <span class="mono">#/studycog/orient</span> for one stage of it, <span class="mono">#/stage/orient</span> for that stage across the field, <span class="mono">#/matrix</span> for the grid. Research date 9&nbsp;September&nbsp;2026.</p>

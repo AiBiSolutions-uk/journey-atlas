@@ -198,6 +198,8 @@ the record items above. Capture is the only item that stays open.
 | Personal data | Grey blocks cover the auditor name and the work email in the Helperbird conformance report, and the byline name and photo in the Studiosity article. |
 | Accessibility capture | Four new frames: Genio Notes, CENTURY, Caption.Ed and Jamworks. The Caption.Ed frame replaces one that showed the transcription dictionary. |
 | Authorship capture | One new frame: the Studiosity "Is using Studiosity like cheating?" article. |
+| The empty loupe | A class that sets `display` beat the browser rule for `[hidden]`, thus a picture element with no source still drew its alt text over the empty state. One `[hidden] { display: none !important; }` rule fixes it everywhere. |
+| One vocabulary | The feature table named five groups of its own. It now names the same four groups as the journey and the matrix. The label is written once, in `STAGE_GROUPS`. |
 
 **Accessibility, where it stands.**
 

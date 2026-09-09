@@ -123,6 +123,9 @@
 }
 
 * { box-sizing: border-box; }
+/* A class that sets display beats the browser rule for [hidden]. Every
+   element we hide from script must stay hidden, thus this rule wins. */
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
@@ -1926,29 +1929,35 @@ function groupStarts(id) { var g = GROUP_OF[id]; return g && g.stages[0] === id 
      no       the product states it does not do this, or it clearly cannot
      unclear  not established from public sources. Not proof of absence.
    Every "yes" and "no" carries an evidence class and a note. */
+/* One vocabulary for the whole atlas. The journey, the matrix and the feature
+   table name the same four groups, thus a reader meets the same four words
+   everywhere. The label is written once, in STAGE_GROUPS. */
+var GRP = {};
+STAGE_GROUPS.forEach(function (g) { GRP[g.id] = g.label; });
+
 var FEATURES = [
-  { g: "Material in", id: "upload",     name: "Upload your own files",       q: "Can the student put their own lecture, reading or draft in?" },
-  { g: "Material in", id: "record",     name: "Record or transcribe live",   q: "Can it capture a live lecture as it happens?" },
+  { g: GRP.setup, id: "upload",     name: "Upload your own files",       q: "Can the student put their own lecture, reading or draft in?" },
+  { g: GRP.setup, id: "record",     name: "Record or transcribe live",   q: "Can it capture a live lecture as it happens?" },
 
-  { g: "What it makes", id: "summary",  name: "Summary or notes",            q: "Does it produce a written summary or structured notes?" },
-  { g: "What it makes", id: "flashcards", name: "Flashcards",                q: "Does it make flashcards?" },
-  { g: "What it makes", id: "quiz",     name: "Quizzes or questions",        q: "Does it make practice questions?" },
-  { g: "What it makes", id: "mindmap",  name: "Mind map or outline",         q: "Does it make a visual map of the material?" },
-  { g: "What it makes", id: "audio",    name: "Audio overview",              q: "Does it make a spoken or podcast version?" },
-  { g: "What it makes", id: "mock",     name: "Mock exam",                   q: "Does it make a timed or full practice exam?" },
+  { g: GRP.make, id: "summary",  name: "Summary or notes",            q: "Does it produce a written summary or structured notes?" },
+  { g: GRP.make, id: "flashcards", name: "Flashcards",                q: "Does it make flashcards?" },
+  { g: GRP.make, id: "quiz",     name: "Quizzes or questions",        q: "Does it make practice questions?" },
+  { g: GRP.make, id: "mindmap",  name: "Mind map or outline",         q: "Does it make a visual map of the material?" },
+  { g: GRP.make, id: "audio",    name: "Audio overview",              q: "Does it make a spoken or podcast version?" },
+  { g: GRP.make, id: "mock",     name: "Mock exam",                   q: "Does it make a timed or full practice exam?" },
 
-  { g: "How you study", id: "srs",      name: "Spaced repetition",           q: "Does it schedule material to come back at intervals?" },
-  { g: "How you study", id: "tutor",    name: "Chat with your material",     q: "Can the student ask questions about their own uploaded content?" },
-  { g: "How you study", id: "planner",  name: "Study planner",               q: "Does it plan the student's sessions or timetable?" },
-  { g: "How you study", id: "trace",    name: "Links back to the source",    q: "Does an activity point at the exact place it came from?" },
+  { g: GRP.study, id: "srs",      name: "Spaced repetition",           q: "Does it schedule material to come back at intervals?" },
+  { g: GRP.study, id: "tutor",    name: "Chat with your material",     q: "Can the student ask questions about their own uploaded content?" },
+  { g: GRP.study, id: "planner",  name: "Study planner",               q: "Does it plan the student's sessions or timetable?" },
+  { g: GRP.study, id: "trace",    name: "Links back to the source",    q: "Does an activity point at the exact place it came from?" },
 
-  { g: "Writing", id: "feedback",       name: "Feedback on your draft",      q: "Does it comment on writing the student wrote themselves?" },
-  { g: "Writing", id: "writes",         name: "Writes text for you",         q: "Will it produce essay prose the student can submit?" },
-  { g: "Writing", id: "citation",       name: "Referencing and citations",   q: "Does it find, format or insert references?" },
+  { g: GRP.fit, id: "feedback",       name: "Feedback on your draft",      q: "Does it comment on writing the student wrote themselves?" },
+  { g: GRP.fit, id: "writes",         name: "Writes text for you",         q: "Will it produce essay prose the student can submit?" },
+  { g: GRP.fit, id: "citation",       name: "Referencing and citations",   q: "Does it find, format or insert references?" },
 
-  { g: "Access", id: "tts",             name: "Text to speech",              q: "Can it read the material aloud?" },
-  { g: "Access", id: "captions",        name: "Live captions",               q: "Does it caption speech as it happens?" },
-  { g: "Access", id: "a11y",            name: "Accessibility controls",      q: "Can the student change font, colour, spacing or layout?" }
+  { g: GRP.fit, id: "tts",             name: "Text to speech",              q: "Can it read the material aloud?" },
+  { g: GRP.fit, id: "captions",        name: "Live captions",               q: "Does it caption speech as it happens?" },
+  { g: GRP.fit, id: "a11y",            name: "Accessibility controls",      q: "Can the student change font, colour, spacing or layout?" }
 ];
 var FEATURE_GROUPS = [];
 FEATURES.forEach(function (f) { if (FEATURE_GROUPS.indexOf(f.g) === -1) FEATURE_GROUPS.push(f.g); });

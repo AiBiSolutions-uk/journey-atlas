@@ -999,6 +999,17 @@ span.fv { display: inline-block; width: auto; min-width: 30px; padding: 2px 7px;
 .pfeat-note { color: var(--ink-3); font-size: 12.5px; }
 @media (max-width: 700px) { .pfeat-row { grid-template-columns: 40px minmax(0, 1fr); }
                             .pfeat-note { grid-column: 2; } }
+
+/* --- grid selector inside Compare all --- */
+.gridsel { display: inline-flex; gap: 0; margin: 0 0 14px;
+           border: 1px solid var(--rule-strong); border-radius: 3px; overflow: hidden; }
+.gridsel-b { font: inherit; font-size: 12.5px; padding: 6px 15px; cursor: pointer;
+             background: var(--paper); color: var(--ink-2); border: 0;
+             border-right: 1px solid var(--rule); }
+.gridsel-b:last-child { border-right: 0; }
+.gridsel-b:hover { color: var(--ink); }
+.gridsel-b[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+.gridsel-b:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 </style>
 </head>
 <body>
@@ -1009,8 +1020,7 @@ span.fv { display: inline-block; width: auto; min-width: 30px; padding: 2px 7px;
     <div class="tabs" role="tablist" aria-label="Views">
       <button class="tab" role="tab" id="tab-journey" aria-selected="true" aria-controls="view-journey">Journey</button>
       <button class="tab" role="tab" id="tab-stage" aria-selected="false" aria-controls="view-stage">Stage compare</button>
-      <button class="tab" role="tab" id="tab-features" aria-selected="false" aria-controls="view-features">Features</button>
-      <button class="tab" role="tab" id="tab-matrix" aria-selected="false" aria-controls="view-matrix">Matrix</button>
+      <button class="tab" role="tab" id="tab-matrix" aria-selected="false" aria-controls="view-matrix">Compare all</button>
     </div>
     <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme">Theme</button>
   </div>
@@ -1047,26 +1057,32 @@ span.fv { display: inline-block; width: auto; min-width: 30px; padding: 2px 7px;
       <div id="cmp"></div>
     </section>
 
-    <section class="view" id="view-features" role="tabpanel" aria-labelledby="tab-features" hidden>
-      <h2 class="view-title">What each product does</h2>
-      <p class="section-intro">A feature is a thing the product offers. This is a different question to the journey, which is when the student meets it. Select a cell to open that product.</p>
-      <div class="controls">
-        <label><input type="checkbox" id="feat-dsa"> Only DSA-funded software</label>
-        <span class="feat-key">
-          <span class="fv fv-yes">yes</span> it does this
-          <span class="fv fv-no">no</span> it states it does not
-          <span class="fv fv-unclear">?</span> not established
-        </span>
-      </div>
-      <div class="fmx-scroll"><div id="features-host"></div></div>
-    </section>
-
     <section class="view" id="view-matrix" role="tabpanel" aria-labelledby="tab-matrix" hidden>
-      <h2 class="view-title">Thirty products, twelve stages</h2>
-      <p class="section-intro">Each column is one stage of the journey. Each bar shows the evidence behind that stage across the whole field. Select a cell to open that product at that stage.</p>
-      <div class="band-wrap" id="band"></div>
-      <div class="matrix-scroll" id="matrix"></div>
-      <p class="matrix-note">Codes: <span class="mono">OBS</span> observed, <span class="mono">DOC</span> documented, <span class="mono">VEN</span> vendor claim, <span class="mono">&mdash;</span> not found.</p>
+      <h2 class="view-title">Thirty products, side by side</h2>
+      <div class="gridsel" role="tablist" aria-label="What to compare">
+        <button type="button" class="gridsel-b" id="grid-stages" role="tab" aria-selected="true">Journey stages</button>
+        <button type="button" class="gridsel-b" id="grid-features" role="tab" aria-selected="false">Features</button>
+      </div>
+
+      <div id="pane-stages">
+        <p class="section-intro">Each column is one stage of the journey. Each bar shows the evidence behind that stage across the whole field. Select a cell to open that product at that stage.</p>
+        <div class="band-wrap" id="band"></div>
+        <div class="matrix-scroll" id="matrix"></div>
+        <p class="matrix-note">Codes: <span class="mono">OBS</span> observed, <span class="mono">DOC</span> documented, <span class="mono">VEN</span> vendor claim, <span class="mono">&mdash;</span> not found.</p>
+      </div>
+
+      <div id="pane-features" hidden>
+        <p class="section-intro">A feature is a thing the product offers. This is a different question to the journey, which is when the student meets it. Select a cell to open that product.</p>
+        <div class="controls">
+          <label><input type="checkbox" id="feat-dsa"> Only DSA-funded software</label>
+          <span class="feat-key">
+            <span class="fv fv-yes">yes</span> it does this
+            <span class="fv fv-no">no</span> it states it does not
+            <span class="fv fv-unclear">?</span> not established
+          </span>
+        </div>
+        <div class="fmx-scroll"><div id="features-host"></div></div>
+      </div>
     </section>
   </main>
 </div>
@@ -2349,7 +2365,7 @@ var FRAME_CAPTIONS = {
   "feedback": {
    "c": "The product marks each blank in the exercise as right (green) or wrong (red). A banner tells the student 'Almost there, just a few missed...' and offers to show the answers.",
    "crop": true,
-   "note": "The crop removes the left sidebar. The presenter says the product also explains why a wrong answer is wrong, at 24:36 to 24:39 in the transcript. This exact frame does not show that explanation text.",
+   "note": "The crop removes the browser chrome, a tenant id, and the presenter's webcam tile. The presenter says the product also explains why a wrong answer is wrong, at 24:36 to 24:39. This exact frame does not show that explanation.",
    "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
    "ts": "25:06"
   },
@@ -2363,21 +2379,21 @@ var FRAME_CAPTIONS = {
   "ingest": {
    "c": "The student attaches a file chip named 'Mitosis and M...' and types an instruction to build flashcards from it. The video does not show what happens when a file fails to attach.",
    "crop": true,
-   "note": "The crop removes the left sidebar, which showed an account name and chat history. This product takes files as chat attachments, not through a separate upload screen.",
+   "note": "The crop removes the browser chrome, a tenant id in the address bar, and the presenter's webcam tile. This product takes files as chat attachments, not through a separate upload screen.",
    "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
    "ts": "22:20"
   },
   "orient": {
    "c": "After a file finishes attaching, the screen shows five activity tiles and an editable prompt. The product does not pick an activity for the student; the student must choose one.",
    "crop": true,
-   "note": "This is the market-gap frame for this product. Like NotebookLM, the screen after upload gives a flat catalog of formats and an editable text box, not one suggested action. The crop removes the left sidebar account name.",
+   "note": "This is the market-gap frame for this product. Like NotebookLM, the screen after upload gives a flat catalog of formats and an editable text box, not one suggested action. The crop removes the browser chrome, a tenant id, and the presenter's webcam tile.",
    "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
    "ts": "24:10"
   },
   "return": {
    "c": "This is the teacher's activity library, not the student's return screen. It lists past activities the teacher made, such as flashcard sets and matching games.",
-   "crop": false,
-   "note": "The video shows this hub only from the teacher's account. It does not show a student reopening a session or a partly finished quiz, so treat this as teacher-side evidence only.",
+   "crop": true,
+   "note": "The crop removes the browser chrome, a tenant id, and the presenter's webcam tile. Black bars cover the author name on each card. The video shows this hub only from the teacher's account, thus treat this as teacher-side evidence only.",
    "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
    "ts": "36:22"
   },
@@ -2391,14 +2407,14 @@ var FRAME_CAPTIONS = {
   "switch": {
    "c": "Before it builds a matching game, the product stops to ask the student to pick a source. The student can choose their own notes or a general topic search.",
    "crop": true,
-   "note": "The crop removes the left sidebar. This shows the student can redirect what the activity is built from, at the point of creation.",
+   "note": "The crop removes the browser chrome, a tenant id, and the presenter's webcam tile. This shows the student can redirect what the activity is built from, at the point of creation.",
    "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
    "ts": "25:37"
   },
   "trace": {
-   "c": "This frame does not show a source link back to a document. Asked what the vena cava is, the product asks the student what they already know before it answers.",
+   "c": "A 'Sources' button sits under the answer above, thus the answer does link back to material. The button is closed, so the frame does not show how exact the link is.",
    "crop": true,
-   "note": "The crop removes the left sidebar. This product's chat answers carry no citation links in the video reviewed, unlike NotebookLM. This frame shows the closest evidence found: a diagnostic question before an answer.",
+   "note": "The crop removes the browser chrome, a tenant id in the address bar, and the presenter's webcam tile. The frame below the Sources button shows the coaching pattern: asked what the vena cava is, the product first asks the student what they already know.",
    "src": "https://www.youtube.com/watch?v=cNnbbPD6dos",
    "ts": "25:18"
   }
@@ -4237,6 +4253,16 @@ function buildBand() {
   host.appendChild(read);
 }
 
+
+function buildBothGrids() {
+  var feat = state.grid === "features";
+  document.getElementById("pane-stages").hidden = feat;
+  document.getElementById("pane-features").hidden = !feat;
+  document.getElementById("grid-stages").setAttribute("aria-selected", feat ? "false" : "true");
+  document.getElementById("grid-features").setAttribute("aria-selected", feat ? "true" : "false");
+  if (feat) buildFeatures(); else buildMatrix();
+}
+
 function buildMatrix() {
   buildBand();
   var host = document.getElementById("matrix");
@@ -4406,7 +4432,7 @@ function buildProductFeatures(p) {
 
 function setView(v) {
   state.view = v;
-  [["journey", "view-journey"], ["stage", "view-stage"], ["features", "view-features"], ["matrix", "view-matrix"]].forEach(function (pair) {
+  [["journey", "view-journey"], ["stage", "view-stage"], ["matrix", "view-matrix"]].forEach(function (pair) {
     document.getElementById("view-" + pair[0]).hidden = (pair[0] !== v);
     document.getElementById("tab-" + pair[0]).setAttribute("aria-selected", pair[0] === v ? "true" : "false");
   });
@@ -4421,8 +4447,7 @@ function go(next) {
 function writeHash() {
   var h;
   if (state.view === "stage") h = "#/stage/" + state.cmpStage;
-  else if (state.view === "matrix") h = "#/matrix";
-  else if (state.view === "features") h = "#/features";
+  else if (state.view === "matrix") h = state.grid === "features" ? "#/features" : "#/matrix";
   else h = "#/" + state.product + (state.stage ? "/" + state.stage : "");
   if (location.hash !== h) {
     suppressHash = true;
@@ -4434,8 +4459,8 @@ function readHash() {
   var raw = location.hash.replace(/^#\/?/, "");
   var parts = raw.split("/").filter(Boolean);
   if (!parts.length) return;
-  if (parts[0] === "matrix") { state.view = "matrix"; return; }
-  if (parts[0] === "features") { state.view = "features"; return; }
+  if (parts[0] === "matrix") { state.view = "matrix"; state.grid = "stages"; return; }
+  if (parts[0] === "features") { state.view = "matrix"; state.grid = "features"; return; }
   if (parts[0] === "stage") {
     state.view = "stage";
     if (parts[1] && stageById[parts[1]]) state.cmpStage = parts[1];
@@ -4453,8 +4478,7 @@ function render() {
   buildRail();
   if (state.view === "journey") buildJourney();
   else if (state.view === "stage") buildCompare();
-  else if (state.view === "features") buildFeatures();
-  else buildMatrix();
+  else buildBothGrids();
 }
 
 window.addEventListener("hashchange", function () {
@@ -4463,7 +4487,7 @@ window.addEventListener("hashchange", function () {
   render();
 });
 
-["journey", "stage", "features", "matrix"].forEach(function (v) {
+["journey", "stage", "matrix"].forEach(function (v) {
   document.getElementById("tab-" + v).addEventListener("click", function () { go({ view: v }); });
 });
 
@@ -4498,9 +4522,16 @@ document.getElementById("lb-prev").addEventListener("click", function () { stepL
 document.getElementById("lb-next").addEventListener("click", function () { stepLightbox(1); });
 
 state.featDsaOnly = false;
+state.grid = state.grid || "stages";
 document.getElementById("feat-dsa").addEventListener("change", function (ev) {
   state.featDsaOnly = ev.target.checked;
   buildFeatures();
+});
+document.getElementById("grid-stages").addEventListener("click", function () {
+  state.grid = "stages"; go({ view: "matrix" });
+});
+document.getElementById("grid-features").addEventListener("click", function () {
+  state.grid = "features"; go({ view: "matrix" });
 });
 </script>
 

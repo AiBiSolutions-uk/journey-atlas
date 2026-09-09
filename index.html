@@ -299,6 +299,60 @@ button { font: inherit; color: inherit; }
   flex: none;
 }
 .rail-btn[aria-current="true"] .dsa { border-color: var(--accent); color: var(--accent-strong); }
+.legend-foot {
+  max-width: 1180px;
+  margin: 8px auto 60px;
+  padding: 0 30px;
+}
+.legend-foot > summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--text-3);
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-foot > summary::-webkit-details-marker { display: none; }
+.legend-foot > summary::before {
+  content: "+";
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--accent-strong);
+}
+.legend-foot[open] > summary::before { content: "\2212"; }
+.legend-foot > summary:hover { color: var(--text); }
+.legend-foot-body { padding: 4px 0 8px; }
+.legend-foot .legend { padding: 0; border: 0; background: none; }
+
+.cat-line {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-3);
+  margin: -6px 0 4px;
+  padding-left: 11px;
+  border-left: 2px solid var(--border-strong);
+}
+.price-note {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--text-3);
+  border-radius: 4px;
+  background: var(--surface-2);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.price-note p { margin: 0 0 8px; color: var(--text-2); }
+.price-note .pill { font-size: 11px; }
+.cat-blurb {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-3);
+  margin: -2px 0 7px 0;
+}
 .rail-count { font-size: 11.5px; color: var(--text-3); margin: 0 0 10px 8px; }
 .dsa-toggle {
   display: flex; align-items: center; gap: 7px;
@@ -614,13 +668,6 @@ h2.view-title {
       <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme">Theme</button>
     </div>
   </div>
-  <div class="legend">
-    <div class="legend-item"><span class="chip ev-observed">observed</span><span>Seen in the running product, a screenshot, a public API or the shipped JavaScript.</span></div>
-    <div class="legend-item"><span class="chip ev-documented">documented</span><span>Stated in the vendor&rsquo;s own help centre, policy or guide.</span></div>
-    <div class="legend-item"><span class="chip ev-vendor-claim">vendor claim</span><span>A marketing assertion with no independent support.</span></div>
-    <div class="legend-item"><span class="chip ev-not-found">not found</span><span>Could not be established from public sources. A gap in our knowledge, not proof of absence.</span></div>
-    <p class="caveat">StudyCog was missed by the first 50-product survey because studycog.co.uk is a client-rendered SPA that serves crawlers a short placeholder instead of the page (<a href="https://github.com/AiBiSolutions-uk/bubblewrap/issues/25">issue&nbsp;25</a>). Read every <b>not found</b> below as &ldquo;not found in public documentation&rdquo;, never as &ldquo;the product does not do this&rdquo;.</p>
-  </div>
 </header>
 
 <div class="shell">
@@ -702,6 +749,37 @@ var EV_CODE  = { "observed": "OBS", "documented": "DOC", "vendor-claim": "VEN", 
 var EV_ORDER = ["observed", "documented", "vendor-claim", "not-found"];
 
 var TRACK_LABEL = { revision: "Source-to-revision journeys", essay: "Essay-support journeys", boundary: "Boundary cases that look comparable and are not" };
+/* ---- categories: what kind of product each comparator is ---- */
+var CATS = [
+  { id: "dsa", label: "UK DSA assistive tools", blurb: "Sold to disabled students through the Disabled Students\u2019 Allowance. These are the products we compete with for the same funding." },
+  { id: "generator", label: "AI study generators", blurb: "Upload your own material, get activities back. The category our revision side sits in, and the one that is already crowded." },
+  { id: "srs", label: "Flashcards and spaced repetition", blurb: "The only products that decide what comes next from what the student got wrong \u2014 but only ever inside one format." },
+  { id: "curriculum", label: "Curriculum tutors and classroom platforms", blurb: "A teacher pushes work to a student over the platform\u2019s own content. No student upload. The only place a prepared arrival exists." },
+  { id: "coach", label: "Essay coaches that keep authorship", blurb: "Feedback on the student\u2019s own draft, never a draft on their behalf. This is the line our essay side must hold." },
+  { id: "transparency", label: "Writing-process transparency", blurb: "Make how the text was written visible instead of restricting what can be written. Educative, not detective." },
+  { id: "writer", label: "AI writing generators", blurb: "They write the sentences. In the atlas as the boundary we do not cross, and because their source-linking is the best in the field." },
+  { id: "access", label: "Accessibility and format tools", blurb: "Change the form of existing content. No profile, no generated activity. The clean definition of a format menu." },
+  { id: "assessor", label: "Assessor and profile tools", blurb: "Turn a condition into a recommendation. Every one of them produces a document for a professional, never a setting in a student\u2019s account." }
+];
+var CAT_OF = {
+  "studycog": "dsa", "genio-notes": "dsa", "jamworks": "dsa", "caption-ed": "dsa",
+  "lernabl": "dsa", "everway-writing-helper": "dsa",
+  "notebooklm": "generator", "copilot-study-learn": "generator", "chatgpt-study-mode": "generator",
+  "gemini-classroom": "generator", "knowt": "generator", "studyfetch": "generator",
+  "quizlet": "srs", "remnote": "srs",
+  "khanmigo": "curriculum", "century-tech": "curriculum", "podsie": "curriculum",
+  "studiosity": "coach", "packback-writing-lab": "coach", "thesify": "coach", "cadmus": "coach",
+  "grammarly-authorship": "transparency", "turnitin-clarity": "transparency",
+  "jenni-ai": "writer", "copilot-in-word": "writer",
+  "blackboard-ally": "access", "helperbird": "access",
+  "aspire-student-portal": "assessor", "mindview": "assessor", "magicschool-iep": "assessor"
+};
+var CAT_BY_ID = {}; CATS.forEach(function (c) { CAT_BY_ID[c.id] = c; });
+function catOf(p) { return CAT_BY_ID[CAT_OF[p.id]] || null; }
+
+/* ---- what a student or institution pays. Filled from public pricing pages. ---- */
+var PRICING = {};
+
 
 /* shorthand source builders for links used repeatedly */
 function s(label, url) { return { label: label, url: url }; }
@@ -1455,18 +1533,18 @@ function buildRail() {
   var q = state.filter.trim().toLowerCase();
   var shown = 0;
 
-  ["revision", "essay", "boundary"].forEach(function (track) {
+  CATS.forEach(function (cat) {
     var items = PRODUCTS.filter(function (p) {
-      if (tracksOf(p).indexOf(track) === -1) return false;
-      if (tracksOf(p)[0] !== track) return false;
+      if (CAT_OF[p.id] !== cat.id) return false;
       if (state.dsaOnly && !p.dsa) return false;
       if (!q) return true;
-      return (p.name + " " + p.id + " " + (p.vendor || "") + " " + tracksOf(p).join(" ") + (p.dsa ? " dsa" : "")).toLowerCase().indexOf(q) !== -1;
+      return (p.name + " " + p.id + " " + (p.vendor || "") + " " + cat.label + " " + tracksOf(p).join(" ") + (p.dsa ? " dsa" : "")).toLowerCase().indexOf(q) !== -1;
     });
     if (!items.length) return;
     shown += items.length;
     var group = el("div", "rail-group");
-    group.appendChild(el("h2", null, TRACK_LABEL[track]));
+    group.appendChild(el("h2", null, cat.label));
+    group.appendChild(el("p", "cat-blurb", cat.blurb));
     var ul = el("ul", "rail-list");
     items.forEach(function (p) {
       var li = el("li");
@@ -1527,11 +1605,13 @@ function buildJourney() {
   if (!p) return;
   var head = document.getElementById("phead");
   head.innerHTML = "";
-  head.appendChild(el("div", "eyebrow", tracksOf(p).map(function (t) { return TRACK_LABEL[t].replace(" that look comparable and are not", ""); }).join("  ·  ")));
+  var c = catOf(p);
+  head.appendChild(el("div", "eyebrow", (c ? c.label : "") + "   \u00b7   " + tracksOf(p).map(function (t) { return TRACK_LABEL[t].replace(" that look comparable and are not", ""); }).join("  \u00b7  ")));
   var h1 = el("h1", null, p.name);
   head.appendChild(h1);
   if (p.vendor) head.appendChild(el("div", "vendor", p.vendor));
   head.appendChild(el("p", "summary", p.summary));
+  if (c) head.appendChild(el("p", "cat-line", c.label + " \u2014 " + c.blurb));
 
   var meta = el("div", "meta-row");
   var idPill = el("span", "pill mono", p.id);
@@ -1551,6 +1631,23 @@ function buildJourney() {
   cap.textContent = "0 of " + STAGES.length + " frames captured";
   meta.appendChild(cap);
   head.appendChild(meta);
+
+  var pr = PRICING[p.id];
+  if (pr) {
+    var pbox = el("div", "price-note");
+    var ph = el("div", "dsa-note-h");
+    ph.appendChild(document.createTextNode("What it costs"));
+    ph.appendChild(chip(pr.e));
+    pbox.appendChild(ph);
+    pbox.appendChild(el("p", null, pr.t));
+    if (pr.src) {
+      var pa = document.createElement("a");
+      pa.className = "pill"; pa.href = pr.src; pa.rel = "noopener"; pa.target = "_blank";
+      pa.textContent = "pricing source";
+      pbox.appendChild(pa);
+    }
+    head.appendChild(pbox);
+  }
 
   var dn = DSA_NOTES[p.id];
   if (dn) {
@@ -1855,5 +1952,18 @@ buildStageSelect();
 readHash();
 render();
 </script>
+<details class="legend-foot" id="legend-foot">
+  <summary>How to read this page &mdash; evidence classes and one standing caveat</summary>
+  <div class="legend-foot-body">
+    <div class="legend">
+    <div class="legend-item"><span class="chip ev-observed">observed</span><span>Seen in the running product, a screenshot, a public API or the shipped JavaScript.</span></div>
+    <div class="legend-item"><span class="chip ev-documented">documented</span><span>Stated in the vendor&rsquo;s own help centre, policy or guide.</span></div>
+    <div class="legend-item"><span class="chip ev-vendor-claim">vendor claim</span><span>A marketing assertion with no independent support.</span></div>
+    <div class="legend-item"><span class="chip ev-not-found">not found</span><span>Could not be established from public sources. A gap in our knowledge, not proof of absence.</span></div>
+    <p class="caveat">StudyCog was missed by the first 50-product survey because studycog.co.uk is a client-rendered SPA that serves crawlers a short placeholder instead of the page (<a href="https://github.com/AiBiSolutions-uk/bubblewrap/issues/25">issue&nbsp;25</a>). Read every <b>not found</b> below as &ldquo;not found in public documentation&rdquo;, never as &ldquo;the product does not do this&rdquo;.</p>
+    </div>
+  </div>
+</details>
+
 </body>
 </html>

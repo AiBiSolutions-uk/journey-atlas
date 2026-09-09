@@ -947,7 +947,7 @@ body.lb-open { overflow: hidden; }
 .lb-stage { position: relative; flex: 1 1 auto; min-height: 0; display: flex;
             align-items: center; justify-content: center; background: var(--sunk); padding: 10px; }
 .lb-stage img { max-width: 100%; max-height: calc(94vh - 210px); object-fit: contain; display: block; }
-.lb-nav { position: absolute; top: 50%; transform: translateY(-50%);
+.lb-nav { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%);
           width: 42px; height: 62px; cursor: pointer; font-size: 26px; line-height: 1;
           background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 3px; }
 .lb-nav:hover { border-color: var(--accent); color: var(--accent); }
@@ -959,6 +959,46 @@ body.lb-open { overflow: hidden; }
   .lb-nav { width: 34px; height: 48px; font-size: 20px; }
   .lb-stage img { max-height: calc(94vh - 250px); }
 }
+
+/* --- features view --- */
+.feat-key { margin-left: auto; font-size: 12px; color: var(--ink-3); display: flex; gap: 12px; align-items: center; }
+.feat-progress { font-size: 12.5px; color: var(--ink-3); margin: 0 0 12px; }
+.fmx-scroll { overflow-x: auto; }
+.fmx { border-collapse: collapse; font-size: 12px; }
+.fmx th, .fmx td { border: 1px solid var(--rule); padding: 0; }
+.fmx-corner { position: sticky; left: 0; z-index: 2; background: var(--surface);
+              text-align: left; padding: 6px 10px; font-size: 11px; color: var(--ink-3);
+              text-transform: uppercase; letter-spacing: .07em; }
+.fmx-p { padding: 8px 6px; vertical-align: bottom; background: var(--surface); }
+.fmx-p span { display: block; width: 8.4em; font-size: 11px; font-weight: 500;
+              line-height: 1.25; color: var(--ink-2); }
+.fmx-group { text-align: left; padding: 7px 10px; background: var(--sunk);
+             position: sticky; left: 0;
+             font: 600 10.5px/1.2 "DM Mono", ui-monospace, Menlo, monospace;
+             letter-spacing: .09em; text-transform: uppercase; color: var(--accent); }
+.fmx-f { position: sticky; left: 0; z-index: 1; background: var(--paper);
+         text-align: left; padding: 6px 10px; min-width: 200px; }
+.fmx-fname { font-size: 12.5px; color: var(--ink); font-weight: 500; }
+.fv { display: block; width: 100%; min-width: 34px; padding: 6px 0; cursor: pointer;
+      font: 600 10.5px/1 "DM Mono", ui-monospace, Menlo, monospace; text-align: center;
+      background: none; border: 0; color: var(--ink-3); }
+.fv-yes { background: var(--ev-observed-bg); color: var(--ev-observed-fg); }
+.fv-no { background: var(--ev-not-found-bg); color: var(--ev-not-found-fg); }
+.fv-unclear { color: var(--ink-3); opacity: .5; }
+.fv:hover { outline: 2px solid var(--accent); outline-offset: -2px; }
+span.fv { display: inline-block; width: auto; min-width: 30px; padding: 2px 7px; border-radius: 2px; cursor: default; }
+
+/* --- features on a product page --- */
+.pfeat { margin: 24px 0 4px; }
+.pfeat-title { font-family: Newsreader, Georgia, serif; font-size: 1.15rem; margin: 0 0 8px; }
+.pfeat-g { font: 600 0.66rem/1.2 "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .09em;
+           text-transform: uppercase; color: var(--accent); margin: 14px 0 5px; }
+.pfeat-row { display: grid; grid-template-columns: 46px 200px minmax(0, 1fr); gap: 10px;
+             align-items: baseline; padding: 3px 0; font-size: 13px; }
+.pfeat-name { color: var(--ink); }
+.pfeat-note { color: var(--ink-3); font-size: 12.5px; }
+@media (max-width: 700px) { .pfeat-row { grid-template-columns: 40px minmax(0, 1fr); }
+                            .pfeat-note { grid-column: 2; } }
 </style>
 </head>
 <body>
@@ -969,6 +1009,7 @@ body.lb-open { overflow: hidden; }
     <div class="tabs" role="tablist" aria-label="Views">
       <button class="tab" role="tab" id="tab-journey" aria-selected="true" aria-controls="view-journey">Journey</button>
       <button class="tab" role="tab" id="tab-stage" aria-selected="false" aria-controls="view-stage">Stage compare</button>
+      <button class="tab" role="tab" id="tab-features" aria-selected="false" aria-controls="view-features">Features</button>
       <button class="tab" role="tab" id="tab-matrix" aria-selected="false" aria-controls="view-matrix">Matrix</button>
     </div>
     <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme">Theme</button>
@@ -990,6 +1031,7 @@ body.lb-open { overflow: hidden; }
     <section class="view" id="view-journey" role="tabpanel" aria-labelledby="tab-journey">
       <div class="phead" id="phead"></div>
       <div id="spine-host"></div>
+      <div id="pfeat-host"></div>
       <div id="thumbs-host"></div>
       <div class="stages" id="stages"></div>
     </section>
@@ -1005,6 +1047,20 @@ body.lb-open { overflow: hidden; }
       <div id="cmp"></div>
     </section>
 
+    <section class="view" id="view-features" role="tabpanel" aria-labelledby="tab-features" hidden>
+      <h2 class="view-title">What each product does</h2>
+      <p class="section-intro">A feature is a thing the product offers. This is a different question to the journey, which is when the student meets it. Select a cell to open that product.</p>
+      <div class="controls">
+        <label><input type="checkbox" id="feat-dsa"> Only DSA-funded software</label>
+        <span class="feat-key">
+          <span class="fv fv-yes">yes</span> it does this
+          <span class="fv fv-no">no</span> it states it does not
+          <span class="fv fv-unclear">?</span> not established
+        </span>
+      </div>
+      <div class="fmx-scroll"><div id="features-host"></div></div>
+    </section>
+
     <section class="view" id="view-matrix" role="tabpanel" aria-labelledby="tab-matrix" hidden>
       <h2 class="view-title">Thirty products, twelve stages</h2>
       <p class="section-intro">Each column is one stage of the journey. Each bar shows the evidence behind that stage across the whole field. Select a cell to open that product at that stage.</p>
@@ -1015,7 +1071,28 @@ body.lb-open { overflow: hidden; }
   </main>
 </div>
 
-<script>
+<div id="lightbox" class="lb" hidden role="dialog" aria-modal="true" aria-label="Screenshot viewer">
+  <div class="lb-backdrop" id="lb-backdrop"></div>
+  <div class="lb-panel">
+    <div class="lb-bar">
+      <span class="lb-eyebrow mono" id="lb-eyebrow"></span>
+      <span class="lb-count mono" id="lb-count"></span>
+      <button type="button" class="lb-x" id="lb-close" aria-label="Close viewer">Close</button>
+    </div>
+    <div class="lb-stage">
+      <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Previous screenshot">&#8249;</button>
+      <img id="lb-img" alt="">
+      <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Next screenshot">&#8250;</button>
+    </div>
+    <div class="lb-foot">
+      <p class="lb-cap" id="lb-cap"></p>
+      <p class="fc-meta" id="lb-meta"></p>
+      <p class="lb-hint mono">Left and right arrow keys move between screens. Escape closes.</p>
+    </div>
+  </div>
+</div>
+
+  <script>
 /* ------------------------------------------------------------------
    Journey Atlas — data and view logic.
    Sources: docs/research/existing-learning-journeys.md (branch
@@ -1054,6 +1131,48 @@ var STAGE_GROUPS = [
 var GROUP_OF = {};
 STAGE_GROUPS.forEach(function (g) { g.stages.forEach(function (id) { GROUP_OF[id] = g; }); });
 function groupStarts(id) { var g = GROUP_OF[id]; return g && g.stages[0] === id ? g : null; }
+
+/* ---- features: what each product actually does ----
+   A feature is a thing the product offers. This is a different axis to the
+   journey, which is when the student meets it. Values are:
+     yes      the feature is there, and we saw or read it
+     no       the product states it does not do this, or it clearly cannot
+     unclear  not established from public sources. Not proof of absence.
+   Every "yes" and "no" carries an evidence class and a note. */
+var FEATURES = [
+  { g: "Material in", id: "upload",     name: "Upload your own files",       q: "Can the student put their own lecture, reading or draft in?" },
+  { g: "Material in", id: "record",     name: "Record or transcribe live",   q: "Can it capture a live lecture as it happens?" },
+
+  { g: "What it makes", id: "summary",  name: "Summary or notes",            q: "Does it produce a written summary or structured notes?" },
+  { g: "What it makes", id: "flashcards", name: "Flashcards",                q: "Does it make flashcards?" },
+  { g: "What it makes", id: "quiz",     name: "Quizzes or questions",        q: "Does it make practice questions?" },
+  { g: "What it makes", id: "mindmap",  name: "Mind map or outline",         q: "Does it make a visual map of the material?" },
+  { g: "What it makes", id: "audio",    name: "Audio overview",              q: "Does it make a spoken or podcast version?" },
+  { g: "What it makes", id: "mock",     name: "Mock exam",                   q: "Does it make a timed or full practice exam?" },
+
+  { g: "How you study", id: "srs",      name: "Spaced repetition",           q: "Does it schedule material to come back at intervals?" },
+  { g: "How you study", id: "tutor",    name: "Chat with your material",     q: "Can the student ask questions about their own uploaded content?" },
+  { g: "How you study", id: "planner",  name: "Study planner",               q: "Does it plan the student's sessions or timetable?" },
+  { g: "How you study", id: "trace",    name: "Links back to the source",    q: "Does an activity point at the exact place it came from?" },
+
+  { g: "Writing", id: "feedback",       name: "Feedback on your draft",      q: "Does it comment on writing the student wrote themselves?" },
+  { g: "Writing", id: "writes",         name: "Writes text for you",         q: "Will it produce essay prose the student can submit?" },
+  { g: "Writing", id: "citation",       name: "Referencing and citations",   q: "Does it find, format or insert references?" },
+
+  { g: "Access", id: "tts",             name: "Text to speech",              q: "Can it read the material aloud?" },
+  { g: "Access", id: "captions",        name: "Live captions",               q: "Does it caption speech as it happens?" },
+  { g: "Access", id: "a11y",            name: "Accessibility controls",      q: "Can the student change font, colour, spacing or layout?" }
+];
+var FEATURE_GROUPS = [];
+FEATURES.forEach(function (f) { if (FEATURE_GROUPS.indexOf(f.g) === -1) FEATURE_GROUPS.push(f.g); });
+
+/* product id -> feature id -> { v, e, n, s }  (filled by research) */
+var FEATURE_GRID = {};
+
+function featOf(pid, fid) {
+  var row = FEATURE_GRID[pid] || {};
+  return row[fid] || { v: "unclear", e: "not-found", n: "", s: "" };
+}
 
 var PRIORITY = ["orient", "select", "generate", "feedback", "return"];
 
@@ -3767,6 +3886,7 @@ function buildJourney() {
 
   captureCounts[p.id] = 0;
   buildSpine(p);
+  buildProductFeatures(p);
   buildThumbs(p);
 
   var wrap = document.getElementById("stages");
@@ -4175,11 +4295,118 @@ function buildMatrix() {
   host.appendChild(table);
 }
 
+
+/* ====================== features view ====================== */
+
+var FV_LABEL = { yes: "yes", no: "no", unclear: "?" };
+
+function featCell(pid, f) {
+  var d = featOf(pid, f.id);
+  var b = el("button", "fv fv-" + d.v);
+  b.type = "button";
+  b.textContent = FV_LABEL[d.v] || "?";
+  var say = byId[pid].name + " — " + f.name + ": ";
+  say += d.v === "yes" ? "yes" : d.v === "no" ? "no" : "not established from public sources";
+  b.title = say + (d.n ? ". " + d.n : "");
+  b.setAttribute("aria-label", say);
+  b.addEventListener("click", function () { go({ view: "journey", product: pid, stage: null }); });
+  return b;
+}
+
+function buildFeatures() {
+  var host = document.getElementById("features-host");
+  host.innerHTML = "";
+  var prods = PRODUCTS.filter(function (p) { return !state.featDsaOnly || p.dsa; });
+
+  var filled = 0, total = 0;
+  PRODUCTS.forEach(function (p) {
+    FEATURES.forEach(function (f) {
+      total++;
+      if (featOf(p.id, f.id).v !== "unclear") filled++;
+    });
+  });
+
+  var note = el("p", "feat-progress",
+    filled === 0
+      ? "The feature grid is not filled in yet. Research is in progress, and every cell reads as not established until it is."
+      : filled + " of " + total + " cells established so far. The rest read as not established, which is a gap in our knowledge and not proof of absence.");
+  host.appendChild(note);
+
+  var table = el("table", "fmx");
+  var thead = document.createElement("thead");
+  var hr = document.createElement("tr");
+  hr.appendChild(el("th", "fmx-corner", "Feature"));
+  prods.forEach(function (p) {
+    var th = el("th", "fmx-p");
+    th.scope = "col";
+    th.appendChild(el("span", null, p.name));
+    hr.appendChild(th);
+  });
+  thead.appendChild(hr);
+  table.appendChild(thead);
+
+  var tbody = document.createElement("tbody");
+  FEATURE_GROUPS.forEach(function (g) {
+    var gr = document.createElement("tr");
+    var gth = el("th", "fmx-group");
+    gth.colSpan = prods.length + 1;
+    gth.scope = "colgroup";
+    gth.textContent = g;
+    gr.appendChild(gth);
+    tbody.appendChild(gr);
+
+    FEATURES.filter(function (f) { return f.g === g; }).forEach(function (f) {
+      var tr = document.createElement("tr");
+      var th = el("th", "fmx-f");
+      th.scope = "row";
+      th.appendChild(el("span", "fmx-fname", f.name));
+      th.title = f.q;
+      tr.appendChild(th);
+      prods.forEach(function (p) {
+        var td = document.createElement("td");
+        td.appendChild(featCell(p.id, f));
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  });
+  table.appendChild(tbody);
+  host.appendChild(table);
+}
+
+/* the same data, read down one product, on its own page */
+function buildProductFeatures(p) {
+  var host = document.getElementById("pfeat-host");
+  if (!host) return;
+  host.innerHTML = "";
+  var known = FEATURES.filter(function (f) { return featOf(p.id, f.id).v !== "unclear"; });
+  if (!known.length) return;
+
+  var wrap = el("div", "pfeat");
+  wrap.appendChild(el("h2", "pfeat-title", "What it does"));
+  var list = el("div", "pfeat-list");
+  FEATURE_GROUPS.forEach(function (g) {
+    var rows = FEATURES.filter(function (f) { return f.g === g && featOf(p.id, f.id).v !== "unclear"; });
+    if (!rows.length) return;
+    list.appendChild(el("p", "pfeat-g", g));
+    rows.forEach(function (f) {
+      var d = featOf(p.id, f.id);
+      var r = el("div", "pfeat-row");
+      r.appendChild(el("span", "fv fv-" + d.v, FV_LABEL[d.v]));
+      r.appendChild(el("span", "pfeat-name", f.name));
+      r.appendChild(el("span", "pfeat-note", d.n || ""));
+      list.appendChild(r);
+    });
+  });
+  wrap.appendChild(list);
+  host.appendChild(wrap);
+}
+
 /* ====================== routing ====================== */
 
 function setView(v) {
   state.view = v;
-  [["journey", "view-journey"], ["stage", "view-stage"], ["matrix", "view-matrix"]].forEach(function (pair) {
+  [["journey", "view-journey"], ["stage", "view-stage"], ["features", "view-features"], ["matrix", "view-matrix"]].forEach(function (pair) {
     document.getElementById("view-" + pair[0]).hidden = (pair[0] !== v);
     document.getElementById("tab-" + pair[0]).setAttribute("aria-selected", pair[0] === v ? "true" : "false");
   });
@@ -4195,6 +4422,7 @@ function writeHash() {
   var h;
   if (state.view === "stage") h = "#/stage/" + state.cmpStage;
   else if (state.view === "matrix") h = "#/matrix";
+  else if (state.view === "features") h = "#/features";
   else h = "#/" + state.product + (state.stage ? "/" + state.stage : "");
   if (location.hash !== h) {
     suppressHash = true;
@@ -4207,6 +4435,7 @@ function readHash() {
   var parts = raw.split("/").filter(Boolean);
   if (!parts.length) return;
   if (parts[0] === "matrix") { state.view = "matrix"; return; }
+  if (parts[0] === "features") { state.view = "features"; return; }
   if (parts[0] === "stage") {
     state.view = "stage";
     if (parts[1] && stageById[parts[1]]) state.cmpStage = parts[1];
@@ -4224,6 +4453,7 @@ function render() {
   buildRail();
   if (state.view === "journey") buildJourney();
   else if (state.view === "stage") buildCompare();
+  else if (state.view === "features") buildFeatures();
   else buildMatrix();
 }
 
@@ -4233,7 +4463,7 @@ window.addEventListener("hashchange", function () {
   render();
 });
 
-["journey", "stage", "matrix"].forEach(function (v) {
+["journey", "stage", "features", "matrix"].forEach(function (v) {
   document.getElementById("tab-" + v).addEventListener("click", function () { go({ view: v }); });
 });
 
@@ -4266,6 +4496,12 @@ document.getElementById("lb-close").addEventListener("click", closeLightbox);
 document.getElementById("lb-backdrop").addEventListener("click", closeLightbox);
 document.getElementById("lb-prev").addEventListener("click", function () { stepLightbox(-1); });
 document.getElementById("lb-next").addEventListener("click", function () { stepLightbox(1); });
+
+state.featDsaOnly = false;
+document.getElementById("feat-dsa").addEventListener("change", function (ev) {
+  state.featDsaOnly = ev.target.checked;
+  buildFeatures();
+});
 </script>
 
 <details class="legend-foot" id="legend-foot">
@@ -4283,25 +4519,6 @@ document.getElementById("lb-next").addEventListener("click", function () { stepL
 </details>
 
 
-<div id="lightbox" class="lb" hidden role="dialog" aria-modal="true" aria-label="Screenshot viewer">
-  <div class="lb-backdrop" id="lb-backdrop"></div>
-  <div class="lb-panel">
-    <div class="lb-bar">
-      <span class="lb-eyebrow mono" id="lb-eyebrow"></span>
-      <span class="lb-count mono" id="lb-count"></span>
-      <button type="button" class="lb-x" id="lb-close" aria-label="Close viewer">Close</button>
-    </div>
-    <div class="lb-stage">
-      <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Previous screenshot">&#8249;</button>
-      <img id="lb-img" alt="">
-      <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Next screenshot">&#8250;</button>
-    </div>
-    <div class="lb-foot">
-      <p class="lb-cap" id="lb-cap"></p>
-      <p class="fc-meta" id="lb-meta"></p>
-      <p class="lb-hint mono">Left and right arrow keys move between screens. Escape closes.</p>
-    </div>
-  </div>
-</div>
+
 </body>
 </html>

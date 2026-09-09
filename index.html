@@ -606,6 +606,17 @@ blockquote {
   color: var(--ink-2);
   word-break: break-all;
 }
+/* A gap in our capture reads as a gap. An absent stage reads as a flat wall. */
+.frame .fl { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase; letter-spacing: .07em; font-size: 10.5px; }
+.frame .fp2 { font-size: 12px; color: var(--ink-2); max-width: 34ch; line-height: 1.45; }
+.frame.empty-todo {
+  background:
+    repeating-linear-gradient(135deg, transparent 0 9px, var(--rule) 9px 10px),
+    var(--surface-2);
+}
+.frame.empty-none { background: var(--sunk); border-style: solid; }
+.frame.empty-none .fl { color: var(--ink-3); }
 
 /* ====================== stage compare ====================== */
 
@@ -1118,30 +1129,30 @@ span.fv { display: inline-block; width: auto; min-width: 30px; padding: 2px 7px;
 ------------------------------------------------------------------ */
 
 var STAGES = [
-  { id: "entry",      name: "How you get in",              gloss: "Who sets up the account, and who controls it." },
-  { id: "ingest",     name: "What you can put in",         gloss: "Which files it accepts, and what happens when one fails." },
-  { id: "orient",     name: "The screen after upload",     gloss: "What the student sees when their file finishes processing." },
-  { id: "select",     name: "Who picks what to do",        gloss: "Does the student choose, or does the product." },
-  { id: "generate",   name: "What it makes",               gloss: "Which activity formats come out." },
-  { id: "feedback",   name: "What happens when you answer", gloss: "What the student gets back." },
-  { id: "switch",     name: "Redo or reject it",            gloss: "How the student makes it again, changes the format, or throws it away." },
-  { id: "trace",      name: "Link to the source",          gloss: "Does the activity link back to the exact place in the lecture or the reading." },
-  { id: "return",     name: "Coming back later",           gloss: "What a second session looks like." },
-  { id: "access",     name: "Accessibility controls",      gloss: "What a disabled student can change, and any audited claim." },
-  { id: "signal",     name: "What it adapts to",           gloss: "Stated preference, observed performance, teacher, diagnosis, or nothing." },
-  { id: "authorship", name: "Who writes the essay",        gloss: "Where the product draws the line on the submitted text." }
+  { id: "entry",      name: "Onboarding",              gloss: "Who sets up the account, and who controls it." },
+  { id: "ingest",     name: "Ingestion",         gloss: "Which files it accepts, and what happens when one fails." },
+  { id: "orient",     name: "Orientation",     gloss: "What the student sees when their file finishes processing." },
+  { id: "select",     name: "Task selection",        gloss: "Does the student choose, or does the product." },
+  { id: "generate",   name: "Generation",               gloss: "Which activity formats come out." },
+  { id: "feedback",   name: "Feedback", gloss: "What the student gets back." },
+  { id: "switch",     name: "Regeneration",            gloss: "How the student makes it again, changes the format, or throws it away." },
+  { id: "trace",      name: "Source traceability",          gloss: "Does the activity link back to the exact place in the lecture or the reading." },
+  { id: "return",     name: "Re-engagement",           gloss: "What a second session looks like." },
+  { id: "access",     name: "Accessibility",      gloss: "What a disabled student can change, and any audited claim." },
+  { id: "signal",     name: "Personalisation",           gloss: "Stated preference, observed performance, teacher, diagnosis, or nothing." },
+  { id: "authorship", name: "Authorship",        gloss: "Where the product draws the line on the submitted text." }
 ];
 
 /* The twelve stages read as four groups. A group is a question the student asks
    in order: can I get my material in, what do I get, how do I study it, does it fit me. */
 var STAGE_GROUPS = [
-  { id: "setup",  label: "Getting your material in", blurb: "Who opens the account, and what the product accepts.",
+  { id: "setup",  label: "Onboarding and ingestion", blurb: "Who opens the account, and what the product accepts.",
     stages: ["entry", "ingest"] },
-  { id: "make",   label: "What it generates",        blurb: "What appears when the upload finishes, who chooses the activity, and which formats come out.",
+  { id: "make",   label: "Orientation and generation",        blurb: "What appears when the upload finishes, who chooses the activity, and which formats come out.",
     stages: ["orient", "select", "generate"] },
-  { id: "study",  label: "Answering, redoing and coming back", blurb: "The loop the student repeats: answer a question, get it wrong, make the activity again, check the source, and return the next day.",
+  { id: "study",  label: "Study loop", blurb: "The loop the student repeats: answer a question, get it wrong, make the activity again, check the source, and return the next day.",
     stages: ["feedback", "switch", "trace", "return"] },
-  { id: "fit",    label: "Fit and limits",           blurb: "What a disabled student can change, what the product adapts to, and where it stops.",
+  { id: "fit",    label: "Accessibility and integrity",           blurb: "What a disabled student can change, what the product adapts to, and where it stops.",
     stages: ["access", "signal", "authorship"] }
 ];
 var GROUP_OF = {};
@@ -3383,15 +3394,64 @@ STAGES.forEach(function (s) { stageById[s.id] = s; });
    capture agents. `crop` marks a frame masked to remove personal data. */
 var FRAME_CAPTIONS = {
  "aspire-student-portal": {
+  "access": {
+   "c": "The Accessibility Settings page sets the colour scheme, the font size, and the font face. A preview panel shows example text and an example button. A Save Changes button applies the settings.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=jxuMTOtqNvQ",
+   "ts": "08:12"
+  },
+  "entry": {
+   "c": "The Aspire dashboard opens on four category tiles. The tiles are Study Skills, Assistive Technology, Mental Health and Wellbeing, and Career-Related Learning. The To-Do List panel is empty.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=jxuMTOtqNvQ",
+   "ts": "00:44"
+  },
   "orient": {
    "c": "Aspire has no upload step. A student answers setup questions first. The dashboard then shows only content that matches the answers. The vendor states that content \"can be tailored for each student, taking into account disability, academic course, preferred learning style, location and recommended assistive technology.\" The vendor also states: \"Users only see relevant content based on their selections during set-up.\" One input is preferred learning style. Section 6 of the journeys report finds no evidence base for matching content to a preferred learning style. This screenshot also answers two other questions. It shows four category tiles, Study Skills, Assistive Technology, Mental Health and Wellbeing, and Career-Related Learning, which is what the student picks from. It also shows a panel called Where You Left Off, which is what a second visit looks like.",
    "crop": false,
    "note": "The screenshot appears in the vendor's own product listing. The content shown, such as Managing Panic and 5 tasks, is demo content, not a real student's data.",
    "src": "https://www.dyslexic.com/product/aspire-student-portal-course-subscription/",
    "ts": ""
+  },
+  "return": {
+   "c": "The My Assignments page lists one saved assignment with a due date. A button starts a new assignment. A pink banner states that this is a demonstration account.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=jxuMTOtqNvQ",
+   "ts": "06:46"
+  },
+  "select": {
+   "c": "The Start an Assignment page asks for a title and a due date. Below the fields the student picks one assignment template. The templates include Revision and Exam Preparation, Presentations, and Essay or Written Assignment.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=jxuMTOtqNvQ",
+   "ts": "07:12"
   }
  },
  "blackboard-ally": {
+  "access": {
+   "c": "Ally shows the file as a machine translated Spanish version. A toggle switches between Original and Spanish and three buttons open text, grammar and reading preferences.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=1tkTDghLm7s",
+   "ts": "01:41"
+  },
+  "entry": {
+   "c": "A student opens a Blackboard Ultra course. Each file in the Course Content list carries an Ally icon that opens the alternative formats menu.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=HVF9egDmk7E",
+   "ts": "00:12"
+  },
+  "feedback": {
+   "c": "Ally scores a scanned PDF at 0 percent. The panel explains that assistive tools cannot read scanned pages and offers a Preview and Apply button for OCR.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=LrLpnb-kcQo",
+   "ts": "09:42"
+  },
   "generate": {
    "c": "This panel shows a pure format menu, with no student profile and no generated activity. It offers eight formats for one file: OCRed PDF, HTML, ePub, electronic braille, audio, BeeLine Reader, Immersive Reader, and a translated version. Every format is a direct copy of the same instructor file.",
    "crop": true,
@@ -3399,12 +3459,54 @@ var FRAME_CAPTIONS = {
    "src": "https://help.anthology.com/ally-lms/en/students/alternative-formats.html",
    "ts": ""
   },
+  "ingest": {
+   "c": "The Ally panel asks the instructor to upload a version with image descriptions. The panel shows a drop area and a Browse button.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=LrLpnb-kcQo",
+   "ts": "02:05"
+  },
   "orient": {
    "c": "An instructor uploads a course file. Blackboard adds one Ally icon next to it, labeled Download Alternative Formats. The icon is the only entry point. No student account or profile exists.",
    "crop": false,
    "note": "The file name is generic vendor demo content, a Van Gogh essay file. It is not a real student's document.",
    "src": "https://help.anthology.com/ally-lms/en/instructors/alternative-formats/student-view-of-alternative-formats.html",
    "ts": ""
+  },
+  "return": {
+   "c": "The institutional report plots the accessibility score of each term against earlier terms. Tabs above the chart open courses, directory and usage views.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Cypn18JNmbc",
+   "ts": "00:24"
+  },
+  "select": {
+   "c": "The Download alternative formats dialog lists eight outputs for one Word file. The student picks HTML, ePub, braille, audio, BeeLine Reader, Immersive Reader or a translated version.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=If_zBKJDcd4",
+   "ts": "00:34"
+  },
+  "signal": {
+   "c": "The Course Accessibility Report gives the course a score of 50 percent. Cards count the low scoring content and the severe issues and start a fix.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=LrLpnb-kcQo",
+   "ts": "08:10"
+  },
+  "switch": {
+   "c": "Ally confirms that the instructor uploaded a corrected file. The score rises to 63 percent and the panel lists the remaining issues with the score gain for each fix.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=LrLpnb-kcQo",
+   "ts": "04:38"
+  },
+  "trace": {
+   "c": "Ally opens page 2 of the source document and draws a red outline around the table that has no headers. The counter at the top steps through each occurrence.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=LrLpnb-kcQo",
+   "ts": "04:52"
   }
  },
  "cadmus": {
@@ -3502,6 +3604,57 @@ var FRAME_CAPTIONS = {
    "ts": ""
   }
  },
+ "century-tech": {
+  "entry": {
+   "c": "A login screen offers sign-in for an existing account, or a button that says \"I have a class code.\" A teacher or school sets up the account and the class code, not the student.",
+   "crop": false,
+   "note": "The email field shows \"reese1@cen...\", a demo login used across this vendor's own walkthrough video, not a real person.",
+   "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
+   "ts": "0:26"
+  },
+  "feedback": {
+   "c": "After a wrong answer, Century shows \"Incorrect\" with a \"correct answer\" link and a \"NEXT QUESTION\" button. The student can check the right answer before moving on, but the panel does not explain the mistake.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
+   "ts": "2:20"
+  },
+  "generate": {
+   "c": "This nugget makes a self-marking question, \"What is the value of the ten thousands digit in 367,891?\", with a text box next to a slideshow of instructions. Century calls this unit of video, slideshow, and question a nugget.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
+   "ts": "1:29"
+  },
+  "ingest": {
+   "c": "A teacher builds an assignment by choosing a title, a type, a subject, and a level. No field takes an uploaded file, and Century's help page says its GENai worksheet tool also \"does not accept custom source material uploads.\"",
+   "crop": false,
+   "note": "Support page for the no-upload policy: https://support.century.tech/support/solutions/articles/44002529913",
+   "src": "https://www.youtube.com/watch?v=Kw51fMEGdcM",
+   "ts": "1:24"
+  },
+  "orient": {
+   "c": "After a diagnostic ends, a loading screen reads \"Analysing Global content analysis\" and \"Optimising Global behavioural analytics.\" This is the wait screen before Century shows a recommended path, not the finished result.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
+   "ts": "0:29"
+  },
+  "select": {
+   "c": "The Recommended Path screen shows one topic card with a START button, plus arrows to browse other cards Century has queued. The student can browse the queue, but Century decides what is in it.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
+   "ts": "2:00"
+  },
+  "signal": {
+   "c": "A tooltip lists four reasons a nugget sits on the path: a diagnostic assessment, a teacher's choice, a weak topic, or a memory-boost review. Century names the teacher as one direct source of the path, not only test data.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=dDHl89apiSE",
+   "ts": "1:10"
+  }
+ },
  "chatgpt-study-mode": {
   "entry": {
    "c": "The chatgpt.com home screen shows one input box and a plus icon. The screen shows no separate sign-up step for Study mode; it sits inside the normal account.",
@@ -3551,6 +3704,71 @@ var FRAME_CAPTIONS = {
    "note": "This is the closest evidence found for a format change. The product offers a different depth for the same content, but the video does not show a plain regenerate or reject control.",
    "src": "https://www.youtube.com/watch?v=pVzd3AaNc_4",
    "ts": "00:03:00"
+  }
+ },
+ "copilot-in-word": {
+  "authorship": {
+   "c": "The Copilot answer ends with a warning that AI-generated content can be incorrect. A Copy button and two thumb icons sit beside the warning.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/phpBb_GXITI",
+   "ts": "07:07"
+  },
+  "entry": {
+   "c": "A blank Word document shows the hint Select the icon or press Alt + i to draft with Copilot. A Copilot button sits at the right end of the ribbon.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/0ixRwNgs8u8",
+   "ts": "00:33"
+  },
+  "feedback": {
+   "c": "Copilot answers the selected paragraph with a professional rewrite. Buttons offer Replace and Insert below. A counter shows option 1 of 3.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/7JRaFAYSOgI",
+   "ts": "08:52"
+  },
+  "generate": {
+   "c": "Copilot writes a full draft into the document. A bar at the bottom offers Keep it, regenerate and discard, plus a box to refine the draft.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/7JRaFAYSOgI",
+   "ts": "07:14"
+  },
+  "ingest": {
+   "c": "The Draft with Copilot box holds a prompt that links a PowerPoint file. A Reference a file button lets the student attach source material.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/phpBb_GXITI",
+   "ts": "04:17"
+  },
+  "orient": {
+   "c": "The Copilot pane returns a summary of the open document under the heading Main ideas. A numbered marker points to the source paragraph.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/phpBb_GXITI",
+   "ts": "07:43"
+  },
+  "select": {
+   "c": "The Copilot pane lists things the student can try. The options are Write about, Change, Summarize this doc and Ask a question about this doc.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/phpBb_GXITI",
+   "ts": "06:12"
+  },
+  "switch": {
+   "c": "A Tone menu opens under the rewrite card. The student picks Neutral, Professional, Casual, Imaginative or Concise, then selects Regenerate.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/7JRaFAYSOgI",
+   "ts": "08:42"
+  },
+  "trace": {
+   "c": "Numbered markers in the Copilot answer point back into the document. A 26 References link expands the full source list.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/7JRaFAYSOgI",
+   "ts": "11:12"
   }
  },
  "copilot-study-learn": {
@@ -3865,12 +4083,33 @@ var FRAME_CAPTIONS = {
    "src": "https://www.helperbird.com/features/word-prediction/",
    "ts": ""
   },
+  "entry": {
+   "c": "A user opens the Helperbird side panel for the first time on the vendor home page. The panel shows the quick actions grid with Highlight, Summarize, Reading Mode and other tools.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=ihMAGcHCeUU",
+   "ts": "00:20"
+  },
+  "feedback": {
+   "c": "The Helperbird voice typing panel holds a sentence the user dictated. A tooltip labels the Grammar button, which corrects the spelling and the grammar of the draft.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=ihMAGcHCeUU",
+   "ts": "10:37"
+  },
   "generate": {
    "c": "Helperbird makes no new activity. It changes how an existing page looks. This is the Wikipedia Honey Bee article after the Reading Comfort profile is applied: a cream background, larger text, taller lines, and narrower paragraphs.",
    "crop": false,
    "note": "Re-encoded with a smaller color palette to bring the file under 500KB. No content is cropped or changed.",
    "src": "https://www.helperbird.com/features/accessibility-profiles/",
    "ts": ""
+  },
+  "ingest": {
+   "c": "The Helperbird PDF reader opens a PDF file from the user computer. A green message says Opening PDF. Numbered page buttons run across the top of the reader.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=ihMAGcHCeUU",
+   "ts": "14:10"
   },
   "orient": {
    "c": "Helperbird has no upload step. A student opens the extension and sees this first screen: a list of more than 30 separate toggles, one per setting.",
@@ -3879,12 +4118,33 @@ var FRAME_CAPTIONS = {
    "src": "https://www.helperbird.com/help/how-to-use-accessibility-profiles-in-helperbird/",
    "ts": ""
   },
+  "return": {
+   "c": "Two sticky notes stay attached to the news article page. The note titled Report Idea holds text the user wrote. A colour row below the note changes the note colour.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=ihMAGcHCeUU",
+   "ts": "12:23"
+  },
   "select": {
    "c": "The student picks one profile from a list of eight. The profiles are Dyslexia, ADHD and Focus, Low Vision, Contrast and Color, Reading Comfort, Motor Accessibility, Autism and Sensory, and Motion Sensitivity. Helperbird describes this as: \"Start with one of eight profiles for reading, focus, contrast, and movement, then adjust the settings to suit you.\"",
    "crop": false,
    "note": "Image at native resolution, 1536x1136 pixels. Not upscaled.",
    "src": "https://www.helperbird.com/help/how-to-use-accessibility-profiles-in-helperbird/",
    "ts": ""
+  },
+  "switch": {
+   "c": "Immersive Reader shows the same article translated into Dutch with syllable breaks and part of speech colours. A tab at the top switches the text back to Original.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=pFF3t3i-7Ik",
+   "ts": "03:00"
+  },
+  "trace": {
+   "c": "Immersive Reader reads the article aloud. It highlights the current line in yellow and puts a box around the spoken word. The address bar shows the source article URL.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=pFF3t3i-7Ik",
+   "ts": "02:10"
   }
  },
  "jamworks": {
@@ -4011,6 +4271,27 @@ var FRAME_CAPTIONS = {
   }
  },
  "khanmigo": {
+  "authorship": {
+   "c": "The assignment review shows an essay history with a timestamp for each step. A questionable flag reports 107 words pasted from an unknown source.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=H94vBouLSiE",
+   "ts": "05:10"
+  },
+  "entry": {
+   "c": "Khanmigo opens with an empty chat and a welcome message. A sidebar lists activities for teachers and for learners. Three buttons offer a first move.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=rnIgnS8Susg",
+   "ts": "05:20"
+  },
+  "feedback": {
+   "c": "The student gave a wrong answer to a math exercise. Khanmigo names the distribution mistake, prints the correct step and asks the student to try again.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=rnIgnS8Susg",
+   "ts": "01:30"
+  },
   "generate": {
    "c": "After the teacher picks 7th grade, Khanmigo returns \"Brutus' funeral speech - 7th grade Revision\" as a rewritten text. A note above the text tells the teacher to check the rewrite and to share both versions with students.",
    "crop": true,
@@ -4018,12 +4299,54 @@ var FRAME_CAPTIONS = {
    "src": "https://www.youtube.com/watch?v=RoXzbOMi6xM",
    "ts": "3:58"
   },
+  "ingest": {
+   "c": "The Writing Coach assignment form holds a rich-text box for the essay prompt and instructions. Other fields set grade level, essay type, minimum word count and dates.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=H94vBouLSiE",
+   "ts": "01:18"
+  },
+  "orient": {
+   "c": "Writing Coach shows step one, Understanding. The left pane repeats the essay prompt and the requirements. Khanmigo asks the student for questions before the work starts.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=H94vBouLSiE",
+   "ts": "02:06"
+  },
+  "return": {
+   "c": "The My essays page lists earlier Writing Coach assignments. Each row gives the title, the progress step and the due date. A button starts a new essay.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=H94vBouLSiE",
+   "ts": "02:00"
+  },
+  "select": {
+   "c": "The Activities sidebar lists Khanmigo tasks such as debate, chat with a historical figure and craft a story. Khanmigo offers five story genres as buttons.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=rnIgnS8Susg",
+   "ts": "17:00"
+  },
   "signal": {
    "c": "The teacher's Leveler tool opens a grade list from 1st grade to College, to set a new reading level for a text. A teacher sets this value, not the student and not a test score.",
    "crop": true,
    "note": "Blacked out the real account name in the top-right nav corner.",
    "src": "https://www.youtube.com/watch?v=RoXzbOMi6xM",
    "ts": "3:55"
+  },
+  "switch": {
+   "c": "One of ten Khanmigo suggestions is open in the Revising step. Links give an example, explain the suggestion, check a revision or ask a question. A button marks the suggestion resolved.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=H94vBouLSiE",
+   "ts": "04:07"
+  },
+  "trace": {
+   "c": "A critical flag in the essay history is selected. Writing Coach highlights the 119 pasted words inside the draft. Each entry in the left pane links to one timestamped work session.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=H94vBouLSiE",
+   "ts": "05:30"
   }
  },
  "knowt": {
@@ -4048,6 +4371,13 @@ var FRAME_CAPTIONS = {
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "2:15"
   },
+  "ingest": {
+   "c": "Step 1 of the upload wizard, \"Upload File,\" shows a progress bar next to the word \"Loading.\" Step 2, \"Select Output,\" sits right below it, so Knowt only moves on after a file finishes loading.",
+   "crop": false,
+   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter. This is the same screenshot used for generate.png; it shows the step above the one that frame focuses on.",
+   "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "ts": "2:15"
+  },
   "orient": {
    "c": "Right after upload, Knowt shows a mascot and the text \"Kai is working it out. Your flashcards will be ready in just a second. Generating flashcard #14.\" This is the wait screen, not the finished result.",
    "crop": false,
@@ -4061,6 +4391,13 @@ var FRAME_CAPTIONS = {
    "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
    "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
    "ts": "5:00"
+  },
+  "signal": {
+   "c": "Step 3, \"Enter Settings,\" asks the student to set a language, a flashcard count, a style, and \"What pages would you like?\" Knowt adapts the output to these stated choices, not to a score or a teacher.",
+   "crop": false,
+   "note": "The frame is a camera recording of a conference-booth monitor. We cropped the shot to the monitor and enlarged it for legibility. No student data is visible, only the presenter.",
+   "src": "https://www.youtube.com/watch?v=9yA4w6v5k0E",
+   "ts": "2:45"
   },
   "switch": {
    "c": "Before Knowt saves a flashcard set, an AI side panel offers \"Regenerate,\" \"Create more,\" and \"Create 1 new flashcard on...\" next to a \"Tell Kai how to make your flashcards better\" box. The student can redo the set here, before it saves.",
@@ -4143,6 +4480,34 @@ var FRAME_CAPTIONS = {
   }
  },
  "magicschool-iep": {
+  "access": {
+   "c": "The Text Leveler tool adapts any text to a chosen grade level. A dropdown sets the target grade. A text box takes the original passage.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Xavxmp8cLLI",
+   "ts": "04:00"
+  },
+  "authorship": {
+   "c": "The IEP Generator titles its output Student IEP Draft - Review closely before implementation. A line under the message box tells the teacher to review content for accuracy and bias and to use professional judgment.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=rYzL_PrfiCk",
+   "ts": "05:42"
+  },
+  "entry": {
+   "c": "A first-run dialog asks the new teacher which grade levels they serve. Six grade-band buttons cover Pre-K to professional-level learning. The account holds no saved content yet.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Xavxmp8cLLI",
+   "ts": "01:10"
+  },
+  "feedback": {
+   "c": "The IEP Generator returns a draft and shows an action row under it. The teacher can copy, edit, export or play the text aloud, and rate it with thumbs. Two suggested follow-up questions sit below the draft.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=rYzL_PrfiCk",
+   "ts": "06:42"
+  },
   "generate": {
    "c": "The tool writes a full draft IEP: measurable goals for reading, writing, and math, plus a list of accommodations and modifications. The student's name is replaced with the placeholder \"[Student Name].\"",
    "crop": false,
@@ -4164,12 +4529,40 @@ var FRAME_CAPTIONS = {
    "src": "https://www.magicschool.ai/",
    "ts": ""
   },
+  "return": {
+   "c": "The Output History page lists earlier outputs. Columns give title, tool, creation date, saved state and shared state. Filters cover search text, tool and a date range.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Xavxmp8cLLI",
+   "ts": "07:15"
+  },
+  "select": {
+   "c": "The Magic Tools library lists special-education tools as cards. The cards include IEP Generator, BIP Generator, Accommodation Suggestions, Behavior Intervention Suggestions and Advanced Learning Plan. A star marks IEP Generator as a favorite.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=rYzL_PrfiCk",
+   "ts": "08:45"
+  },
+  "signal": {
+   "c": "The generated IEP states present levels of performance. The text names a reading fluency rate below grade level, decoding difficulty, slow processing and listening comprehension as a strength.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=rYzL_PrfiCk",
+   "ts": "05:52"
+  },
   "switch": {
    "c": "After the draft is made, the teacher can select Edit Prompt to change the input and make the draft again. A Back control and a Share control sit next to it.",
    "crop": false,
    "note": "Frame from the same third-party demo video as the ingest frame. The video does not show what Edit Prompt changes, only that the control exists.",
    "src": "https://www.youtube.com/watch?v=7sM7rxKo_Cw",
    "ts": "2:00"
+  },
+  "trace": {
+   "c": "The YouTube Video Questions tool lists an answer key. Each answer carries the start and end timecode of the matching segment of the source video.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=Xavxmp8cLLI",
+   "ts": "04:52"
   }
  },
  "mindview": {
@@ -4180,12 +4573,40 @@ var FRAME_CAPTIONS = {
    "src": "https://www.matchware.com/dsa",
    "ts": ""
   },
+  "authorship": {
+   "c": "The Citation Style Language Search dialog is open over a MindView map. Each entry shows an inline citation example and a bibliography example. A Select button applies the style.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=U4umTT5HOro",
+   "ts": "02:36"
+  },
+  "entry": {
+   "c": "MindView opens the New page. Eight blank layouts appear: Mind Map, Top Down, Left/Right, Timeline, Outline, Kanban, Year Wheel and Gantt. Template folders sit below.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=JHtwx3Eqszs",
+   "ts": "00:02"
+  },
+  "feedback": {
+   "c": "The Text Note Editor holds a corrected paragraph about social marketing. The ribbon shows an AI button next to Spelling in the Proofing group.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=ae-T1wynJl4",
+   "ts": "03:11"
+  },
   "generate": {
    "c": "MindView turns a mind map into a written recommendation for an assessor's report. This stock photo shows an example mind map, titled \"Using mind maps to teach critical-thinking skills.\"",
    "crop": false,
    "note": "The laptop photo is a generic stock image. It is not a screenshot of the MindView software interface. Re-encoded with a smaller color palette to bring the file under 500KB.",
    "src": "https://www.matchware.com/dsa-personas",
    "ts": ""
+  },
+  "ingest": {
+   "c": "The Microsoft Word Import dialog is open in MindView. The user gives a source Word file and a destination MindView file. An Import button starts the conversion.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=ATTofnkjq-Y",
+   "ts": "00:31"
   },
   "orient": {
    "c": "This is the header image on MindView's DSA Assessors' Hub. The vendor's alt text reads: \"Support individuals with learning difference.\" The photo shows an assessor's workspace, with a small view of the MindView editor on one laptop.",
@@ -4194,12 +4615,40 @@ var FRAME_CAPTIONS = {
    "src": "https://www.matchware.com/dsa",
    "ts": ""
   },
+  "return": {
+   "c": "The MindView Home page lists recent files with modified dates. Cards above show recommended documents. A Tasks list on the right shows dates, projects and completion state.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=JyzClXVMiaU",
+   "ts": "00:30"
+  },
   "select": {
    "c": "This page is for an assessor, not a student. The assessor picks a persona close to the student's profile. Aaliyah has Dyslexia, Short Working Memory, and a Slower Reading Pace.",
    "crop": false,
    "note": "This image is a stock photo avatar, not a real person. The vendor's alt text names it 'Simone', but the page labels the same persona 'Aaliyah'. This mismatch is the vendor's own error, kept here as found. Not upscaled from its native 126x126 size.",
    "src": "https://www.matchware.com/dsa-personas",
    "ts": ""
+  },
+  "signal": {
+   "c": "Topic data boxes appear under each branch of the map. Each box shows a date range and a completion percentage. Values include 0, 18, 20, 30 and 100 percent.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=JyzClXVMiaU",
+   "ts": "08:12"
+  },
+  "switch": {
+   "c": "MindView shows the same Product Launch map as a Gantt chart. The table lists task names, durations, start dates and end dates. Bars appear on a calendar.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=JyzClXVMiaU",
+   "ts": "02:22"
+  },
+  "trace": {
+   "c": "MindView captures text from a BBC web page. The dialog records the page title, the page URL and keywords. The capture attaches to the branch Charles Dickens.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=xbYDuyCEW_Q",
+   "ts": "02:00"
   }
  },
  "notebooklm": {
@@ -4323,6 +4772,29 @@ var FRAME_CAPTIONS = {
    "note": "Same image as feedback.png, shown for a different question.",
    "src": "https://www.packback.co/platform/writing-lab/",
    "ts": "2026-09-09"
+  }
+ },
+ "podsie": {
+  "entry": {
+   "c": "Podsie's home page offers two sign-in buttons: \"Teachers Sign In\" and \"Students Sign In,\" plus a link for school leaders. A teacher or school sets up each account type, not a student who signs up alone.",
+   "crop": false,
+   "note": "",
+   "src": "https://www.youtube.com/watch?v=QYrTv07wNEo",
+   "ts": "1:28"
+  },
+  "select": {
+   "c": "A student's Home page lists only two teacher-made items, \"Computer Systems - Set 2\" and \"Computer Systems - Set 1,\" each with a Begin Assignment button. The teacher pushes the assignment. The student only picks when to begin it.",
+   "crop": true,
+   "note": "Blacked out the real logged-in student's name and avatar in the top-right nav corner.",
+   "src": "https://www.youtube.com/watch?v=QYrTv07wNEo",
+   "ts": "2:05"
+  },
+  "signal": {
+   "c": "A Personal Deck Progress calendar tracks a daily study \"Streak\" and colors each day by \"number of questions remaining at the end of each day.\" Podsie adapts its Personal Deck to daily completion, not to a stated goal.",
+   "crop": true,
+   "note": "Blacked out the real logged-in student's name and avatar in the top-right nav corner.",
+   "src": "https://www.youtube.com/watch?v=QYrTv07wNEo",
+   "ts": "3:11"
   }
  },
  "quizlet": {
@@ -4536,6 +5008,78 @@ var FRAME_CAPTIONS = {
    "ts": "3:15"
   }
  },
+ "studyfetch": {
+  "access": {
+   "c": "The Spark.E chat screen shows Personalities & Skillsets and Scenarios buttons. These controls change how the AI tutor speaks and behaves.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/p75Twlxjots",
+   "ts": "01:22"
+  },
+  "entry": {
+   "c": "The StudyFetch home page shows an empty Your Study Sets list with three folders. A side panel shows a zero-day streak and a daily objective.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "01:55"
+  },
+  "feedback": {
+   "c": "The quiz marks the chosen answer and shows a red Not quite message. Spark.E then explains the difference between machine learning and artificial intelligence.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "06:06"
+  },
+  "generate": {
+   "c": "StudyFetch shows the generated study notes for an AI ethics guide. The Spark.E panel on the right offers example questions about the material.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "03:38"
+  },
+  "ingest": {
+   "c": "An Upload Documents dialog tells the student to drag and drop materials. The dialog lists the accepted file types and shows a Browse Files button.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "02:43"
+  },
+  "orient": {
+   "c": "The study set page opens after StudyFetch processes the files. It shows zero percent complete, eleven topics, three activity cards and a materials list.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/p75Twlxjots",
+   "ts": "01:19"
+  },
+  "return": {
+   "c": "The home dashboard shows quick actions and a Jump back in card for a returning student. Side panels show a zero-day streak and an add exam date link.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/6ry3oy0YkAk",
+   "ts": "00:20"
+  },
+  "select": {
+   "c": "The upload dialog asks which set features to generate. The student picks Flashcards, Match Game, Practice Tests, Tutor Me or QuizFetch and gives a skill level.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "03:12"
+  },
+  "signal": {
+   "c": "The essay grading results give a score of 79 percent. Bars break the score into Introduction, Main Points, Organization, Works Cited and Mechanics.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "08:54"
+  },
+  "trace": {
+   "c": "The study set links the notes back to the source file. Tabs switch between Notes, View PDF, Transcript and Dual View. The viewer shows page 6 of 17.",
+   "crop": false,
+   "note": "",
+   "src": "https://youtu.be/38nO-jQyT7w",
+   "ts": "07:27"
+  }
+ },
  "thesify": {
   "authorship": {
    "c": "Thesify's comparison table says it \"explains every suggestion so you stay in control\" and \"assists, never writes for you.\"",
@@ -4629,11 +5173,24 @@ var FRAME_CAPTIONS = {
 /* Which stage frames exist on disk, per product. Built from the frames folder. */
 var FRAMES = {
  "aspire-student-portal": [
-  "orient"
+  "entry",
+  "orient",
+  "select",
+  "return",
+  "access"
  ],
  "blackboard-ally": [
+  "entry",
+  "ingest",
   "orient",
-  "generate"
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "return",
+  "access",
+  "signal"
  ],
  "cadmus": [
   "orient",
@@ -4654,6 +5211,7 @@ var FRAMES = {
  ],
  "century-tech": [
   "entry",
+  "ingest",
   "orient",
   "select",
   "generate",
@@ -4668,6 +5226,17 @@ var FRAMES = {
   "feedback",
   "switch",
   "signal"
+ ],
+ "copilot-in-word": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "authorship"
  ],
  "copilot-study-learn": [
   "entry",
@@ -4721,9 +5290,15 @@ var FRAMES = {
   "authorship"
  ],
  "helperbird": [
+  "entry",
+  "ingest",
   "orient",
   "select",
   "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "return",
   "access",
   "authorship"
  ],
@@ -4749,16 +5324,27 @@ var FRAMES = {
   "authorship"
  ],
  "khanmigo": [
-  "generate",
-  "signal"
- ],
- "knowt": [
   "entry",
+  "ingest",
   "orient",
   "select",
   "generate",
   "feedback",
-  "switch"
+  "switch",
+  "trace",
+  "return",
+  "signal",
+  "authorship"
+ ],
+ "knowt": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "signal"
  ],
  "lernabl": [
   "entry",
@@ -4773,16 +5359,32 @@ var FRAMES = {
   "access"
  ],
  "magicschool-iep": [
+  "entry",
   "ingest",
-  "orient",
-  "generate",
-  "switch"
- ],
- "mindview": [
   "orient",
   "select",
   "generate",
-  "access"
+  "feedback",
+  "switch",
+  "trace",
+  "return",
+  "access",
+  "signal",
+  "authorship"
+ ],
+ "mindview": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "switch",
+  "trace",
+  "return",
+  "access",
+  "signal",
+  "authorship"
  ],
  "notebooklm": [
   "entry",
@@ -4804,6 +5406,11 @@ var FRAMES = {
   "access",
   "signal",
   "authorship"
+ ],
+ "podsie": [
+  "entry",
+  "select",
+  "signal"
  ],
  "quizlet": [
   "ingest",
@@ -4841,6 +5448,18 @@ var FRAMES = {
   "return",
   "access",
   "authorship"
+ ],
+ "studyfetch": [
+  "entry",
+  "ingest",
+  "orient",
+  "select",
+  "generate",
+  "feedback",
+  "trace",
+  "return",
+  "access",
+  "signal"
  ],
  "thesify": [
   "ingest",
@@ -5184,9 +5803,16 @@ function buildFrame(pid, sid) {
     if (img.parentNode) img.parentNode.removeChild(img);
     box.classList.add("empty");
     box.textContent = "";
-    box.appendChild(el("div", "fl", "No frame yet"));
-    box.appendChild(el("div", "fp", path));
-    box.appendChild(el("div", "fl", "Drop a 1280px-wide PNG here"));
+    /* Two honest states, never one. A missing picture is either a gap in our
+       capture, or a stage we could not find in the product at all. */
+    var prod = byId(pid);
+    var cell = prod && prod.stages ? prod.stages[sid] : null;
+    var none = cell && cell.e === "not-found";
+    box.classList.add(none ? "empty-none" : "empty-todo");
+    box.appendChild(el("div", "fl", none ? "Nothing to show" : "No picture yet"));
+    box.appendChild(el("div", "fp2", none
+      ? "We did not find this stage in the product. Read the text above."
+      : "The stage is documented, but we hold no screenshot of it."));
   });
   img.addEventListener("load", function () {
     captureCounts[pid] = (captureCounts[pid] || 0) + 1;

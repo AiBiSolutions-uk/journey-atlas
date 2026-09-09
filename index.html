@@ -4226,6 +4226,20 @@ PRODUCTS.forEach(function (p) {
 });
 /* ------------------------------------------------------------------------ */
 
+/* Curation check, 2026-09-09: RemNote. Current documentary evidence; older frames remain historical. */
+byId["remnote"].stages.select = {
+  "e": "documented",
+  "c": "Guided Learn chooses source sections and prepares their activities.",
+  "t": "Guided Learn divides an upload into sections with summaries, flashcards and quizzes; the learner can skip sections or change included topics. Stated familiarity changes activity priority, not the source content. This current help-centre account supersedes the older menu-only description; it was not retested in a signed-in session.",
+  "src": [
+    {
+      "label": "Guided Learn help",
+      "url": "https://help.remnote.com/en/articles/15724936-guided-learn-mode"
+    }
+  ]
+};
+byId["remnote"].summary = "Notes and uploads with both flashcard practice and a documented Guided Learn route through source sections. Guided Learn prepares summaries, cards and quizzes; its quality and learning effects require separate evaluation.";
+
 /* What each screenshot shows. One entry per captured frame, written by the
    capture agents. `crop` marks a frame masked to remove personal data. */
 var FRAME_CAPTIONS = {

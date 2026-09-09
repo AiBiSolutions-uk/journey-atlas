@@ -4304,6 +4304,23 @@ byId["knowt"].stages.select = {
   ]
 };
 
+/* Curation check, 2026-09-09: Genio Notes. Current documentary evidence; older frames remain historical. */
+byId["genio-notes"].stages.select = {
+  "e": "documented",
+  "c": "The learner requests a quiz; Genio selects the questions.",
+  "t": "Quiz Me is launched through Study Tools with a chosen question count and source scope. It generates questions from the selected recordings and optionally their slides or PDFs. That delegates item selection without establishing an automatic next-topic route.",
+  "src": [
+    {
+      "label": "Quiz Me help",
+      "url": "https://help.genio.co/article/324-quiz-me"
+    },
+    {
+      "label": "Quiz Me workflow",
+      "url": "https://genio.co/notes/quiz-me"
+    }
+  ]
+};
+
 /* What each screenshot shows. One entry per captured frame, written by the
    capture agents. `crop` marks a frame masked to remove personal data. */
 var FRAME_CAPTIONS = {

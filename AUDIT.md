@@ -225,5 +225,5 @@ Study Mode is a real gap.
 - Jenni AI needs a frame that shows the web clipper. The old one was a
   publisher page with no product in it. The clipper sits inside the signed-in
   app, thus we cannot capture it from public pages.
-- "Writing Helper" is unresolved. We do not know whether this means the
-  Everway entry we hold or a different product.
+- "Writing Helper" is settled. It means the Everway Writing Helper entry we
+  already hold. No new product is needed.
